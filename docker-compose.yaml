@@ -37,7 +37,6 @@ services:
         user: "1000:1000" # on macOS and Linux, replace this with your real user id and group id
         volumes:
             - ./api:/app
-
     ghi:
         image: node:lts-bullseye
         command: /bin/bash run.sh
