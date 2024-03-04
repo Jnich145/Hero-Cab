@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from datetime import datetime
 
 
 class Account(BaseModel):
@@ -35,7 +36,7 @@ class Profile(BaseModel):
     first_name: str
     last_name: str
     special_needs: str
-    
+
 class ProfileIn(BaseModel):
     email: str
     first_name: str
@@ -48,28 +49,28 @@ class ProfileOut(BaseModel):
     first_name: str
     last_name: str
     special_needs: str
-    
+
 
 class Review(BaseModel):
     id: int
-    date_time: str
+    date_time: datetime
     rating: int
     description: str
-    
+
 class ReviewIn(BaseModel):
-    date_time: str
+    date_time: datetime
     rating: int
     description: str
 
 class ReviewOut(BaseModel):
     id: int
-    date_time: str
+    date_time: datetime
     rating: int
     description: str
-    
+
 class ReviewOutWithProfile(ReviewOut):
     profile: Profile
-    
+
 class Trip(BaseModel):
     id: int
     date_time: str
@@ -77,14 +78,14 @@ class Trip(BaseModel):
     drop_off_location: str
     map_url: str
     instructions: str
-    
+
 class TripIn(BaseModel):
     date_time: str
     pick_up_location: str
     drop_off_location: str
     map_url: str
     instructions: str
-    
+
 class TripOut(BaseModel):
     id: int
     date_time: str

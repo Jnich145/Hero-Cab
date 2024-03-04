@@ -15,9 +15,9 @@ class ProfileQueries:
             , last_name
             , special_needs
         FROM profile
-            
+
         """
-                    
+
                 )
                 data = []
                 for record in db:
@@ -30,6 +30,7 @@ class ProfileQueries:
                     )
                     data.append(profile)
                 return data
+
     def get_one(self, id: int) -> Optional[ProfileOut]:
         with pool.connection() as conn:
             with conn.cursor() as db:
@@ -80,7 +81,4 @@ class ProfileQueries:
                     first_name=profile.first_name,
                     last_name=profile.last_name,
                     special_needs=profile.special_needs
-                ) 
-                
-
-
+                )
