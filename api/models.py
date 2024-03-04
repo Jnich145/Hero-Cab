@@ -93,3 +93,23 @@ class TripOut(BaseModel):
     drop_off_location: str
     map_url: str
     instructions: str
+
+class Ticket(BaseModel):
+    id: int
+    description: str
+    user_id: int
+    trip_id: int
+    date_time: datetime
+
+class TicketIn(BaseModel):
+    description: str
+    user_id: int
+    trip_id: int
+    date_time: datetime
+
+class TicketOut(BaseModel):
+    id: int
+    description: str
+    user_id: int
+    trip_id: int
+    date_time: datetime
