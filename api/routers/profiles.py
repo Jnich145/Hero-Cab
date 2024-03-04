@@ -8,7 +8,6 @@ from fastapi import (
 )
 from jwtdown_fastapi.authentication import Token
 from authenticator import authenticator
-
 from pydantic import BaseModel
 from typing import List
 
@@ -18,7 +17,7 @@ from queries.profiles import (
     ProfileQueries,
 )
 
-    
+
 class HttpError(BaseModel):
     detail: str
 

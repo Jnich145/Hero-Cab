@@ -35,18 +35,4 @@ class MyAuthenticator(Authenticator):
         # You must return TWO values from this method.
         return account.email, AccountOut(**account.dict())
 
-
-# Create paths to the private and public key files
-private_key_path = os.path.join(certs_directory, "RS256.key")
-public_key_path = os.path.join(certs_directory, "RS256.key.pub")
-
-# Read the contents of the private and public key files
-private_key = open('/path/to/RS256.key', encoding="utf-8")
-public_key = open('/path/to/RS256.key.pub', encoding="utf-8")
-
-# Use your private and public keys in the authenticator
-authenticator = MyAuthenticator(
-    private_key,
-    algorithm=ALGORITHMS.RS256,
-    public_key=public_key,
-)
+authenticator = MyAuthenticator(os.environ["SECRET_KEY"])

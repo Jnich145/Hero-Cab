@@ -73,14 +73,14 @@ class ReviewOutWithProfile(ReviewOut):
 
 class Trip(BaseModel):
     id: int
-    date_time: str
+    date_time: datetime
     pick_up_location: str
     drop_off_location: str
     map_url: str
     instructions: str
 
 class TripIn(BaseModel):
-    date_time: str
+    date_time: datetime
     pick_up_location: str
     drop_off_location: str
     map_url: str
@@ -88,7 +88,7 @@ class TripIn(BaseModel):
 
 class TripOut(BaseModel):
     id: int
-    date_time: str
+    date_time: datetime
     pick_up_location: str
     drop_off_location: str
     map_url: str
