@@ -20,10 +20,10 @@ export async function login(baseUrl, username, password) {
 }
 
 export async function register(accountData) {
-  const baseUrl = process.env.REACT_APP_USER_SERVICE_API_HOST;
-  if (!baseUrl) {
-    throw Error("REACT_APP_USER_SERVICE_API_HOST is not set");
-  }
+//   const baseUrl = process.env.REACT_APP_USER_SERVICE_API_HOST;
+//   if (!baseUrl) {
+//     throw Error("REACT_APP_USER_SERVICE_API_HOST is not set");
+//   }
   const response = await fetch(
     `http://localhost:8000/api/accounts`,
     {
@@ -39,5 +39,8 @@ export async function register(accountData) {
     throw Error(
       "Couldn't create account, please try a new username or email address"
     );
+  }
+  else {
+      console.log('account created')
   }
 }

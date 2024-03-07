@@ -9,6 +9,7 @@ const SignUp = () => {
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const { baseUrl, setToken } = useAuthContext();
+    const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
 
     const handleRegistration = async (e) => {
