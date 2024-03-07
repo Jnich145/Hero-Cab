@@ -36,3 +36,10 @@ async def create_review(
     reviews: ReviewQueries = Depends(),
 ) -> ReviewOut:
     return reviews.create(review)
+
+@router.get("/api/review/{id}", response_model=ReviewOut)
+def get_review(
+    id: int,
+    reviews: ReviewQueries = Depends(),
+) -> ReviewOut:
+    return reviews.get(id)
