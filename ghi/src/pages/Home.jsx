@@ -12,7 +12,7 @@ const Home = () => {
             const response = await fetch(url, {headers: { Authorization: `Bearer ${token}` }})
             if (response.ok) {
                 const data = await response.json()
-                setReviews(data[0])
+                setReviews(data)
             } else {
                 console.error('Error:', response.status, response.statusText)
             }
@@ -37,7 +37,15 @@ const Home = () => {
                         </tr>
                     </thead>
                     <tbody>
-                       <p>logged in</p>
+                        {reviews.map(review => {
+                            return (
+                                <tr key={review.id}>
+                                    <td>{review.date_time}</td>
+                                    <td>{review.rating}</td>
+                                    <td>{review.description}</td>
+                                </tr>
+                            )
+                        })}
                     </tbody>
                 </table>
             </div>
