@@ -1,32 +1,50 @@
+import useToken from "@galvanize-inc/jwtdown-for-react";
 import { useNavigate } from 'react-router-dom'
+import { useState } from "react";
 
 const Login = () => {
-        const navigate = useNavigate()
-        const handleSubmit = (event) => {
-            event.preventDefault()
-            console.log('Submitting form to API...')
-            navigate('/')
-        }
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    const { login } = useToken();
+    const navigate = useNavigate()
+
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        login(username, password);
+        event.target.reset();
+        navigate('/')
+    }
+
     return (
-        <>
-            <h1 className="text-3xl">Login</h1>
-            <form onSubmit={handleSubmit}>
-                <div>
-                    <label>
-                        Email: <br />
-                        <input type="email" id="email" placeholder="Email" />
-                    </label>
-                </div>
-                <div>
-                    <label placeholder="password">
-                        Password: <br />
-                        <input type="password" id="password" placeholder="Password" />
-                    </label>
-                </div>
-                <button type="submit">Login</button>
-            </form>
-        </>
-    )
+    <div className="card text-bg-light mb-3">
+      <h5 className="card-header">Login</h5>
+      <div className="card-body">
+        <form onSubmit={(event) => handleSubmit(event)}>
+          <div className="mb-3">
+            <label className="form-label">Username:</label>
+            <input
+              name="username"
+              type="text"
+              className="form-control"
+              onChange={(event) => setUsername(event.target.value)}
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">Password:</label>
+            <input
+              name="password"
+              type="password"
+              className="form-control"
+              onChange={(event) => setPassword(event.target.value)}
+            />
+          </div>
+          <div>
+            <input className="btn btn-primary" type="submit" value="Login" />
+          </div>
+        </form>
+      </div>
+    </div>
+  );
 }
 
 export default Login

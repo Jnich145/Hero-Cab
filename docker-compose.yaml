@@ -29,6 +29,7 @@ services:
             DATABASE_URL: postgresql://example_user:secret@postgres/example_db
             CORS_HOST: http://localhost:5173
             SECRET_KEY: ${SECRET_KEY}
+            SIGNING_KEY: 5c52a559a05bf6069535ec8de1ed1b20632ab4701a05fdb4915428e54513dc90
         build:
             context: api
             dockerfile: Dockerfile.dev

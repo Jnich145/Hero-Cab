@@ -18,3 +18,18 @@ Feb 29, 2024
 March 1, 2024
 
 1. created tables in database as team
+
+============
+March 4, 2024
+
+1. created backend for reviews and tickets
+
+============
+March 5, 2024
+
+1. as a group tried to figure out front end authentication
+
+============
+March 5, 2024
+
+1. struggled endlessly
