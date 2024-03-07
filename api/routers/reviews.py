@@ -26,20 +26,26 @@ router = APIRouter()
 @router.get("/api/reviews", response_model=List[ReviewOut])
 def get_reviews(
     reviews: ReviewQueries = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
 ) -> ReviewOut:
-    return reviews.get()
+    if account_data:
+        return reviews.get()
 
 
 @router.post("/api/reviews", response_model=ReviewOut)
 async def create_review(
     review: ReviewIn,
     reviews: ReviewQueries = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
 ) -> ReviewOut:
-    return reviews.create(review)
+    if account_data:
+        return reviews.create(review)
 
-@router.get("/api/review/{id}", response_model=ReviewOut)
+@router.get("/api/reviews/{id}", response_model=ReviewOut)
 def get_review(
     id: int,
     reviews: ReviewQueries = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
 ) -> ReviewOut:
-    return reviews.get(id)
+    if account_data:
+        return reviews.get(id)
