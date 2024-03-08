@@ -9,4 +9,16 @@ Feb 27, 2024
 ============
 Feb 28, 2024
 
+============
+Mar 5, 2024
+- learning and troubleshooting front end auth
+- watched class lecture
 
+============
+Mar 7, 2024
+- front end troubleshooting together
+- worked on footer.jsx and review carousel
+
+============
+Mar 8, 2024
+- pushed footer.jsx
