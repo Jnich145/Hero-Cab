@@ -27,7 +27,7 @@ const SignUp = () => {
         await register(accountData);
         const token = await login(
             baseUrl,
-            accountData.username,
+            accountData.email,
             accountData.password
         );
         setToken(token);

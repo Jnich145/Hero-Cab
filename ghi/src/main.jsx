@@ -7,7 +7,6 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import SignUp from './pages/SignUp'
 import Profile from './pages/Profile'
-import Logout from './pages/Logout'
 import Settings from './pages/Settings'
 import Create from './pages/Create'
 import Error from './pages/Error'
@@ -30,9 +29,6 @@ const router = createBrowserRouter([
             },
             {
                 path: 'profile', element: <Profile />,
-            },
-            {
-                path: 'logout', element: <Logout />,
             },
             {
                 path: 'settings', element: <Settings />,

@@ -8,11 +8,15 @@ const Login = () => {
     const { login } = useToken();
     const navigate = useNavigate()
 
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        login(username, password);
-        event.target.reset();
-        navigate('/')
+    const handleSubmit = async (event) => {
+      event.preventDefault()
+        const logged_in = await login(username, password);
+        if (logged_in == true) {
+          event.target.reset();
+          navigate('/')
+        } else {
+          console.error('Incorrect username or password')
+        }
     }
 
     return (

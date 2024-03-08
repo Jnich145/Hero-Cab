@@ -9,7 +9,7 @@ const Home = () => {
     const fetchData = async () => {
         const url = 'http://localhost:8000/api/reviews/'
         try {
-            const response = await fetch(url, {headers: { Authorization: `Bearer ${token}` }})
+            const response = await fetch(url, {credentials: "include"})
             if (response.ok) {
                 const data = await response.json()
                 setReviews(data)
