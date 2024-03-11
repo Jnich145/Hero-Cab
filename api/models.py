@@ -9,6 +9,7 @@ class Account(BaseModel):
     hashed_password: str
     first_name: str
     last_name: str
+    special_needs: bool
 
 
 class AccountIn(BaseModel):
@@ -16,6 +17,7 @@ class AccountIn(BaseModel):
     email: str
     first_name: str
     last_name: str
+    special_needs: bool
 
 
 class AccountOut(BaseModel):
@@ -23,6 +25,7 @@ class AccountOut(BaseModel):
     email: str
     first_name: str
     last_name: str
+    special_needs: bool
 
 class AccountOutWithPassword(AccountOut):
     hashed_password: str
@@ -30,27 +33,6 @@ class AccountOutWithPassword(AccountOut):
 
 class DeleteStatus(BaseModel):
     status: bool
-
-class Profile(BaseModel):
-    id: int
-    email: str
-    first_name: str
-    last_name: str
-    special_needs: Optional[bool] = False
-
-class ProfileIn(BaseModel):
-    email: str
-    first_name: str
-    last_name: str
-    special_needs: Optional[bool] = False
-
-class ProfileOut(BaseModel):
-    id: int
-    email: str
-    first_name: str
-    last_name: str
-    special_needs: Optional[bool] = False
-
 
 class Review(BaseModel):
     id: int
@@ -68,9 +50,6 @@ class ReviewOut(BaseModel):
     date_time: datetime
     rating: int
     description: str
-
-class ReviewOutWithProfile(ReviewOut):
-    profile: Profile
 
 class Trip(BaseModel):
     id: int

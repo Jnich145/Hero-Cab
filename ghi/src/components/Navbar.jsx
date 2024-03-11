@@ -18,7 +18,6 @@ const Nav = () => {
               <ul className="dropdown-menu">
                 <li><NavLink to="/login" className="dropdown-item">Login</NavLink></li>
                 <li><NavLink to="/signup" className="dropdown-item">Signup</NavLink></li>
-                <li><NavLink to="/profile" className="dropdown-item">Profile</NavLink></li>
                 <li><NavLink to="/settings" className="dropdown-item">Settings</NavLink></li>
                 <li><NavLink to="/create" className="dropdown-item">Create</NavLink></li>
               </ul>

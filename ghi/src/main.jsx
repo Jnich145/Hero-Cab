@@ -6,7 +6,6 @@ import App from './App'
 import Home from './pages/AccountActions/Home'
 import Login from './pages/AccountActions/Login'
 import SignUp from './pages/AccountActions/SignUp'
-import Profile from './pages/AccountActions/Profile'
 import Settings from './pages/Settings'
 import Error from './pages/Error'
 import ReviewDetails from './pages/ReviewDetails'
@@ -25,9 +24,6 @@ const router = createBrowserRouter([
             },
             {
                 path: 'signup', element: <SignUp />,
-            },
-            {
-                path: 'profile', element: <Profile />,
             },
             {
                 path: 'settings', element: <Settings />,

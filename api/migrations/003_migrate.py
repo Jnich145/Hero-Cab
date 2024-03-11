@@ -1,21 +1,5 @@
 steps = [
     [
-"""
-        CREATE TABLE profile (
-            id SERIAL PRIMARY KEY NOT NULL,
-            email VARCHAR(255) NOT NULL UNIQUE,
-            first_name VARCHAR(255) NOT NULL,
-            last_name VARCHAR(255) NOT NULL,
-            special_needs TEXT NOT NULL
-            
-        );
-        """,
-        # "Down" SQL statement
-        """
-        DROP TABLE profile;
-        """
-    ],
-    [
     """
         CREATE TABLE reviews (
             id SERIAL PRIMARY KEY NOT NULL,
@@ -45,5 +29,5 @@ steps = [
         DROP TABLE trips;
         """
     ]
-    
+
 ]
