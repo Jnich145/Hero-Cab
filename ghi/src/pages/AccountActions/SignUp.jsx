@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 import { useNavigate } from "react-router-dom";
-import { login, register } from "./services/auth";
+import { login, register } from "../services/auth";
 
 const SignUp = () => {
     const [email, setEmail] = useState('');

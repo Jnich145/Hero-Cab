@@ -50,7 +50,7 @@ class ProfileQueries:
                     email=record[1],
                     first_name=record[2],
                     last_name=record[3],
-                    special_needs=record[4],
+                    special_needs=record[4]
                     )
                 return profile
     def create(self, profile: ProfileIn) -> Profile:
@@ -62,16 +62,14 @@ class ProfileQueries:
                         email
                         , first_name
                         , last_name
-                        , special_needs
                     )
-                    VALUES (%s, %s, %s, %s)
+                    VALUES (%s, %s, %s)
                     RETURNING id;
                     """,
                     [
                         profile.email,
                         profile.first_name,
                         profile.last_name,
-                        profile.special_needs,
                     ],
                 )
                 id = result.fetchone()[0]
@@ -79,6 +77,5 @@ class ProfileQueries:
                     id=id,
                     email=profile.email,
                     first_name=profile.first_name,
-                    last_name=profile.last_name,
-                    special_needs=profile.special_needs
+                    last_name=profile.last_name
                 )

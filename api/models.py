@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
+from typing import Optional
 
 
 class Account(BaseModel):
@@ -35,20 +36,20 @@ class Profile(BaseModel):
     email: str
     first_name: str
     last_name: str
-    special_needs: str
+    special_needs: Optional[bool] = False
 
 class ProfileIn(BaseModel):
     email: str
     first_name: str
     last_name: str
-    special_needs: str
+    special_needs: Optional[bool] = False
 
 class ProfileOut(BaseModel):
     id: int
     email: str
     first_name: str
     last_name: str
-    special_needs: str
+    special_needs: Optional[bool] = False
 
 
 class Review(BaseModel):

@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 from queries.pool import pool
-from models import Account, AccountIn, AccountOut, AccountOutWithPassword
+from models import Account, AccountIn, AccountOut, AccountOutWithPassword, ProfileIn
+from queries.profiles import ProfileQueries
 
 
 class DuplicateAccountError(ValueError):
@@ -55,6 +56,9 @@ class AccountQueries:
                     ],
                 )
                 id = result.fetchone()[0]
+                profile = ProfileIn(email=account.email, first_name=account.first_name, last_name=account.last_name, special_needs=False)
+                ProfileQueries.create(self, profile=profile)
+
                 return Account(
                     id=id,
                     email=account.email,
