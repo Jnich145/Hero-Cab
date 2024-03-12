@@ -10,6 +10,9 @@ import Settings from './pages/Settings'
 import Error from './pages/Error'
 import ReviewDetails from './pages/ReviewDetails'
 import Profile from './pages/Account/Profile'
+import RequestTrip from './pages/Rider/RequestRide'
+import RiderHistory from './pages/Rider/RiderHistory'
+import SeeRideRequests from './pages/Driver/SeeRideRequests'
 
 const router = createBrowserRouter([
     {
@@ -25,6 +28,15 @@ const router = createBrowserRouter([
             },
             {
                 path: 'signup', element: <SignUp />,
+            },
+            {
+                path: 'trips/new', element: <RequestTrip />,
+            },
+            {
+                path: 'trips', element: <RiderHistory />,
+            },
+            {
+                path: 'trips/requests', element: <SeeRideRequests />,
             },
             {
                 path: 'settings', element: <Settings />,
