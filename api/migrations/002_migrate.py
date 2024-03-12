@@ -1,7 +1,7 @@
 steps = [
     [
 """
-        CREATE TABLE account (
+        CREATE TABLE accounts (
             id SERIAL PRIMARY KEY NOT NULL,
             password VARCHAR(255) NOT NULL,
             email VARCHAR(255) NOT NULL UNIQUE,
@@ -12,7 +12,7 @@ steps = [
         """,
         # "Down" SQL statement
         """
-        DROP TABLE account;
+        DROP TABLE accounts;
         """
     ]
 ]

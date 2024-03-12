@@ -18,11 +18,10 @@ class AccountQueries:
                         , first_name
                         , last_name
                         , special_needs
-                    FROM account
+                    FROM accounts
                     """
                 )
                 data = []
-                record = result.fetchone()
                 for record in db:
                     account = AccountOut(
                         id=record[0],
@@ -35,12 +34,40 @@ class AccountQueries:
                     data.append(account)
                 return data
 
+    def get_one(self, email: str) -> AccountOutWithPassword:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT id
+                        , email
+                        , password
+                        , first_name
+                        , last_name
+                        , special_needs
+                    FROM accounts
+                    WHERE email = %s;
+                    """,
+                    (email,),
+                )
+                record = result.fetchone()
+                if record is None:
+                    return None
+                return AccountOutWithPassword(
+                    id=record[0],
+                    email=record[1],
+                    hashed_password=record[2],
+                    first_name=record[3],
+                    last_name=record[4],
+                    special_needs=record[5]
+                )
+
     def create(self, account: AccountIn, hashed_password: str) -> Account:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 result = db.execute(
                     """
-                    INSERT INTO account (
+                    INSERT INTO accounts (
                         email
                         , password
                         , first_name

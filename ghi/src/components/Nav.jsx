@@ -1,7 +1,11 @@
 import { Link, NavLink } from 'react-router-dom';
-import Logout_button from './Logout_button';
+import LogoutButton from './LogoutButton';
+import React, { useEffect, useState } from 'react';
+import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 
 const Nav = () => {
+  const { token } = useAuthContext();
+
   return (
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
@@ -11,18 +15,25 @@ const Nav = () => {
         </button>
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item dropdown">
+            {/* <li className="nav-item dropdown">
               <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Dropdown
               </a>
               <ul className="dropdown-menu">
                 <li><NavLink to="/login" className="dropdown-item">Login</NavLink></li>
                 <li><NavLink to="/signup" className="dropdown-item">Signup</NavLink></li>
-                <li><NavLink to="/settings" className="dropdown-item">Settings</NavLink></li>
-                <li><NavLink to="/create" className="dropdown-item">Create</NavLink></li>
               </ul>
-            </li>
-            <Logout_button />
+            </li> */}
+            {token ?(
+            <>
+              <LogoutButton />
+              <li className="nav-item"><NavLink to="/profile" className="nav-link">Profile</NavLink></li>
+            </>) : (
+              <>
+                <li className="nav-item"><NavLink to="/login" className="nav-link">Login</NavLink></li>
+                <li className="nav-item"><NavLink to="/signup" className="nav-link">Signup</NavLink></li>
+              </>
+            )}
           </ul>
           <form className="d-flex" role="search">
             <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />

@@ -3,12 +3,13 @@ import ReactDOM from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import './index.css'
 import App from './App'
-import Home from './pages/AccountActions/Home'
-import Login from './pages/AccountActions/Login'
-import SignUp from './pages/AccountActions/SignUp'
+import Home from './pages/Account/Home'
+import Login from './pages/Account/Login'
+import SignUp from './pages/Account/SignUp'
 import Settings from './pages/Settings'
 import Error from './pages/Error'
 import ReviewDetails from './pages/ReviewDetails'
+import Profile from './pages/Account/Profile'
 
 const router = createBrowserRouter([
     {
@@ -30,6 +31,9 @@ const router = createBrowserRouter([
             },
             {
                 path: 'review/:reviewID', element: <ReviewDetails />,
+            },
+            {
+                path: 'profile', element: <Profile />,
             },
         ],
     },

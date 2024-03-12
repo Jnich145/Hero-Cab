@@ -1,39 +1,47 @@
 import { useState } from "react";
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 import { useNavigate } from "react-router-dom";
-import { login, register } from "../services/auth";
+import { login, register } from "../../components/auth";
 
 const SignUp = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [firstName, setFirstName] = useState('');
-    const [lastName, setLastName] = useState('');
+    const [formData, setFormData] = useState({
+        email: '',
+        password: '',
+        first_name: '',
+        last_name: '',
+        special_needs: false
+    })
+
     const { baseUrl, setToken } = useAuthContext();
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
+
+    const handleFormChange = (event) => {
+        const inputName = event.target.name
+        const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value
+        setFormData({
+            ...formData,
+            [inputName]: value
+        })
+    }
 
     const handleRegistration = async (e) => {
         e.preventDefault();
         // It's very important to grab currentTarget now because
         // when this callback ends, the browser sets it to null
-        const form = e.currentTarget;
-        const accountData = {
-            email: email,
-            password: password,
-            first_name: firstName,
-            last_name: lastName,
-        };
+        // const form = e.currentTarget;
+
         try {
-        await register(accountData);
-        const token = await login(
-            baseUrl,
-            accountData.email,
-            accountData.password
-        );
-        setToken(token);
-        // Reset the form
-        form.reset();
-        navigate("/");
+          await register(formData);
+          const token = await login(
+              baseUrl,
+              formData.email,
+              formData.password
+          );
+          setToken(token);
+          // Reset the form
+          // form.reset();
+          navigate("/");
         } catch (e) {
         if (e instanceof Error) {
             setErrorMessage(e.message);
@@ -52,9 +60,9 @@ const SignUp = () => {
         name="email"
         type="text"
         className="form-control"
-        onChange={(e) => {
-        setEmail(e.target.value);
-        }}
+        value={formData.email}
+        onChange={handleFormChange}
+        required
     />
     </div>
       <div className="card-body">
@@ -65,31 +73,41 @@ const SignUp = () => {
               name="password"
               type="password"
               className="form-control"
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
+              value={formData.password}
+              onChange={handleFormChange}
+              required
             />
           </div>
           <div className="mb-3">
             <label className="form-label">first</label>
             <input
-              name="firstName"
+              name="first_name"
               type="text"
               className="form-control"
-              onChange={(e) => {
-                setFirstName(e.target.value);
-              }}
+              value={formData.first_name}
+              onChange={handleFormChange}
+              required
             />
           </div>
           <div className="mb-3">
             <label className="form-label">last</label>
             <input
-              name="lastName"
+              name="last_name"
               type="text"
               className="form-control"
-              onChange={(e) => {
-                setLastName(e.target.value);
-              }}
+              value={formData.last_name}
+              onChange={handleFormChange}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label className="form-label">special_needs</label>
+            <input
+              name="special_needs"
+              type="checkbox"
+              className="form-check-input"
+              checked={formData.special_needs}
+              onChange={handleFormChange}
             />
           </div>
           <div>

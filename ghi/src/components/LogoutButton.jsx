@@ -1,7 +1,7 @@
 import useToken from "@galvanize-inc/jwtdown-for-react";
 import { useNavigate } from 'react-router-dom'
 
-const Logout_button = () => {
+const LogoutButton = () => {
     const { logout } = useToken();
     const navigate = useNavigate()
 
@@ -20,4 +20,4 @@ const Logout_button = () => {
         </button>
     )
 }
-export default Logout_button;
+export default LogoutButton;

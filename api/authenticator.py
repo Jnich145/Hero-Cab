@@ -16,7 +16,7 @@ class MyAuthenticator(Authenticator):
     ):
         # Use your repo to get the account based on the
         # username (which could be an email)
-        return accounts.get(email)
+        return accounts.get_one(email)
 
     def get_account_getter(
         self,
