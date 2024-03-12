@@ -27,7 +27,7 @@ class TripQueries:
                 return data
 
     def get_one(self, id: int) -> Optional[TripOut]:
-        with pool.connecction() as conn:
+        with pool.connection() as conn:
             with conn.cursor () as db:
                 result = db.execute(
                     """

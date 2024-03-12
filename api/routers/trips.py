@@ -35,5 +35,7 @@ def get_trips(
 async def create_trip(
     trip: TripIn,
     trips: TripQueries = Depends(),
+    account_data: dict = Depends(authenticator.get_current_account_data),
 ) -> TripOut:
-    return trips.create(trip)
+    if account_data:
+        return trips.create(trip)

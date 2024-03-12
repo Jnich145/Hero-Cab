@@ -24,11 +24,13 @@ const Nav = () => {
                 <li><NavLink to="/signup" className="dropdown-item">Signup</NavLink></li>
               </ul>
             </li> */}
-            {token ?(
-            <>
-              <LogoutButton />
-              <li className="nav-item"><NavLink to="/profile" className="nav-link">Profile</NavLink></li>
-            </>) : (
+            {token ? (
+              <>
+                <LogoutButton />
+                <li className="nav-item"><NavLink to="/profile" className="nav-link">Profile</NavLink></li>
+                <li className="nav-item"><NavLink to="/trips"
+                  className="nav-link">Ride Request</NavLink></li>
+              </>) : (
               <>
                 <li className="nav-item"><NavLink to="/login" className="nav-link">Login</NavLink></li>
                 <li className="nav-item"><NavLink to="/signup" className="nav-link">Signup</NavLink></li>
