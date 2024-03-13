@@ -13,10 +13,14 @@ from pydantic import BaseModel
 from typing import List, Optional
 
 from queries.accounts import (
+    Account,
     AccountIn,
     AccountOut,
     AccountQueries,
     DuplicateAccountError,
+    AccountUpdateWithoutPassword,
+    AccountUpdatePassword,
+    ValidationError
 )
 
 
@@ -80,3 +84,35 @@ def get_account(
     accounts: AccountQueries = Depends(),
 ) -> AccountOut:
      return accounts.get_one(email)
+
+@router.put("/api/accounts/update", response_model=Account | HttpError)
+async def update_account(
+    info: AccountUpdateWithoutPassword,
+    verified_account: AccountOut = Depends(authenticator.try_get_current_account_data),
+    accounts: AccountQueries = Depends()
+):
+    if verified_account.get("email") == info.email:
+        # try:
+        account = accounts.update(info)
+        # except ValidationError:
+        #     raise HTTPException(
+        #         status_code=status.HTTP_403_FORBIDDEN,
+        #         detail="Cannot edit account",
+        #     )
+        return account
+
+@router.put("/api/accounts/update-password", response_model=AccountToken | HttpError)
+async def update_password(
+    info: AccountUpdatePassword,
+    request: Request,
+    response: Response,
+    verified_account: AccountOut = Depends(authenticator.try_get_current_account_data),
+    accounts: AccountQueries = Depends(),
+):
+    if verified_account.get("email") == info.email:
+        hashed_password = authenticator.hash_password(info.password)
+        account = accounts.update_password(info, hashed_password)
+        authenticator.logout(request, response)
+        form = AccountForm(username=info.email, password=info.password)
+        token = await authenticator.login(response, request, form, accounts)
+        return AccountToken(account=account, **token.dict())
