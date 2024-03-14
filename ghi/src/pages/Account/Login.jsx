@@ -4,7 +4,8 @@ import { useState } from "react";
 
 const Login = () => {
     const [username, setUsername] = useState("");
-    const [password, setPassword] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState('')
     const { login } = useToken();
     const navigate = useNavigate()
 
@@ -15,7 +16,7 @@ const Login = () => {
           event.target.reset();
           navigate('/')
         } else {
-          console.error('Incorrect username or password')
+          setError('Incorrect username or password')
         }
     }
 
@@ -23,6 +24,11 @@ const Login = () => {
     <div className="card text-bg-light mb-3">
       <h5 className="card-header">Login</h5>
       <div className="card-body">
+        {error && (
+            <div className="alert alert-danger" role="alert">
+              {error}
+          </div>
+        )}
         <form onSubmit={(event) => handleSubmit(event)}>
           <div className="mb-3">
             <label className="form-label">Email:</label>

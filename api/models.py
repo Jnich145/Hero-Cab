@@ -40,7 +40,6 @@ class AccountUpdatePassword(BaseModel):
 class AccountOutWithPassword(AccountOut):
     hashed_password: str
 
-
 class DeleteStatus(BaseModel):
     status: bool
 

@@ -9,6 +9,7 @@ class DuplicateAccountError(ValueError):
 class ValidationError(ValueError):
     pass
 
+
 class AccountQueries:
     def get(self) -> List[AccountOut]:
         with pool.connection() as conn:
@@ -17,7 +18,6 @@ class AccountQueries:
                     """
                     SELECT id
                         , email
-                        , password
                         , first_name
                         , last_name
                         , special_needs
@@ -29,10 +29,9 @@ class AccountQueries:
                     account = AccountOut(
                         id=record[0],
                         email=record[1],
-                        hashed_password=record[2],
-                        first_name=record[3],
-                        last_name=record[4],
-                        special_needs=record[5]
+                        first_name=record[2],
+                        last_name=record[3],
+                        special_needs=record[4]
                     )
                     data.append(account)
                 return data

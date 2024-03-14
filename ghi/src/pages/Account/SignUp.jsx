@@ -66,6 +66,11 @@ const SignUp = () => {
     />
     </div>
       <div className="card-body">
+        {errorMessage && (
+            <div className="alert alert-danger" role="alert">
+              {errorMessage}
+          </div>
+        )}
         <form onSubmit={handleRegistration}>
           <div className="mb-3">
             <label className="form-label">password</label>
