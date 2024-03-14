@@ -12,6 +12,8 @@ import ReviewDetails from './pages/ReviewDetails'
 import UpdateProfile from './pages/Account/UpdateProfile'
 import Profile from './pages/Account/Profile'
 import RequestTrip from './pages/Rider/RequestTrip'
+import RiderHistory from './pages/Rider/RiderHistory'
+import SeeRideRequests from './pages/Driver/SeeRideRequests'
 
 const router = createBrowserRouter([
     {
@@ -20,28 +22,43 @@ const router = createBrowserRouter([
         errorElement: <Error />,
         children: [
             {
-                index: true, element: <Home />,
+                index: true,
+                element: <Home />,
             },
             {
-                path: 'login', element: <Login />,
+                path: 'login',
+                element: <Login />,
             },
             {
-                path: 'signup', element: <SignUp />,
+                path: 'signup',
+                element: <SignUp />,
             },
             {
-                path: 'settings', element: <Settings />,
+                path: 'trips/new',
+                element: <RequestTrip />,
             },
             {
-                path: 'review/:reviewID', element: <ReviewDetails />,
+                path: 'trips',
+                element: <RiderHistory />,
+            },
+            {
+                path: 'trips/requests',
+                element: <SeeRideRequests />,
+            },
+            {
+                path: 'settings',
+                element: <Settings />,
             },
             {
                 path: 'update-profile', element: <UpdateProfile />,
             },
             {
-                path: 'profile', element: <Profile />,
+                path: 'review/:reviewID',
+                element: <ReviewDetails />,
             },
             {
-                path: 'trips', element: <RequestTrip />,
+                path: 'profile',
+                element: <Profile />,
             },
         ],
     },
