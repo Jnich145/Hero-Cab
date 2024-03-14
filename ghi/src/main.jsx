@@ -14,6 +14,7 @@ import RiderHistory from './pages/Rider/RiderHistory'
 import SeeRideRequests from './pages/Driver/SeeRideRequests'
 import RequestTrip from './pages/Rider/RequestTrip'
 
+
 const router = createBrowserRouter([
     {
         path: '/',
@@ -21,34 +22,40 @@ const router = createBrowserRouter([
         errorElement: <Error />,
         children: [
             {
-                index: true, element: <Home />,
+                index: true,
+                element: <Home />,
             },
             {
-                path: 'login', element: <Login />,
+                path: 'login',
+                element: <Login />,
             },
             {
-                path: 'signup', element: <SignUp />,
+                path: 'signup',
+                element: <SignUp />,
             },
             {
-                path: 'trips/new', element: <RequestTrip />,
+                path: 'trips/new',
+                element: <RequestTrip />,
             },
             {
-                path: 'trips', element: <RiderHistory />,
+                path: 'trips',
+                element: <RiderHistory />,
             },
             {
-                path: 'trips/requests', element: <SeeRideRequests />,
+                path: 'trips/requests',
+                element: <SeeRideRequests />,
             },
             {
-                path: 'settings', element: <Settings />,
+                path: 'settings',
+                element: <Settings />,
             },
             {
-                path: 'review/:reviewID', element: <ReviewDetails />,
+                path: 'review/:reviewID',
+                element: <ReviewDetails />,
             },
             {
-                path: 'profile', element: <Profile />,
-            },
-            {
-                path: 'trips', element: <RequestTrip />,
+                path: 'profile',
+                element: <Profile />,
             },
         ],
     },

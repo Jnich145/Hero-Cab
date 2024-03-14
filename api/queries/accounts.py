@@ -1,9 +1,12 @@
 from pydantic import BaseModel
 from queries.pool import pool
-from models import Account, AccountIn, AccountOut, AccountOutWithPassword
+from models import Account, AccountIn, AccountOut, AccountOutWithPassword, AccountUpdateWithoutPassword, AccountUpdatePassword
 from typing import List
 
 class DuplicateAccountError(ValueError):
+    pass
+
+class ValidationError(ValueError):
     pass
 
 class AccountQueries:
@@ -94,4 +97,59 @@ class AccountQueries:
                     first_name=account.first_name,
                     last_name=account.last_name,
                     special_needs=account.special_needs,
+                )
+
+    def update(self, account: AccountUpdateWithoutPassword) -> Account:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    UPDATE accounts SET
+                        first_name = %s
+                        , last_name = %s
+                        , special_needs = %s
+                    WHERE email = %s
+                    RETURNING id, email, password;
+                    """,
+                    [
+                        account.first_name,
+                        account.last_name,
+                        account.special_needs,
+                        account.email
+                    ],
+                )
+                record = result.fetchone()
+                return Account(
+                    id=record[0],
+                    email=record[1],
+                    hashed_password=record[2],
+                    first_name=account.first_name,
+                    last_name=account.last_name,
+                    special_needs=account.special_needs,
+                )
+
+    def update_password(self, account: AccountUpdatePassword, hashed_password: str) -> Account:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    UPDATE accounts SET
+                        password = %s
+                    WHERE email = %s
+                    RETURNING id, first_name, last_name, special_needs;
+                    """,
+                    [
+                        hashed_password,
+                        account.email
+                    ],
+                )
+                record = result.fetchone()
+
+                return Account(
+                    id=record[0],
+                    email=account.email,
+                    hashed_password=hashed_password,
+                    first_name=record[1],
+                    last_name=record[2],
+                    special_needs=record[3],
                 )

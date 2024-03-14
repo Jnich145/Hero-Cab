@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 
 const Nav = () => {
-  const { token } = useAuthContext();
+    const { token } = useAuthContext()
 
   return (
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -93,4 +93,4 @@ const Nav = () => {
   )
 }
 
-export default Nav;
+export default Nav

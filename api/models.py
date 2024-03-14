@@ -27,6 +27,16 @@ class AccountOut(BaseModel):
     last_name: str
     special_needs: bool
 
+class AccountUpdateWithoutPassword(BaseModel):
+    email: str
+    first_name: str
+    last_name: str
+    special_needs: bool
+
+class AccountUpdatePassword(BaseModel):
+    email: str
+    password: str
+
 class AccountOutWithPassword(AccountOut):
     hashed_password: str
 
