@@ -1,6 +1,5 @@
 import { Link, NavLink } from 'react-router-dom';
 import LogoutButton from './LogoutButton';
-import React, { useEffect, useState } from 'react';
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 
 const Nav = () => {

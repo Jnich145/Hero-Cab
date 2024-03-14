@@ -86,17 +86,14 @@ def get_account(
 ) -> AccountOutWithPassword:
      return accounts.get_one(email)
 
-@router.put("/api/accounts/update", response_model=Account | HttpError)
+@router.put("/api/accounts/{email}/update", response_model=Account | HttpError)
 async def update_account(
     info: AccountUpdateWithoutPassword,
-    request: Request,
+    email: str,
     verified_account: Optional[AccountOut] = Depends(authenticator.try_get_current_account_data),
     accounts: AccountQueries = Depends(),
 ):
-    email = request.headers.get("email")
-    print(info)
     if verified_account is None:
-        print("here", email, info)
         if email == info.email:
             try:
                 account = accounts.update(info)
@@ -121,15 +118,15 @@ async def update_account(
             )
         return account
 
-@router.put("/api/accounts/update-password", response_model=AccountToken | HttpError)
+@router.put("/api/accounts/{email}/update-password", response_model=AccountToken | HttpError)
 async def update_password(
     info: AccountUpdatePassword,
+    email: str,
     request: Request,
     response: Response,
     verified_account: AccountOut = Depends(authenticator.try_get_current_account_data),
     accounts: AccountQueries = Depends(),
 ):
-    email = request.headers.get("email")
     if verified_account is None:
         if email == info.email:
             hashed_password = authenticator.hash_password(info.password)

@@ -3,24 +3,24 @@ import { useNavigate } from 'react-router-dom'
 import { useState } from "react";
 
 const Login = () => {
-    const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState('')
-    const { login } = useToken();
-    const navigate = useNavigate()
+  const { login } = useToken();
+  const navigate = useNavigate()
 
-    const handleSubmit = async (event) => {
-      event.preventDefault()
-        const logged_in = await login(username, password);
-        if (logged_in == true) {
-          event.target.reset();
-          navigate('/')
-        } else {
-          setError('Incorrect username or password')
-        }
-    }
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+      const logged_in = await login(username, password);
+      if (logged_in == true) {
+        event.target.reset();
+        navigate('/')
+      } else {
+        setError('Incorrect username or password')
+      }
+  }
 
-    return (
+  return (
     <div className="card text-bg-light mb-3">
       <h5 className="card-header">Login</h5>
       <div className="card-body">

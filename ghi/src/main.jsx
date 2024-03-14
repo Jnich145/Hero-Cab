@@ -9,6 +9,7 @@ import SignUp from './pages/Account/SignUp'
 import Settings from './pages/Settings'
 import Error from './pages/Error'
 import ReviewDetails from './pages/ReviewDetails'
+import UpdateProfile from './pages/Account/UpdateProfile'
 import Profile from './pages/Account/Profile'
 import RequestTrip from './pages/Rider/RequestTrip'
 
@@ -32,6 +33,9 @@ const router = createBrowserRouter([
             },
             {
                 path: 'review/:reviewID', element: <ReviewDetails />,
+            },
+            {
+                path: 'update-profile', element: <UpdateProfile />,
             },
             {
                 path: 'profile', element: <Profile />,
