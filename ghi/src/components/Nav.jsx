@@ -36,27 +36,69 @@ const Nav = () => {
                 <li><NavLink to="/signup" className="dropdown-item">Signup</NavLink></li>
               </ul>
             </li> */}
-            {token ? (
-              <>
-                <LogoutButton />
-                <li className="nav-item"><NavLink to="/profile" className="nav-link">Profile</NavLink></li>
-                <li className="nav-item"><NavLink to="/trips"
-                  className="nav-link">Ride Request</NavLink></li>
-              </>) : (
-              <>
-                <li className="nav-item"><NavLink to="/login" className="nav-link">Login</NavLink></li>
-                <li className="nav-item"><NavLink to="/signup" className="nav-link">Signup</NavLink></li>
-              </>
-            )}
-          </ul>
-          <form className="d-flex" role="search">
-            <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-            <button className="btn btn-outline-success" type="submit">Search</button>
-          </form>
-        </div>
-      </div>
-    </nav>
-  )
+                        {token ? (
+                            <>
+                                <li>
+                                    <NavLink
+                                        to="/trips/new"
+                                        className="nav-link"
+                                    >
+                                        Request Ride
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink to="/trips" className="nav-link">
+                                        Ride History
+                                    </NavLink>
+                                </li>
+                                <li>
+                                    <NavLink
+                                        to="/trips/requests"
+                                        className="nav-link"
+                                    >
+                                        Ride Requests
+                                    </NavLink>
+                                </li>
+                                <li className="nav-item">
+                                    <NavLink to="/profile" className="nav-link">
+                                        Profile
+                                    </NavLink>
+                                </li>
+                                <LogoutButton />
+                            </>
+                        ) : (
+                            <>
+                                <li className="nav-item">
+                                    <NavLink to="/login" className="nav-link">
+                                        Login
+                                    </NavLink>
+                                </li>
+                                <li className="nav-item">
+                                    <NavLink to="/signup" className="nav-link">
+                                        Signup
+                                    </NavLink>
+                                </li>
+                            </>
+                        )}
+                    </ul>
+                    <form className="d-flex" role="search">
+                        <input
+                            className="form-control me-2"
+                            type="search"
+                            placeholder="Search"
+                            aria-label="Search"
+                        />
+                        <button
+                            className="btn btn-outline-success"
+                            type="submit"
+                        >
+                            Search
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    )
 }
 
-export default Nav;
+export default Nav
