@@ -28,7 +28,7 @@ const SeeRideRequests = () => {
         fetchRideRequests()
     }, [baseUrl])
 
-    const handleResponseToRequest = async (requestId, accept) => {
+    const handleResponseToRequest = async (requestId, accepted) => {
         const url = `${baseUrl}/api/trips/${requestId}`
         const response = await fetch(url, {
             method: 'PUT',
@@ -36,16 +36,8 @@ const SeeRideRequests = () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ accept }),
+            body: JSON.stringify({ accepted }),
         })
-
-        if (response.ok) {
-            setRideRequests(
-                rideRequests.filter((request) => request.id !== requestId)
-            )
-        } else {
-            console.error('Failed to respond to ride request')
-        }
     }
 
     return (

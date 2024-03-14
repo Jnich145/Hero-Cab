@@ -58,6 +58,8 @@ class Trip(BaseModel):
     drop_off_location: str
     map_url: str
     instructions: str
+    status: str
+
 
 class TripIn(BaseModel):
     date_time: datetime
@@ -65,6 +67,7 @@ class TripIn(BaseModel):
     drop_off_location: str
     map_url: str
     instructions: str
+    status: str
 
 class TripOut(BaseModel):
     id: int
@@ -73,6 +76,8 @@ class TripOut(BaseModel):
     drop_off_location: str
     map_url: str
     instructions: str
+    status: str
+
 
 class Ticket(BaseModel):
     id: int

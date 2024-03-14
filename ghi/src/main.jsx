@@ -10,9 +10,9 @@ import Settings from './pages/Settings'
 import Error from './pages/Error'
 import ReviewDetails from './pages/ReviewDetails'
 import Profile from './pages/Account/Profile'
-import RequestTrip from './pages/Rider/RequestRide'
 import RiderHistory from './pages/Rider/RiderHistory'
 import SeeRideRequests from './pages/Driver/SeeRideRequests'
+import RequestTrip from './pages/Rider/RequestTrip'
 
 const router = createBrowserRouter([
     {
@@ -46,6 +46,9 @@ const router = createBrowserRouter([
             },
             {
                 path: 'profile', element: <Profile />,
+            },
+            {
+                path: 'trips', element: <RequestTrip />,
             },
         ],
     },
