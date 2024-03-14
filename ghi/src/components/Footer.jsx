@@ -1,7 +1,7 @@
 import React from 'react';
 // import { ClickButton } from './components/ClickButton';
 import { Link } from 'react-router-dom';
-import './CSS/Footer.css'
+import './CSS/footer.css'
 
 function Footer() {
     return (

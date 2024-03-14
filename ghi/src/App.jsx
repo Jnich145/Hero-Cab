@@ -14,9 +14,9 @@ const App = () => {
 
                 <Outlet />
 
-                <Footer />
-
                 <ReviewCarousel />
+
+                <Footer />
             </div>
         </AuthProvider>
     )
