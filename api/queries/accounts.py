@@ -9,9 +9,6 @@ class DuplicateAccountError(ValueError):
 class ValidationError(ValueError):
     pass
 
-class ValidationError(ValueError):
-    pass
-
 
 class AccountQueries:
     def get(self) -> List[AccountOut]:

@@ -84,4 +84,4 @@ const RiderHistory = () => {
     )
 }
 
-export default RiderHistory
+export default RiderHistory;
