@@ -19,6 +19,10 @@ from queries.tickets import (
     TicketQueries,
 )
 
+from queries.accounts import(
+    AccountOut
+)
+
 class HttpError(BaseModel):
     detail: str
 
@@ -27,8 +31,10 @@ router = APIRouter()
 @router.get("/api/tickets", response_model=List[TicketOut])
 def get_tickets(
     tickets: TicketQueries = Depends(),
+    account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
 ) -> TicketOut:
-    return tickets.get()
+    if account_data.get("email") == "admin":
+        return tickets.get()
 
 
 @router.post("/api/tickets", response_model=TicketOut)

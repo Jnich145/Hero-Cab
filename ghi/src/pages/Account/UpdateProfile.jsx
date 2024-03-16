@@ -1,8 +1,6 @@
-import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
-import React, { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 function UpdateProfile() {
-    const [email, setEmail] = useState('')
     const [error, setError] = useState('')
     const [formData, setFormData] = useState({
         first_name: '',
@@ -13,26 +11,6 @@ function UpdateProfile() {
         password: '',
         password_confirmation: '',
     })
-
-    const fetchEmail = async () => {
-        const url = `http://localhost:8000/token`
-        try {
-            const response = await fetch(url, {credentials: "include"})
-            if (response.ok) {
-                const data = await response.json()
-                setEmail(data.account.email)
-
-            } else {
-                console.error('Error:', response.status, response.statusText)
-            }
-        } catch (error) {
-            console.error('Error', error.message)
-        }
-    }
-
-    useEffect(() => {
-        fetchEmail()
-    }, [])
 
     const handleFormChange = (event) => {
         const inputName = event.target.name
@@ -54,20 +32,19 @@ function UpdateProfile() {
 
     const handleDetailSubmit = async (event) => {
         event.preventDefault()
-        formData["email"] = email
-        const url = `http://localhost:8000/api/accounts/${email}/update`
+        const url = `http://localhost:8000/api/accounts/update`
         const fetchConfig = {
             method: "put",
             body: JSON.stringify(formData),
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: "include"
         }
         try {
-            const response = await fetch(url, fetchConfig)
+            const response = await fetch(url, fetchConfig,)
             if (response.ok) {
-                setFormData((prevData) => ({
-                    ...prevData,
+                setFormData(() => ({
                     first_name: '',
                     last_name: '',
                     special_needs: false,
@@ -82,20 +59,20 @@ function UpdateProfile() {
 
     const handlePasswordSubmit = async (event) => {
         event.preventDefault()
-        const url = `http://localhost:8000/api/accounts/${email}/update-password`
+        const url = `http://localhost:8000/api/accounts/update-password`
         const fetchConfig = {
             method: "put",
-            body: JSON.stringify({email: email, password: passwordData.password}),
+            body: JSON.stringify({password: passwordData.password}),
             headers: {
                 'Content-Type': 'application/json',
             },
+            credentials: "include"
         }
         if (passwordData.password == passwordData.password_confirmation) {
             try {
                 const response = await fetch(url, fetchConfig)
                 if (response.ok) {
-                    setPasswordData((prevData) => ({
-                        ...prevData,
+                    setPasswordData(() => ({
                         password: '',
                         password_confirmation: '',
                     }))

@@ -33,7 +33,7 @@ function RequestTripForm() {
                 'Content-Type': 'application/json',
             },
         }
-
+        console.log(data)
         const response = await fetch(tripsUrl, fetchConfig)
         if (response.ok) {
             setPickUpLocation('')

@@ -2,7 +2,6 @@ from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
 
-
 class Account(BaseModel):
     id: int
     email: str
@@ -11,14 +10,12 @@ class Account(BaseModel):
     last_name: str
     special_needs: bool
 
-
 class AccountIn(BaseModel):
     password: str
     email: str
     first_name: str
     last_name: str
     special_needs: bool
-
 
 class AccountOut(BaseModel):
     id: int
@@ -27,14 +24,12 @@ class AccountOut(BaseModel):
     last_name: str
     special_needs: bool
 
-class AccountUpdateWithoutPassword(BaseModel):
-    email: str
+class AccountUpdateDetails(BaseModel):
     first_name: str
     last_name: str
     special_needs: bool
 
 class AccountUpdatePassword(BaseModel):
-    email: str
     password: str
 
 class AccountOutWithPassword(AccountOut):
@@ -69,7 +64,6 @@ class Trip(BaseModel):
     instructions: str
     status: str
 
-
 class TripIn(BaseModel):
     date_time: datetime
     pick_up_location: str
@@ -86,7 +80,6 @@ class TripOut(BaseModel):
     map_url: str
     instructions: str
     status: str
-
 
 class Ticket(BaseModel):
     id: int

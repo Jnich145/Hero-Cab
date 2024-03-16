@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 
 function Profile() {
     const [profile, setProfile] = useState({})
     const navigate = useNavigate()
 
-
-    const fetchProfile = async (email) => {
-        const url = `http://localhost:8000/api/accounts/${email}`
+    const fetchProfile = async () => {
+        const url = `http://localhost:8000/api/accounts/mine`
         try {
             const response = await fetch(url, {credentials: "include"})
             if (response.ok) {
@@ -22,24 +21,8 @@ function Profile() {
         }
     }
 
-    const fetchEmail = async () => {
-        const url = `http://localhost:8000/token`
-        try {
-            const response = await fetch(url, {credentials: "include"})
-            if (response.ok) {
-                const data = await response.json()
-                fetchProfile(data.account.email)
-
-            } else {
-                console.error('Error:', response.status, response.statusText)
-            }
-        } catch (error) {
-            console.error('Error', error.message)
-        }
-    }
-
     useEffect(() => {
-        fetchEmail()
+        fetchProfile()
     }, [])
 
     return (

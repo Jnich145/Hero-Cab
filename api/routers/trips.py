@@ -18,6 +18,9 @@ from queries.trips import (
     TripOut,
 )
 
+from queries.accounts import(
+    AccountOut
+)
 
 class HttpError(BaseModel):
     detail: str
@@ -27,15 +30,17 @@ router = APIRouter()
 @router.get("/api/trips", response_model=List[TripOut])
 def get_trips(
     trips: TripQueries = Depends(),
+    account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
 ) -> TripOut:
-    return trips.get()
+    if account_data.get("email") == "admin":
+        return trips.get()
 
 
 @router.post("/api/trips", response_model=TripOut)
 async def create_trip(
     trip: TripIn,
     trips: TripQueries = Depends(),
-    account_data: dict = Depends(authenticator.get_current_account_data),
+    account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
 ) -> TripOut:
     if account_data:
         return trips.create(trip)
