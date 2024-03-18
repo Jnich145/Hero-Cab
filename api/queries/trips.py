@@ -68,7 +68,7 @@ class TripQueries:
                     instructions=trip.instructions,
                     status=trip.status
                 )
-            
+
     # def get_one(self, id: int) -> Optional[TripOut]:
     #     with pool.connection() as conn:
     #         with conn.cursor() as db:
@@ -110,7 +110,7 @@ class TripQueries:
     #             )
     #             conn.commit()  # Commit the transaction to save changes
     #             return db.rowcount > 0  # Return True if any rows were updated, otherwise False
-            
+
     # def delete(self, id: int) -> None:
     #     with pool.connection() as conn:
     #         with conn.cursor() as db:
@@ -122,7 +122,7 @@ class TripQueries:
     #                 [id]
     #             )
     #             return None
-    
+
     # def accept_trip(self, id: int) -> Optional[TripOut]:
     #     with pool.connection() as conn:
     #         with conn.cursor() as db:
@@ -148,7 +148,7 @@ class TripQueries:
     #                 status=trip.status
     #             )
     #             return trip
-    
+
     # def reject_trip(self, id: int) -> Optional[TripOut]:
     #     with pool.connection() as conn:
     #         with conn.cursor() as db:
@@ -174,7 +174,7 @@ class TripQueries:
     #                 status=trip.status
     #             )
     #             return trip
-            
+
     # def complete_trip(self, id: int) -> Optional[TripOut]:
     #     with pool.connection() as conn:
     #         with conn.cursor() as db:
@@ -200,7 +200,7 @@ class TripQueries:
     #                 status=trip.status
     #             )
     #             return trip
-            
+
     # def cancel_trip(self, id: int) -> Optional[TripOut]:
     #     with pool.connection() as conn:
     #         with conn.cursor() as db:
@@ -226,5 +226,5 @@ class TripQueries:
     #                 status=trip.status
     #             )
     #             return trip
-            
-    
+
+

@@ -16,7 +16,6 @@ const App = () => {
 
                 <Footer />
 
-                <ReviewCarousel />
             </div>
         </AuthProvider>
     )
