@@ -9,6 +9,7 @@ import SignUp from './pages/Account/SignUp'
 import Settings from './pages/Settings'
 import Error from './pages/Error'
 import ReviewDetails from './pages/ReviewDetails'
+import UpdateProfile from './pages/Account/UpdateProfile'
 import Profile from './pages/Account/Profile'
 import RequestTrip from './pages/Rider/RequestTrip'
 import RiderHistory from './pages/Rider/RiderHistory'
@@ -41,8 +42,15 @@ const router = createBrowserRouter([
                 element: <RiderHistory />,
             },
             {
+<<<<<<< HEAD
                 path: 'trips/requests',
                 element: <SeeRideRequests />,
+=======
+                path: 'update-profile', element: <UpdateProfile />,
+            },
+            {
+                path: 'profile', element: <Profile />,
+>>>>>>> 6839c85073dbf0e14db44a89b5e01d865d27fc0e
             },
             {
                 path: 'settings',

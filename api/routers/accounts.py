@@ -18,6 +18,7 @@ from queries.accounts import (
     AccountOut,
     AccountQueries,
     DuplicateAccountError,
+    AccountOutWithPassword,
     AccountUpdateWithoutPassword,
     AccountUpdatePassword,
     ValidationError
@@ -78,37 +79,63 @@ def get_accounts(
 ) -> AccountOut:
      return accounts.get()
 
-@router.get("/api/accounts/{email}", response_model=AccountOut)
+@router.get("/api/accounts/{email}", response_model=AccountOutWithPassword)
 def get_account(
     email: str,
     accounts: AccountQueries = Depends(),
-) -> AccountOut:
+) -> AccountOutWithPassword:
      return accounts.get_one(email)
 
-@router.put("/api/accounts/update", response_model=Account | HttpError)
+@router.put("/api/accounts/{email}/update", response_model=Account | HttpError)
 async def update_account(
     info: AccountUpdateWithoutPassword,
-    verified_account: AccountOut = Depends(authenticator.try_get_current_account_data),
-    accounts: AccountQueries = Depends()
+    email: str,
+    verified_account: Optional[AccountOut] = Depends(authenticator.try_get_current_account_data),
+    accounts: AccountQueries = Depends(),
 ):
+    if verified_account is None:
+        if email == info.email:
+            try:
+                account = accounts.update(info)
+            except ValidationError:
+                raise HTTPException(
+                    status_code=status.HTTP_403_FORBIDDEN,
+                    detail="Cannot edit other user's account",
+                )
+            return account
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Not authenticated"
+        )
+
     if verified_account.get("email") == info.email:
-        # try:
-        account = accounts.update(info)
-        # except ValidationError:
-        #     raise HTTPException(
-        #         status_code=status.HTTP_403_FORBIDDEN,
-        #         detail="Cannot edit account",
-        #     )
+        try:
+            account = accounts.update(info)
+        except ValidationError:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Cannot edit other user's account",
+            )
         return account
 
-@router.put("/api/accounts/update-password", response_model=AccountToken | HttpError)
+@router.put("/api/accounts/{email}/update-password", response_model=AccountToken | HttpError)
 async def update_password(
     info: AccountUpdatePassword,
+    email: str,
     request: Request,
     response: Response,
     verified_account: AccountOut = Depends(authenticator.try_get_current_account_data),
     accounts: AccountQueries = Depends(),
 ):
+    if verified_account is None:
+        if email == info.email:
+            hashed_password = authenticator.hash_password(info.password)
+            account = accounts.update_password(info, hashed_password)
+            authenticator.logout(request, response)
+            form = AccountForm(username=info.email, password=info.password)
+            token = await authenticator.login(response, request, form, accounts)
+            return AccountToken(account=account, **token.dict())
+
     if verified_account.get("email") == info.email:
         hashed_password = authenticator.hash_password(info.password)
         account = accounts.update_password(info, hashed_password)
