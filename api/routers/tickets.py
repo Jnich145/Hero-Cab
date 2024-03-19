@@ -8,6 +8,7 @@ from fastapi import (
 )
 
 from jwtdown_fastapi.authentication import Token
+from queries.accounts import AccountOut
 from authenticator import authenticator
 
 from pydantic import BaseModel
@@ -35,5 +36,7 @@ def get_tickets(
 async def create_ticket(
     ticket: TicketIn,
     tickets: TicketQueries = Depends(),
+    account_data: AccountOut = Depends(authenticator.try_get_current_account_data)
 ) -> TicketOut:
-    return tickets.create(ticket)
+    if account_data:
+        return tickets.create(ticket)
