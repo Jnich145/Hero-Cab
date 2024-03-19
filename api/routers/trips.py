@@ -32,7 +32,7 @@ def get_trips(
     trips: TripQueries = Depends(),
     account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
 ) -> TripOut:
-    if account_data.get("email") == "admin":
+    if account_data:
         return trips.get()
 
 

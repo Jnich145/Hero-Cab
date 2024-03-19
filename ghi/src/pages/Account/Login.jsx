@@ -1,8 +1,7 @@
 import useToken from "@galvanize-inc/jwtdown-for-react";
 import ReviewCarousel from "/app/src/components/ReviewCarousel";
 import { useNavigate } from 'react-router-dom'
-import { useEffect, useState } from "react";
-import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
+import {  useState } from "react";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -10,14 +9,7 @@ const Login = () => {
   const [error, setError] = useState('')
   const { login } = useToken();
   const navigate = useNavigate()
-  const { token } = useAuthContext()
 
-  useEffect(() => {
-    if (token) {
-      navigate("/")
-    }
-  }, [token, navigate])
-  
   const handleSubmit = async (event) => {
     event.preventDefault()
       const logged_in = await login(username, password);

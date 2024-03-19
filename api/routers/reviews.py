@@ -32,7 +32,7 @@ def get_reviews(
     reviews: ReviewQueries = Depends(),
     account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
 ) -> ReviewOut:
-    if account_data.get("email") == "admin":
+    if account_data:
         return reviews.get()
 
 
@@ -51,5 +51,5 @@ def get_review(
     reviews: ReviewQueries = Depends(),
     account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
 ) -> ReviewOut:
-    if account_data.get("email") == "admin":
+    if account_data:
         return reviews.get(id)

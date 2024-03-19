@@ -1,12 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useAuthContext } from '@galvanize-inc/jwtdown-for-react'
-import { useNavigate } from 'react-router-dom'
 
 const SeeRideRequests = () => {
     const { baseUrl } = useAuthContext()
     const [rideRequests, setRideRequests] = useState([])
-    const navigate = useNavigate()
-    const { token } = useAuthContext()
 
     const fetchRideRequests = async () => {
         const url = `${baseUrl}/api/trips`
@@ -26,12 +23,8 @@ const SeeRideRequests = () => {
     }
 
     useEffect(() => {
-        if (!token) {
-        navigate("/login")
-        } else {
-            fetchRideRequests()
-        }
-    }, [token, navigate])
+        fetchRideRequests()
+    }, [baseUrl])
 
 
     const handleResponseToRequest = async (requestId, accept) => {

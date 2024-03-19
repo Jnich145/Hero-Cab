@@ -61,6 +61,7 @@ class AccountQueries:
                 record = result.fetchone()
                 if record is None:
                     return None
+                print("address=", record[7])
                 return AccountOutWithPassword(
                     id=record[0],
                     email=record[1],
@@ -68,8 +69,8 @@ class AccountQueries:
                     first_name=record[3],
                     last_name=record[4],
                     special_needs=record[5],
-                    phone_number=record[5],
-                    address=record[6]
+                    phone_number=record[6],
+                    address=record[7]
                 )
 
     def create(self, account: AccountIn, hashed_password: str) -> Account:

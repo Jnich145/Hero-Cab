@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 import { useNavigate } from "react-router-dom";
 import { login, register } from "../../components/auth";
@@ -15,13 +15,6 @@ const SignUp = () => {
     const { baseUrl, setToken } = useAuthContext();
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
-    const { token } = useAuthContext()
-
-    useEffect(() => {
-      if (token) {
-        navigate("/")
-      }
-    }, [token, navigate])
 
     const handleFormChange = (event) => {
         const inputName = event.target.name

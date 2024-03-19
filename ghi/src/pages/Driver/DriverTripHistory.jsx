@@ -6,8 +6,6 @@ const DriverHistory = () => {
     const { baseUrl } = useAuthContext()
     const [rides, setRides] = useState([])
     const [errorMessage, setErrorMessage] = useState('')
-    const navigate = useNavigate()
-    const { token } = useAuthContext()
 
     const fetchDriverHistory = async () => {
         let url = `${baseUrl}/api/trips`
@@ -33,12 +31,8 @@ const DriverHistory = () => {
     }
 
     useEffect(() => {
-        if (!token) {
-        navigate("/login")
-        } else {
-            fetchDriverHistory()
-        }
-    }, [token, navigate])
+        fetchDriverHistory()
+    }, [baseUrl])
 
     return (
         <div className="ride-history">

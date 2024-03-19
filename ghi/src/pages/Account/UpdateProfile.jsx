@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
-import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 
 function UpdateProfile() {
     const navigate = useNavigate()
@@ -9,18 +8,13 @@ function UpdateProfile() {
         first_name: '',
         last_name: '',
         special_needs: false,
+        phone_number: '',
+        address: ''
     })
     const [passwordData, setPasswordData] = useState({
         password: '',
         password_confirmation: '',
     })
-    const { token } = useAuthContext()
-
-    useEffect(() => {
-        if (!token) {
-        navigate("/login")
-        }
-    }, [token, navigate])
 
     const handleFormChange = (event) => {
         const inputName = event.target.name
@@ -58,6 +52,8 @@ function UpdateProfile() {
                     first_name: '',
                     last_name: '',
                     special_needs: false,
+                    phone_number: '',
+                    address: ''
                 }))
                 navigate('/profile')
             } else {
@@ -113,6 +109,8 @@ function UpdateProfile() {
                             <tr>
                                 <th>first_name (optional)</th>
                                 <th>last_name (optional)</th>
+                                <th>phone_number (optional)</th>
+                                <th>address (optional)</th>
                                 <th>special_needs</th>
                                 <th>update</th>
                             </tr>
@@ -129,6 +127,16 @@ function UpdateProfile() {
                                         <input value={formData.last_name} onChange={handleFormChange} placeholder="last" type="text" id="last_name" className="form-control"
                                             name="last_name" />
                                         <label htmlFor="last_name"></label>
+                                    </td>
+                                    <td>
+                                        <input value={formData.phone_number} onChange={handleFormChange} placeholder="phone_number" type="text" id="phone_number" className="form-control"
+                                            name="phone_number" />
+                                        <label htmlFor="phone_number"></label>
+                                    </td>
+                                    <td>
+                                        <input value={formData.address} onChange={handleFormChange} placeholder="address" type="text" id="address" className="form-control"
+                                            name="address" />
+                                        <label htmlFor="address"></label>
                                     </td>
                                     <td>
                                         <input

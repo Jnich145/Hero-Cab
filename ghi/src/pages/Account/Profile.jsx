@@ -5,7 +5,6 @@ import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 function Profile() {
     const [profile, setProfile] = useState({})
     const navigate = useNavigate()
-    const { token } = useAuthContext()
 
     const fetchProfile = async () => {
         const url = `http://localhost:8000/api/accounts/mine`
@@ -24,12 +23,8 @@ function Profile() {
     }
 
     useEffect(() => {
-        if (!token) {
-        navigate("/login")
-        } else {
-            fetchProfile()
-        }
-    }, [token, navigate])
+        fetchProfile()
+    }, [])
 
     return (
         <div className="my-5 container">
@@ -40,6 +35,8 @@ function Profile() {
                             <th>email</th>
                             <th>first_name</th>
                             <th>last_name</th>
+                            <th>phone_number</th>
+                            <th>address</th>
                             <th>special_needs</th>
                             <th>update</th>
                         </tr>
@@ -49,6 +46,8 @@ function Profile() {
                             <td>{ profile.email }</td>
                             <td>{ profile.first_name }</td>
                             <td>{ profile.last_name }</td>
+                            <td>{ profile.phone_number }</td>
+                            <td>{ profile.address }</td>
                             <td>{ profile.special_needs ? "true" : "false"}</td>
                             <td>
                                 <div>

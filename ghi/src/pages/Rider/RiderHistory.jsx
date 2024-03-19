@@ -1,13 +1,10 @@
 import { useState, useEffect } from 'react'
 import { useAuthContext } from '@galvanize-inc/jwtdown-for-react'
-import { useNavigate } from 'react-router-dom'
 
 const RiderHistory = () => {
     const { baseUrl } = useAuthContext()
     const [rides, setRides] = useState([])
     const [errorMessage, setErrorMessage] = useState('')
-    const navigate = useNavigate()
-    const { token } = useAuthContext()
 
     const fetchRiderHistory = async () => {
         let url = `${baseUrl}/api/trips`
@@ -33,12 +30,8 @@ const RiderHistory = () => {
     }
 
     useEffect(() => {
-        if (!token) {
-        navigate("/login")
-        } else {
-            fetchRiderHistory()
-        }
-    }, [token, navigate])
+        fetchRiderHistory()
+    }, [baseUrl])
 
     return (
         <div className="ride-history">

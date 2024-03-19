@@ -13,13 +13,6 @@ function RequestTripForm() {
     const [date, setDate] = useState('')
     const [time, setTime] = useState('')
     const [showSuccess, setShowSuccess] = useState(false)
-    const { token } = useAuthContext()
-
-    useEffect(() => {
-        if (!token) {
-        navigate("/login")
-        }
-    }, [token, navigate])
 
     const handleSubmit = async (event) => {
         event.preventDefault()

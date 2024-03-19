@@ -78,7 +78,7 @@ def get_accounts(
     accounts: AccountQueries = Depends(),
     account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
 ) -> AccountOut:
-    if account_data.get("email") == "admin":
+    if account_data:
         return accounts.get()
 
 @router.get("/api/accounts/mine", response_model=AccountOutWithPassword)
@@ -86,7 +86,6 @@ def get_account(
     accounts: AccountQueries = Depends(),
     account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
 ) -> AccountOutWithPassword:
-    return accounts.get_one(account_data.get("email"))
     return accounts.get_one(account_data.get("email"))
 
 @router.put("/api/accounts/update", response_model=Account | HttpError)

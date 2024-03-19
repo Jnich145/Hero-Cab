@@ -33,7 +33,7 @@ def get_tickets(
     tickets: TicketQueries = Depends(),
     account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
 ) -> TicketOut:
-    if account_data.get("email") == "admin":
+    if account_data:
         return tickets.get()
 
 
