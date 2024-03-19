@@ -6,7 +6,6 @@ import App from './App'
 import Home from './pages/Account/Home'
 import Login from './pages/Account/Login'
 import SignUp from './pages/Account/SignUp'
-import Settings from './pages/Settings'
 import Error from './pages/Error'
 import ReviewDetails from './pages/ReviewDetails'
 import UpdateProfile from './pages/Account/UpdateProfile'
@@ -14,9 +13,6 @@ import Profile from './pages/Account/Profile'
 import RiderHistory from './pages/Rider/RiderHistory'
 import SeeRideRequests from './pages/Driver/SeeRideRequests'
 import RequestTrip from './pages/Rider/RequestTrip'
-
-
-
 
 const router = createBrowserRouter([
     {
@@ -47,10 +43,6 @@ const router = createBrowserRouter([
             {
                 path: 'trips/requests',
                 element: <SeeRideRequests />,
-            },
-            {
-                path: 'settings',
-                element: <Settings />,
             },
             {
                 path: 'update-profile', element: <UpdateProfile />,
