@@ -12,6 +12,7 @@ function RequestTripForm() {
     const [instructions, setInstructions] = useState('')
     const [date, setDate] = useState('')
     const [time, setTime] = useState('')
+    const [status, setStatus] = useState('')
     const [showSuccess, setShowSuccess] = useState(false)
 
     const handleSubmit = async (event) => {
@@ -22,6 +23,7 @@ function RequestTripForm() {
             map_url: mapUrl,
             instructions: instructions,
             date_time: `${date}T${time}:00.000Z`,
+            status: "Pending",
         };
         const tripsUrl = `${baseUrl}/api/trips/`
 
@@ -42,6 +44,7 @@ function RequestTripForm() {
             setInstructions('')
             setDate('')
             setTime('')
+            setStatus('')
             setShowSuccess(true)
             setTimeout(() => {
                 setShowSuccess(false)

@@ -6,16 +6,13 @@ const RiderHistory = () => {
     const [rides, setRides] = useState([])
     const [errorMessage, setErrorMessage] = useState('')
 
-    const fetchRiderHistory = async () => {
-        let url = `${baseUrl}/api/trips`
-        try {
-            const response = await fetch(url, {
-                method: 'GET',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
+    useEffect(() => {
+        const fetchRiderHistory = async () => {
+            let url = `${baseUrl}/api/trips/mine`
+            try {
+                const response = await fetch(url, {
+                    credentials: 'include',
+                })
 
             if (!response.ok) {
                 throw new Error('Failed to fetch ride history')
@@ -32,6 +29,7 @@ const RiderHistory = () => {
     useEffect(() => {
         fetchRiderHistory()
     }, [baseUrl])
+
 
     return (
         <div className="ride-history">
@@ -75,11 +73,10 @@ const RiderHistory = () => {
                         </div>
                     ))
                 ) : (
-                    <p>No ride history found.</p>
+                    <p>No ride history found for current user.</p>
                 )}
             </div>
         </div>
     )
 }
-
 export default RiderHistory;

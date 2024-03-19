@@ -69,6 +69,8 @@ class Trip(BaseModel):
     map_url: str
     instructions: str
     status: str
+    rider_id: int
+    driver_id: Optional[int]
 
 class TripIn(BaseModel):
     date_time: datetime
@@ -86,6 +88,8 @@ class TripOut(BaseModel):
     map_url: str
     instructions: str
     status: str
+    rider_id: int
+    driver_id: Optional[int]
 
 class Ticket(BaseModel):
     id: int

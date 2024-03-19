@@ -16,6 +16,7 @@ class TripQueries:
                         , map_url
                         , instructions
                         , status
+                        , rider_id
                     FROM trips
                     """
                 )
@@ -28,12 +29,45 @@ class TripQueries:
                         drop_off_location=record[3],
                         map_url=record[4],
                         instructions=record[5],
-                        status=record[6]
+                        status=record[6],
+                        rider_id=record[7]
+                    )
+                    data.append(trip)
+                return data
+            
+    def get_mine(self, account_id) -> List[TripOut]:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT id
+                        , date_time
+                        , pick_up_location
+                        , drop_off_location
+                        , map_url
+                        , instructions
+                        , status
+                    FROM trips
+                    WHERE rider_id = %s
+                    """,
+                    [account_id]
+                )
+                data = []
+                for record in db:
+                    trip = TripOut(
+                        id=record[0],
+                        date_time=record[1],
+                        pick_up_location=record[2],
+                        drop_off_location=record[3],
+                        map_url=record[4],
+                        instructions=record[5],
+                        status=record[6],
+                        rider_id=account_id
                     )
                     data.append(trip)
                 return data
 
-    def create(self, trip: TripIn) -> Trip:
+    def create(self, trip: TripIn, rider) -> TripOut:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 result = db.execute(
@@ -45,8 +79,9 @@ class TripQueries:
                         , map_url
                         , instructions
                         , status
+                        , rider_id
                     )
-                    VALUES (%s, %s, %s, %s, %s, %s)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s)
                     RETURNING id;
                     """,
                     [
@@ -55,18 +90,21 @@ class TripQueries:
                         trip.drop_off_location,
                         trip.map_url,
                         trip.instructions,
-                        trip.status
+                        trip.status,
+                        rider
                     ]
                 )
                 id = result.fetchone()[0]
-                return Trip(
+                print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', rider, id, trip.date_time, trip.pick_up_location, trip.drop_off_location, trip.map_url, trip.instructions, trip.status, '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+                return TripOut(
                     id=id,
                     date_time=trip.date_time,
                     pick_up_location=trip.pick_up_location,
                     drop_off_location=trip.drop_off_location,
                     map_url=trip.map_url,
                     instructions=trip.instructions,
-                    status=trip.status
+                    status=trip.status,
+                    rider_id=rider
                 )
 
     # def get_one(self, id: int) -> Optional[TripOut]:
