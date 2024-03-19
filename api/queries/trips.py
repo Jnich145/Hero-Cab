@@ -17,6 +17,7 @@ class TripQueries:
                         , instructions
                         , status
                         , rider_id
+                        , driver_id
                     FROM trips
                     """
                 )
@@ -30,7 +31,8 @@ class TripQueries:
                         map_url=record[4],
                         instructions=record[5],
                         status=record[6],
-                        rider_id=record[7]
+                        rider_id=record[7],
+                        driver_id=record[8]
                     )
                     data.append(trip)
                 return data
@@ -50,7 +52,7 @@ class TripQueries:
                         , rider_id
                         , driver_id
                     FROM trips
-                    WHERE rider_id != %s;
+                    WHERE rider_id != %s AND driver_id IS NULL;
                     """,
                     [account_id]
                 )
@@ -82,6 +84,8 @@ class TripQueries:
                         , map_url
                         , instructions
                         , status
+                        , rider_id
+                        , driver_id
                     FROM trips
                     WHERE rider_id = %s
                     """,
@@ -97,7 +101,43 @@ class TripQueries:
                         map_url=record[4],
                         instructions=record[5],
                         status=record[6],
-                        rider_id=account_id
+                        rider_id=record[7],
+                        driver_id=record[8]
+                    )
+                    data.append(trip)
+                return data
+
+    def get_mine_driver(self, account_id) -> List[TripOut]:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT id
+                        , date_time
+                        , pick_up_location
+                        , drop_off_location
+                        , map_url
+                        , instructions
+                        , status
+                        , rider_id
+                        , driver_id
+                    FROM trips
+                    WHERE driver_id = %s
+                    """,
+                    [account_id]
+                )
+                data = []
+                for record in db:
+                    trip = TripOut(
+                        id=record[0],
+                        date_time=record[1],
+                        pick_up_location=record[2],
+                        drop_off_location=record[3],
+                        map_url=record[4],
+                        instructions=record[5],
+                        status=record[6],
+                        rider_id=record[7],
+                        driver_id=record[8]
                     )
                     data.append(trip)
                 return data
@@ -130,7 +170,6 @@ class TripQueries:
                     ]
                 )
                 id = result.fetchone()[0]
-                print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', rider, id, trip.date_time, trip.pick_up_location, trip.drop_off_location, trip.map_url, trip.instructions, trip.status, '!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
                 return TripOut(
                     id=id,
                     date_time=trip.date_time,
@@ -142,13 +181,14 @@ class TripQueries:
                     rider_id=rider
                 )
 
-    def update_trip(self, account_id, trip_id) -> TripOut:
+    def update(self, account_id, trip_id) -> TripOut:
         with pool.connection() as conn:
             with conn.cursor() as db:
+                print(account_id, trip_id, "---------------------------------------------------------------------------------------")
                 result = db.execute(
                     """
-                    UPDATE trips
-                    SET driver_id = %s,
+                    UPDATE trips SET
+                        driver_id = %s
                     WHERE id = %s
                     RETURNING id
                         , date_time

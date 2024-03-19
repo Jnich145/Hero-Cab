@@ -10,9 +10,9 @@ import Error from './pages/Error'
 import ReviewDetails from './pages/ReviewDetails'
 import UpdateProfile from './pages/Account/UpdateProfile'
 import Profile from './pages/Account/Profile'
-import RiderHistory from './pages/Rider/RiderHistory'
-import SeeRideRequests from './pages/Driver/SeeRideRequests'
-import RequestTrip from './pages/Rider/RequestTrip'
+import RiderHistory from './pages/Trips/History'
+import SeeRideRequests from './pages/Trips/SeeRideRequests'
+import RequestTrip from './pages/Trips/RequestTrip'
 
 const router = createBrowserRouter([
     {

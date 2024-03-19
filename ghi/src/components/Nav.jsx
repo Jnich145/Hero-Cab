@@ -48,7 +48,7 @@ const Nav = () => {
                                 </li>
                                 <li>
                                     <NavLink to="/trips" className="nav-link">
-                                        Your Rides
+                                        Your History
                                     </NavLink>
                                 </li>
                                 <li>

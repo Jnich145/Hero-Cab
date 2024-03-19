@@ -27,21 +27,15 @@ const SeeRideRequests = () => {
     }, [baseUrl])
 
 
-    const handleResponseToRequest = async (requestId, accept) => {
+    const handleAcceptTrip = async (requestId) => {
         const url = `${baseUrl}/api/trips/${requestId}`
         const response = await fetch(url, {
             method: 'PUT',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ accept }),
+            credentials: 'include'
         })
 
         if (response.ok) {
-            setRideRequests(
-                rideRequests.filter((request) => request.id !== requestId)
-            )
+            fetchRideRequests()
         } else {
             console.error('Failed to respond to ride request')
         }
@@ -60,16 +54,15 @@ const SeeRideRequests = () => {
                             <div className="btn-group float-end">
                                 <button
                                     onClick={() =>
-                                        handleResponseToRequest(
-                                            request.id,
-                                            true
+                                        handleAcceptTrip(
+                                            request.id
                                         )
                                     }
                                     className="btn btn-success"
                                 >
                                     Accept
                                 </button>
-                                <button
+                                {/* <button
                                     onClick={() =>
                                         handleResponseToRequest(
                                             request.id,
@@ -79,7 +72,7 @@ const SeeRideRequests = () => {
                                     className="btn btn-danger"
                                 >
                                     Decline
-                                </button>
+                                </button> */}
                             </div>
                         </li>
                     ))}

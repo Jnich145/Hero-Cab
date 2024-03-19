@@ -50,6 +50,13 @@ def get_my_trips(
 ) -> TripOut:
     return trips.get_mine(account_data.get("id"))
 
+@router.get("/api/trips/mine-driver", response_model=List[TripOut])
+def get_my_trips_driver(
+    trips: TripQueries = Depends(),
+    account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
+) -> TripOut:
+    return trips.get_mine_driver(account_data.get("id"))
+
 
 
 
@@ -59,7 +66,6 @@ async def create_trip(
     trips: TripQueries = Depends(),
     account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
 ) -> TripOut:
-    # print(account_data)
     if account_data:
         return trips.create(trip, account_data.get("id"))
 
@@ -68,7 +74,7 @@ async def create_trip(
         detail="Unauthorized",
     )
 
-@router.put("/api/trips/{id}", response_model=TripOut)
+@router.put("/api/trips/{trip_id}", response_model=TripOut)
 async def update_trip(
     trip_id: int,
     trips: TripQueries = Depends(),
