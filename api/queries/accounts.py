@@ -21,6 +21,8 @@ class AccountQueries:
                         , first_name
                         , last_name
                         , special_needs
+                        , phone_number
+                        , address
                     FROM accounts
                     """
                 )
@@ -31,7 +33,9 @@ class AccountQueries:
                         email=record[1],
                         first_name=record[2],
                         last_name=record[3],
-                        special_needs=record[4]
+                        special_needs=record[4],
+                        phone_number=record[5],
+                        address=record[6]
                     )
                     data.append(account)
                 return data
@@ -47,6 +51,8 @@ class AccountQueries:
                         , first_name
                         , last_name
                         , special_needs
+                        , phone_number
+                        , address
                     FROM accounts
                     WHERE email = %s;
                     """,
@@ -61,7 +67,9 @@ class AccountQueries:
                     hashed_password=record[2],
                     first_name=record[3],
                     last_name=record[4],
-                    special_needs=record[5]
+                    special_needs=record[5],
+                    phone_number=record[5],
+                    address=record[6]
                 )
 
     def create(self, account: AccountIn, hashed_password: str) -> Account:
@@ -107,6 +115,8 @@ class AccountQueries:
                     UPDATE accounts SET
                         first_name = CASE WHEN %s != '' THEN %s ELSE first_name END,
                         last_name = CASE WHEN %s != '' THEN %s ELSE last_name END,
+                        phone_number = CASE WHEN %s != '' THEN %s ELSE phone_number END,
+                        address = CASE WHEN %s != '' THEN %s ELSE address END,
                         special_needs = %s
                     WHERE email = %s
                     RETURNING id, password;
@@ -116,6 +126,10 @@ class AccountQueries:
                         account.first_name,
                         account.last_name,
                         account.last_name,
+                        account.phone_number,
+                        account.phone_number,
+                        account.address,
+                        account.address,
                         account.special_needs,
                         email
                     ],
@@ -128,9 +142,11 @@ class AccountQueries:
                     first_name=account.first_name,
                     last_name=account.last_name,
                     special_needs=account.special_needs,
+                    phone_number=account.phone_number,
+                    address=account.address
                 )
 
-    def update_password(self, account: AccountUpdatePassword, hashed_password: str, email) -> Account:
+    def update_password(self, hashed_password: str, email) -> Account:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 result = db.execute(

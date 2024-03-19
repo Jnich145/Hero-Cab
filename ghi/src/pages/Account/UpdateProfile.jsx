@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
+import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 
 function UpdateProfile() {
     const navigate = useNavigate()
@@ -13,6 +14,13 @@ function UpdateProfile() {
         password: '',
         password_confirmation: '',
     })
+    const { token } = useAuthContext()
+
+    useEffect(() => {
+        if (!token) {
+        navigate("/login")
+        }
+    }, [token, navigate])
 
     const handleFormChange = (event) => {
         const inputName = event.target.name

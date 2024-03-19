@@ -76,7 +76,7 @@ async def create_account(
 @router.get("/api/accounts", response_model=List[AccountOut])
 def get_accounts(
     accounts: AccountQueries = Depends(),
-    account_data: Optional[AccountOut] = Depends(authenticator.try_get_current_account_data),
+    account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
 ) -> AccountOut:
     if account_data.get("email") == "admin":
         return accounts.get()
@@ -84,14 +84,15 @@ def get_accounts(
 @router.get("/api/accounts/mine", response_model=AccountOutWithPassword)
 def get_account(
     accounts: AccountQueries = Depends(),
-    account_data: Optional[AccountOut] = Depends(authenticator.try_get_current_account_data),
+    account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
 ) -> AccountOutWithPassword:
+    return accounts.get_one(account_data.get("email"))
     return accounts.get_one(account_data.get("email"))
 
 @router.put("/api/accounts/update", response_model=Account | HttpError)
 async def update_account(
     info: AccountUpdateDetails,
-    account_data: Optional[AccountOut] = Depends(authenticator.try_get_current_account_data),
+    account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
     accounts: AccountQueries = Depends(),
 ):
     print("Info type:", type(info), info.first_name == None)
@@ -112,7 +113,7 @@ async def update_password(
 ):
     try:
         hashed_password = authenticator.hash_password(info.password)
-        account = accounts.update_password(info, hashed_password, account_data.get("email"))
+        account = accounts.update_password(hashed_password, account_data.get("email"))
     except ValidationError:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,

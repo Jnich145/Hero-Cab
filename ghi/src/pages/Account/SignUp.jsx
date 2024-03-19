@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 import { useNavigate } from "react-router-dom";
 import { login, register } from "../../components/auth";
@@ -15,6 +15,13 @@ const SignUp = () => {
     const { baseUrl, setToken } = useAuthContext();
     const [errorMessage, setErrorMessage] = useState("");
     const navigate = useNavigate();
+    const { token } = useAuthContext()
+
+    useEffect(() => {
+      if (token) {
+        navigate("/")
+      }
+    }, [token, navigate])
 
     const handleFormChange = (event) => {
         const inputName = event.target.name
@@ -27,10 +34,6 @@ const SignUp = () => {
 
     const handleRegistration = async (e) => {
         e.preventDefault();
-        // It's very important to grab currentTarget now because
-        // when this callback ends, the browser sets it to null
-        // const form = e.currentTarget;
-
         try {
           await register(formData);
           const token = await login(
@@ -39,8 +42,6 @@ const SignUp = () => {
               formData.password
           );
           setToken(token);
-          // Reset the form
-          // form.reset();
           navigate("/");
         } catch (e) {
         if (e instanceof Error) {

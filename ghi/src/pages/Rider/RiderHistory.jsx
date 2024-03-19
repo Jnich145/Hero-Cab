@@ -7,33 +7,38 @@ const RiderHistory = () => {
     const [rides, setRides] = useState([])
     const [errorMessage, setErrorMessage] = useState('')
     const navigate = useNavigate()
+    const { token } = useAuthContext()
+
+    const fetchRiderHistory = async () => {
+        let url = `${baseUrl}/api/trips`
+        try {
+            const response = await fetch(url, {
+                method: 'GET',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+
+            if (!response.ok) {
+                throw new Error('Failed to fetch ride history')
+            }
+
+            const data = await response.json()
+            setRides(data)
+        } catch (error) {
+            console.error('Error fetching ride history:', error)
+            setErrorMessage('Failed to load ride history')
+        }
+    }
 
     useEffect(() => {
-        const fetchRiderHistory = async () => {
-            let url = `${baseUrl}/api/trips`
-            try {
-                const response = await fetch(url, {
-                    method: 'GET',
-                    credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                })
-
-                if (!response.ok) {
-                    throw new Error('Failed to fetch ride history')
-                }
-
-                const data = await response.json()
-                setRides(data)
-            } catch (error) {
-                console.error('Error fetching ride history:', error)
-                setErrorMessage('Failed to load ride history')
-            }
+        if (!token) {
+        navigate("/login")
+        } else {
+            fetchRiderHistory()
         }
-
-        fetchRiderHistory()
-    }, [baseUrl])
+    }, [token, navigate])
 
     return (
         <div className="ride-history">

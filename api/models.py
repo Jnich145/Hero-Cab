@@ -9,6 +9,8 @@ class Account(BaseModel):
     first_name: str
     last_name: str
     special_needs: bool
+    phone_number: Optional[str]
+    address: Optional[str]
 
 class AccountIn(BaseModel):
     password: str
@@ -23,10 +25,14 @@ class AccountOut(BaseModel):
     first_name: str
     last_name: str
     special_needs: bool
+    phone_number: Optional[str]
+    address: Optional[str]
 
 class AccountUpdateDetails(BaseModel):
     first_name: Optional[str]
     last_name: Optional[str]
+    phone_number: Optional[str]
+    address: Optional[str]
     special_needs: bool
 
 class AccountUpdatePassword(BaseModel):

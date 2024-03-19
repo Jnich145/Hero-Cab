@@ -6,27 +6,33 @@ const SeeRideRequests = () => {
     const { baseUrl } = useAuthContext()
     const [rideRequests, setRideRequests] = useState([])
     const navigate = useNavigate()
+    const { token } = useAuthContext()
+
+    const fetchRideRequests = async () => {
+        const url = `${baseUrl}/api/trips`
+        const response = await fetch(url, {
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+
+        if (response.ok) {
+            const data = await response.json()
+            setRideRequests(data)
+        } else {
+            console.error('Failed to fetch ride requests')
+        }
+    }
 
     useEffect(() => {
-        const fetchRideRequests = async () => {
-            const url = `${baseUrl}/api/trips`
-            const response = await fetch(url, {
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-
-            if (response.ok) {
-                const data = await response.json()
-                setRideRequests(data)
-            } else {
-                console.error('Failed to fetch ride requests')
-            }
+        if (!token) {
+        navigate("/login")
+        } else {
+            fetchRideRequests()
         }
+    }, [token, navigate])
 
-        fetchRideRequests()
-    }, [baseUrl])
 
     const handleResponseToRequest = async (requestId, accept) => {
         const url = `${baseUrl}/api/trips/${requestId}`

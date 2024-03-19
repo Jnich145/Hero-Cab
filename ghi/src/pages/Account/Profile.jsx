@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
+import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 
 function Profile() {
     const [profile, setProfile] = useState({})
     const navigate = useNavigate()
+    const { token } = useAuthContext()
 
     const fetchProfile = async () => {
         const url = `http://localhost:8000/api/accounts/mine`
@@ -22,8 +24,12 @@ function Profile() {
     }
 
     useEffect(() => {
-        fetchProfile()
-    }, [])
+        if (!token) {
+        navigate("/login")
+        } else {
+            fetchProfile()
+        }
+    }, [token, navigate])
 
     return (
         <div className="my-5 container">
