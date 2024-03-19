@@ -25,8 +25,8 @@ class AccountOut(BaseModel):
     special_needs: bool
 
 class AccountUpdateDetails(BaseModel):
-    first_name: str
-    last_name: str
+    first_name: Optional[str]
+    last_name: Optional[str]
     special_needs: bool
 
 class AccountUpdatePassword(BaseModel):

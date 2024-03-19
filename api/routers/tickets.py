@@ -41,5 +41,7 @@ def get_tickets(
 async def create_ticket(
     ticket: TicketIn,
     tickets: TicketQueries = Depends(),
+    account_data: AccountOut = Depends(authenticator.try_get_current_account_data)
 ) -> TicketOut:
-    return tickets.create(ticket)
+    if account_data:
+        return tickets.create(ticket)

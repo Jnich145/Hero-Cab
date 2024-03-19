@@ -101,17 +101,20 @@ class AccountQueries:
     def update(self, account: AccountUpdateDetails, email) -> Account:
         with pool.connection() as conn:
             with conn.cursor() as db:
+                print("----------------------------------------------------------------", account)
                 result = db.execute(
                     """
                     UPDATE accounts SET
-                        first_name = %s
-                        , last_name = %s
-                        , special_needs = %s
+                        first_name = CASE WHEN %s != '' THEN %s ELSE first_name END,
+                        last_name = CASE WHEN %s != '' THEN %s ELSE last_name END,
+                        special_needs = %s
                     WHERE email = %s
                     RETURNING id, password;
                     """,
                     [
                         account.first_name,
+                        account.first_name,
+                        account.last_name,
                         account.last_name,
                         account.special_needs,
                         email

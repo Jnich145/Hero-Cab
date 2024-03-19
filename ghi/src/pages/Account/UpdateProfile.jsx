@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'
 
 function UpdateProfile() {
+    const navigate = useNavigate()
     const [error, setError] = useState('')
     const [formData, setFormData] = useState({
         first_name: '',
@@ -49,6 +51,7 @@ function UpdateProfile() {
                     last_name: '',
                     special_needs: false,
                 }))
+                navigate('/profile')
             } else {
                 console.error('Error:', response.status, response.statusText)
             }
@@ -76,6 +79,7 @@ function UpdateProfile() {
                         password: '',
                         password_confirmation: '',
                     }))
+                    navigate('/profile')
                 } else {
                     console.error('Error:', response.status, response.statusText)
                 }
@@ -99,8 +103,8 @@ function UpdateProfile() {
                     <table className="table table-striped">
                         <thead>
                             <tr>
-                                <th>first_name</th>
-                                <th>last_name</th>
+                                <th>first_name (optional)</th>
+                                <th>last_name (optional)</th>
                                 <th>special_needs</th>
                                 <th>update</th>
                             </tr>
@@ -109,12 +113,12 @@ function UpdateProfile() {
 
                                 <tr>
                                     <td>
-                                        <input value={formData.first_name} onChange={handleFormChange} placeholder="first" required type="text" id="first_name" className="form-control"
+                                        <input value={formData.first_name} onChange={handleFormChange} placeholder="first" type="text" id="first_name" className="form-control"
                                             name="first_name" />
                                         <label htmlFor="first_name"></label>
                                     </td>
                                     <td>
-                                        <input value={formData.last_name} onChange={handleFormChange} placeholder="last" required type="text" id="last_name" className="form-control"
+                                        <input value={formData.last_name} onChange={handleFormChange} placeholder="last" type="text" id="last_name" className="form-control"
                                             name="last_name" />
                                         <label htmlFor="last_name"></label>
                                     </td>

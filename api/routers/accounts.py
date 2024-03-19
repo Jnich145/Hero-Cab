@@ -94,6 +94,7 @@ async def update_account(
     account_data: Optional[AccountOut] = Depends(authenticator.try_get_current_account_data),
     accounts: AccountQueries = Depends(),
 ):
+    print("Info type:", type(info), info.first_name == None)
     try:
         account = accounts.update(info, account_data.get("email"))
     except ValidationError:
