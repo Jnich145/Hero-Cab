@@ -10,14 +10,10 @@ const RiderHistory = () => {
 
     useEffect(() => {
         const fetchRiderHistory = async () => {
-            let url = `${baseUrl}/api/trips`
+            let url = `${baseUrl}/api/trips/mine`
             try {
                 const response = await fetch(url, {
-                    method: 'GET',
                     credentials: 'include',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
                 })
 
                 if (!response.ok) {
@@ -34,6 +30,7 @@ const RiderHistory = () => {
 
         fetchRiderHistory()
     }, [baseUrl])
+
 
     return (
         <div className="ride-history">
@@ -77,11 +74,10 @@ const RiderHistory = () => {
                         </div>
                     ))
                 ) : (
-                    <p>No ride history found.</p>
+                    <p>No ride history found for current user.</p>
                 )}
             </div>
         </div>
     )
 }
-
 export default RiderHistory;

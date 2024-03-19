@@ -8,7 +8,7 @@ function Profile() {
     const fetchProfile = async () => {
         const url = `http://localhost:8000/api/accounts/mine`
         try {
-            const response = await fetch(url, {credentials: "include"})
+            const response = await fetch(url, { credentials: "include" })
             if (response.ok) {
                 const data = await response.json()
                 setProfile(data)
@@ -40,13 +40,13 @@ function Profile() {
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{ profile.email }</td>
-                            <td>{ profile.first_name }</td>
-                            <td>{ profile.last_name }</td>
-                            <td>{ profile.special_needs ? "true" : "false"}</td>
+                            <td>{profile.email}</td>
+                            <td>{profile.first_name}</td>
+                            <td>{profile.last_name}</td>
+                            <td>{profile.special_needs ? "true" : "false"}</td>
                             <td>
                                 <div>
-                                    <input className="btn btn-primary" type="submit" value="update" onClick={() => navigate('/update-profile')}/>
+                                    <input className="btn btn-primary" type="submit" value="update" onClick={() => navigate('/update-profile')} />
                                 </div>
                             </td>
                         </tr>
@@ -55,6 +55,6 @@ function Profile() {
             </div>
         </div>
     )
-};
+}
 
 export default Profile

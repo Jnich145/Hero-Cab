@@ -42,6 +42,7 @@ async def create_review(
     reviews: ReviewQueries = Depends(),
     account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
 ) -> ReviewOut:
+    print(account_data)
     if account_data:
         return reviews.create(review)
 
