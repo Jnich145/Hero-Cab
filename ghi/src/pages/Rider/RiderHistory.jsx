@@ -6,17 +6,16 @@ const RiderHistory = () => {
     const [rides, setRides] = useState([])
     const [errorMessage, setErrorMessage] = useState('')
 
-    useEffect(() => {
-        const fetchRiderHistory = async () => {
-            let url = `${baseUrl}/api/trips/mine`
-            try {
-                const response = await fetch(url, {
-                    credentials: 'include',
-                })
+    const fetchRiderHistory = async () => {
+        let url = `${baseUrl}/api/trips/mine`
+        try {
+            const response = await fetch(url, {
+                credentials: 'include',
+            })
 
-            if (!response.ok) {
-                throw new Error('Failed to fetch ride history')
-            }
+        if (!response.ok) {
+            throw new Error('Failed to fetch ride history')
+        }
 
             const data = await response.json()
             setRides(data)
@@ -33,7 +32,7 @@ const RiderHistory = () => {
 
     return (
         <div className="ride-history">
-            <h2>Ride History</h2>
+            <h2>Your Rides</h2>
             {errorMessage && (
                 <div className="alert alert-danger" role="alert">
                     {errorMessage}
@@ -79,4 +78,5 @@ const RiderHistory = () => {
         </div>
     )
 }
+
 export default RiderHistory;

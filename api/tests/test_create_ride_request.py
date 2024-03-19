@@ -12,14 +12,15 @@ from authenticator import authenticator
 client = TestClient(app)
 
 def fake_try_get_current_account_data():
-    return {"id": "FAKE_ACCOUNT_ID"}
+    return {"id": 12345}
 
 class FakeTripQueries:
-    def create(self, trip_in):
+    def create(self, trip_in, account_id):
         trip = trip_in.dict()
         trip["id"] = 0
+        trip["rider_id"] = account_id
         return trip
-    
+
 def test_create_trip():
     app.dependency_overrides[TripQueries] = FakeTripQueries
     app.dependency_overrides[authenticator.try_get_current_account_data] = (fake_try_get_current_account_data)
@@ -36,6 +37,8 @@ def test_create_trip():
     assert res.status_code == 200
     assert res.json() == {
         "id": 0,
+        "rider_id": 12345,
+        "driver_id": None,
         "date_time": "2024-03-18T21:36:21.152000+00:00",
         "pick_up_location": "string",
         "drop_off_location": "string",

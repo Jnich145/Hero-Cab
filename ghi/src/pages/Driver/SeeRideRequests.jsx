@@ -6,7 +6,7 @@ const SeeRideRequests = () => {
     const [rideRequests, setRideRequests] = useState([])
 
     const fetchRideRequests = async () => {
-        const url = `${baseUrl}/api/trips`
+        const url = `${baseUrl}/api/trips/others`
         const response = await fetch(url, {
             credentials: 'include',
             headers: {

@@ -34,7 +34,42 @@ class TripQueries:
                     )
                     data.append(trip)
                 return data
-            
+
+    def get_other_trips(self, account_id) -> List[TripOut]:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT id
+                        , date_time
+                        , pick_up_location
+                        , drop_off_location
+                        , map_url
+                        , instructions
+                        , status
+                        , rider_id
+                        , driver_id
+                    FROM trips
+                    WHERE rider_id != %s;
+                    """,
+                    [account_id]
+                )
+                data = []
+                for record in db:
+                    trip = TripOut(
+                        id=record[0],
+                        date_time=record[1],
+                        pick_up_location=record[2],
+                        drop_off_location=record[3],
+                        map_url=record[4],
+                        instructions=record[5],
+                        status=record[6],
+                        rider_id=record[7],
+                        driver_id=record[8]
+                    )
+                    data.append(trip)
+                return data
+
     def get_mine(self, account_id) -> List[TripOut]:
         with pool.connection() as conn:
             with conn.cursor() as db:
@@ -107,6 +142,42 @@ class TripQueries:
                     rider_id=rider
                 )
 
+    def update_trip(self, account_id, trip_id) -> TripOut:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    UPDATE trips
+                    SET driver_id = %s,
+                    WHERE id = %s
+                    RETURNING id
+                        , date_time
+                        , pick_up_location
+                        , drop_off_location
+                        , map_url
+                        , instructions
+                        , status
+                        , rider_id
+                        , driver_id;
+                    """,
+                    [
+                        account_id,
+                        trip_id
+                    ]
+                )
+                record = result.fetchone()
+                return TripOut(
+                    id=record[0],
+                    date_time=record[1],
+                    pick_up_location=record[2],
+                    drop_off_location=record[3],
+                    map_url=record[4],
+                    instructions=record[5],
+                    status=record[6],
+                    rider_id=record[7],
+                    driver_id=record[8]
+                )
+
     # def get_one(self, id: int) -> Optional[TripOut]:
     #     with pool.connection() as conn:
     #         with conn.cursor() as db:
@@ -132,22 +203,6 @@ class TripQueries:
     #             )
     #             return trip
 
-    # def update_trip(self, id: int, pick_up_location: str, drop_off_location: str, instructions: str, status: str) -> bool:
-    #     with pool.connection() as conn:
-    #         with conn.cursor() as db:
-    #             result = db.execute(
-    #                 """
-    #                 UPDATE trips
-    #                 SET pick_up_location = %s,
-    #                     drop_off_location = %s,
-    #                     instructions = %s,
-    #                     status = %s
-    #                 WHERE id = %s
-    #                 """,
-    #                 (pick_up_location, drop_off_location, instructions, status, id)
-    #             )
-    #             conn.commit()  # Commit the transaction to save changes
-    #             return db.rowcount > 0  # Return True if any rows were updated, otherwise False
 
     # def delete(self, id: int) -> None:
     #     with pool.connection() as conn:
@@ -264,5 +319,3 @@ class TripQueries:
     #                 status=trip.status
     #             )
     #             return trip
-
-
