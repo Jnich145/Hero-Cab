@@ -35,14 +35,14 @@ const History = () => {
             })
 
         if (!response.ok) {
-            throw new Error('Failed to fetch ride history')
+            throw new Error('Failed to fetch driver history')
         }
 
             const data = await response.json()
             setDriverTrips(data)
         } catch (error) {
             console.error('Error fetching ride history:', error)
-            setErrorMessage('Failed to load ride history')
+            setErrorMessage('Failed to load driver history')
         }
     }
 

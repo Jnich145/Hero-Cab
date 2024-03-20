@@ -66,7 +66,7 @@ def get_accounts(
     if account_data:
         return accounts.get()
 
-@router.get("/api/accounts/{email}", response_model=AccountOut)
+@router.get("/api/accounts/mine", response_model=AccountOutWithPassword)
 def get_account(
     accounts: AccountQueries = Depends(),
     account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
