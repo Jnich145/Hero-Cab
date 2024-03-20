@@ -1,14 +1,6 @@
-from pydantic import BaseModel
+from models import Account, AccountIn, AccountOut, AccountOutWithPassword, AccountUpdateDetails
 from queries.pool import pool
-from models import Account, AccountIn, AccountOut, AccountOutWithPassword, AccountUpdateWithoutPassword, AccountUpdatePassword
 from typing import List
-
-class DuplicateAccountError(ValueError):
-    pass
-
-class ValidationError(ValueError):
-    pass
-
 
 class AccountQueries:
     def get(self) -> List[AccountOut]:
@@ -21,6 +13,8 @@ class AccountQueries:
                         , first_name
                         , last_name
                         , special_needs
+                        , phone_number
+                        , address
                     FROM accounts
                     """
                 )
@@ -29,9 +23,10 @@ class AccountQueries:
                     account = AccountOut(
                         id=record[0],
                         email=record[1],
-                        first_name=record[2],
-                        last_name=record[3],
-                        special_needs=record[4]
+                        hashed_password=record[2],
+                        first_name=record[3],
+                        last_name=record[4],
+                        special_needs=record[5]
                     )
                     data.append(account)
                 return data
@@ -47,6 +42,8 @@ class AccountQueries:
                         , first_name
                         , last_name
                         , special_needs
+                        , phone_number
+                        , address
                     FROM accounts
                     WHERE email = %s;
                     """,
@@ -61,7 +58,9 @@ class AccountQueries:
                     hashed_password=record[2],
                     first_name=record[3],
                     last_name=record[4],
-                    special_needs=record[5]
+                    special_needs=record[5],
+                    phone_number=record[6],
+                    address=record[7]
                 )
 
     def create(self, account: AccountIn, hashed_password: str) -> Account:
@@ -98,36 +97,46 @@ class AccountQueries:
                     special_needs=account.special_needs,
                 )
 
-    def update(self, account: AccountUpdateWithoutPassword) -> Account:
+    def update(self, account: AccountUpdateDetails, email) -> Account:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 result = db.execute(
                     """
                     UPDATE accounts SET
-                        first_name = %s
-                        , last_name = %s
-                        , special_needs = %s
+                        first_name = CASE WHEN %s != '' THEN %s ELSE first_name END,
+                        last_name = CASE WHEN %s != '' THEN %s ELSE last_name END,
+                        phone_number = CASE WHEN %s != '' THEN %s ELSE phone_number END,
+                        address = CASE WHEN %s != '' THEN %s ELSE address END,
+                        special_needs = %s
                     WHERE email = %s
-                    RETURNING id, email, password;
+                    RETURNING id, password;
                     """,
                     [
                         account.first_name,
+                        account.first_name,
                         account.last_name,
+                        account.last_name,
+                        account.phone_number,
+                        account.phone_number,
+                        account.address,
+                        account.address,
                         account.special_needs,
-                        account.email
+                        email
                     ],
                 )
                 record = result.fetchone()
                 return Account(
                     id=record[0],
-                    email=record[1],
-                    hashed_password=record[2],
+                    email=email,
+                    hashed_password=record[1],
                     first_name=account.first_name,
                     last_name=account.last_name,
                     special_needs=account.special_needs,
+                    phone_number=account.phone_number,
+                    address=account.address
                 )
 
-    def update_password(self, account: AccountUpdatePassword, hashed_password: str) -> Account:
+    def update_password(self, hashed_password: str, email) -> Account:
         with pool.connection() as conn:
             with conn.cursor() as db:
                 result = db.execute(
@@ -139,14 +148,14 @@ class AccountQueries:
                     """,
                     [
                         hashed_password,
-                        account.email
+                        email
                     ],
                 )
                 record = result.fetchone()
 
                 return Account(
                     id=record[0],
-                    email=account.email,
+                    email=email,
                     hashed_password=hashed_password,
                     first_name=record[1],
                     last_name=record[2],

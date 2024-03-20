@@ -1,42 +1,27 @@
-from fastapi import (
-    Depends,
-    HTTPException,
-    status,
-    Response,
-    APIRouter,
-    Request,
-)
-from jwtdown_fastapi.authentication import Token
+from queries.accounts import AccountQueries
 from authenticator import authenticator
-
-from pydantic import BaseModel
-from typing import List, Optional
-
-from queries.accounts import (
+from typing import List
+from models import (
     Account,
     AccountIn,
     AccountOut,
-    AccountQueries,
     DuplicateAccountError,
     AccountOutWithPassword,
-    AccountUpdateWithoutPassword,
+    AccountUpdateDetails,
     AccountUpdatePassword,
-    ValidationError
+    ValidationError,
+    AccountForm,
+    AccountToken,
+    HttpError
 )
-
-
-class AccountForm(BaseModel):
-    username: str
-    password: str
-
-
-class AccountToken(Token):
-    account: AccountOut
-
-
-class HttpError(BaseModel):
-    detail: str
-
+from fastapi import (
+    Depends,
+    HTTPException,
+    Response,
+    APIRouter,
+    Request,
+    status
+)
 
 router = APIRouter()
 
@@ -76,70 +61,45 @@ async def create_account(
 @router.get("/api/accounts", response_model=List[AccountOut])
 def get_accounts(
     accounts: AccountQueries = Depends(),
+    account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
 ) -> AccountOut:
-     return accounts.get()
+    if account_data:
+        return accounts.get()
 
-@router.get("/api/accounts/{email}", response_model=AccountOutWithPassword)
+@router.get("/api/accounts/{email}", response_model=AccountOut)
 def get_account(
-    email: str,
     accounts: AccountQueries = Depends(),
+    account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
 ) -> AccountOutWithPassword:
-     return accounts.get_one(email)
+    return accounts.get_one(account_data.get("email"))
 
 @router.put("/api/accounts/{email}/update", response_model=Account | HttpError)
 async def update_account(
-    info: AccountUpdateWithoutPassword,
-    email: str,
-    verified_account: Optional[AccountOut] = Depends(authenticator.try_get_current_account_data),
+    info: AccountUpdateDetails,
+    account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
     accounts: AccountQueries = Depends(),
 ):
-    if verified_account is None:
-        if email == info.email:
-            try:
-                account = accounts.update(info)
-            except ValidationError:
-                raise HTTPException(
-                    status_code=status.HTTP_403_FORBIDDEN,
-                    detail="Cannot edit other user's account",
-                )
-            return account
+    try:
+        account = accounts.update(info, account_data.get("email"))
+    except ValidationError:
         raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Not authenticated"
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Some other issue",
         )
+    return account
 
-    if verified_account.get("email") == info.email:
-        try:
-            account = accounts.update(info)
-        except ValidationError:
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="Cannot edit other user's account",
-            )
-        return account
-
-@router.put("/api/accounts/{email}/update-password", response_model=AccountToken | HttpError)
+@router.put("/api/accounts/update-password", response_model=Account | HttpError)
 async def update_password(
     info: AccountUpdatePassword,
-    email: str,
-    request: Request,
-    response: Response,
-    verified_account: AccountOut = Depends(authenticator.try_get_current_account_data),
+    account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
     accounts: AccountQueries = Depends(),
 ):
-    if verified_account is None:
-        if email == info.email:
-            hashed_password = authenticator.hash_password(info.password)
-            account = accounts.update_password(info, hashed_password)
-            authenticator.logout(request, response)
-            form = AccountForm(username=info.email, password=info.password)
-            token = await authenticator.login(response, request, form, accounts)
-            return AccountToken(account=account, **token.dict())
-
-    if verified_account.get("email") == info.email:
+    try:
         hashed_password = authenticator.hash_password(info.password)
-        account = accounts.update_password(info, hashed_password)
-        authenticator.logout(request, response)
-        form = AccountForm(username=info.email, password=info.password)
-        token = await authenticator.login(response, request, form, accounts)
-        return AccountToken(account=account, **token.dict())
+        account = accounts.update_password(hashed_password, account_data.get("email"))
+    except ValidationError:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Some other issue",
+        )
+    return account

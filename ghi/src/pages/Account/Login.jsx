@@ -1,6 +1,7 @@
 import useToken from "@galvanize-inc/jwtdown-for-react";
+import ReviewCarousel from "/app/src/components/ReviewCarousel";
 import { useNavigate } from 'react-router-dom'
-import { useState } from "react";
+import {  useState } from "react";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -53,6 +54,7 @@ const Login = () => {
           </div>
         </form>
       </div>
+      <ReviewCarousel />
     </div>
   );
 }

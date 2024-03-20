@@ -1,9 +1,31 @@
 import { Link, NavLink } from 'react-router-dom';
 import LogoutButton from './LogoutButton';
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
+import { useEffect, useState } from 'react';
 
 const Nav = () => {
     const { token } = useAuthContext()
+    const [name, setName] = useState('')
+
+    const fetchName = async () => {
+        const url = `http://localhost:8000/api/accounts/mine`
+        try {
+            const response = await fetch(url, { credentials: "include" })
+            if (response.ok) {
+                const data = await response.json()
+                setName(data.first_name ? data.first_name : data)
+
+            } else {
+                console.error('Error:', response.status, response.statusText)
+            }
+        } catch (error) {
+            console.error('Error', error.message)
+        }
+    }
+
+    useEffect(() => {
+        fetchName()
+    }, [])
 
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -38,7 +60,6 @@ const Nav = () => {
             </li> */}
                         {token ? (
                             <>
-                                <LogoutButton />
                                 <li>
                                     <NavLink
                                         to="/trips/new"
@@ -49,7 +70,7 @@ const Nav = () => {
                                 </li>
                                 <li>
                                     <NavLink to="/trips" className="nav-link">
-                                        Ride History
+                                        Your History
                                     </NavLink>
                                 </li>
                                 <li>
@@ -65,6 +86,10 @@ const Nav = () => {
                                         Profile
                                     </NavLink>
                                 </li>
+                                <LogoutButton />
+                                {/* <li className="nav-item">
+                                    <span className="nav-link">Welcome, {name}</span>
+                                </li> */}
                             </>
                         ) : (
                             <>
@@ -81,20 +106,7 @@ const Nav = () => {
                             </>
                         )}
                     </ul>
-                    <form className="d-flex" role="search">
-                        <input
-                            className="form-control me-2"
-                            type="search"
-                            placeholder="Search"
-                            aria-label="Search"
-                        />
-                        <button
-                            className="btn btn-outline-success"
-                            type="submit"
-                        >
-                            Search
-                        </button>
-                    </form>
+                    <span className="navbar-text ms-auto">{token ? `Welcome, ${ name }` : 'Welcome'}</span>
                 </div>
             </div>
         </nav>
@@ -102,4 +114,3 @@ const Nav = () => {
 }
 
 export default Nav
-

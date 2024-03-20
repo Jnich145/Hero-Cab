@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 
 function Profile() {
     const [profile, setProfile] = useState({})
     const navigate = useNavigate()
 
-
-    const fetchProfile = async (email) => {
-        const url = `http://localhost:8000/api/accounts/${email}`
+    const fetchProfile = async () => {
+        const url = `http://localhost:8000/api/accounts/mine`
         try {
-            const response = await fetch(url, {credentials: "include"})
+            const response = await fetch(url, { credentials: "include" })
             if (response.ok) {
                 const data = await response.json()
                 setProfile(data)
@@ -22,24 +21,8 @@ function Profile() {
         }
     }
 
-    const fetchEmail = async () => {
-        const url = `http://localhost:8000/token`
-        try {
-            const response = await fetch(url, {credentials: "include"})
-            if (response.ok) {
-                const data = await response.json()
-                fetchProfile(data.account.email)
-
-            } else {
-                console.error('Error:', response.status, response.statusText)
-            }
-        } catch (error) {
-            console.error('Error', error.message)
-        }
-    }
-
     useEffect(() => {
-        fetchEmail()
+        fetchProfile()
     }, [])
 
     return (
@@ -51,6 +34,8 @@ function Profile() {
                             <th>email</th>
                             <th>first_name</th>
                             <th>last_name</th>
+                            <th>phone_number</th>
+                            <th>address</th>
                             <th>special_needs</th>
                             <th>update</th>
                         </tr>
@@ -60,10 +45,12 @@ function Profile() {
                             <td>{ profile.email }</td>
                             <td>{ profile.first_name }</td>
                             <td>{ profile.last_name }</td>
+                            <td>{ profile.phone_number }</td>
+                            <td>{ profile.address }</td>
                             <td>{ profile.special_needs ? "true" : "false"}</td>
                             <td>
                                 <div>
-                                    <input className="btn btn-primary" type="submit" value="update" onClick={() => navigate('/update-profile')}/>
+                                    <input className="btn btn-primary" type="submit" value="update" onClick={() => navigate('/update-profile')} />
                                 </div>
                             </td>
                         </tr>
@@ -72,6 +59,6 @@ function Profile() {
             </div>
         </div>
     )
-};
+}
 
 export default Profile

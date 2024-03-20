@@ -1,48 +1,41 @@
 import { useState, useEffect } from 'react'
 import { useAuthContext } from '@galvanize-inc/jwtdown-for-react'
-import { useNavigate } from 'react-router-dom'
 
 const SeeRideRequests = () => {
     const { baseUrl } = useAuthContext()
     const [rideRequests, setRideRequests] = useState([])
-    const navigate = useNavigate()
 
-    useEffect(() => {
-        const fetchRideRequests = async () => {
-            const url = `${baseUrl}/api/trips`
-            const response = await fetch(url, {
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-            })
-
-            if (response.ok) {
-                const data = await response.json()
-                setRideRequests(data)
-            } else {
-                console.error('Failed to fetch ride requests')
-            }
-        }
-
-        fetchRideRequests()
-    }, [baseUrl])
-
-    const handleResponseToRequest = async (requestId, accept) => {
-        const url = `${baseUrl}/api/trips/${requestId}`
+    const fetchRideRequests = async () => {
+        const url = `${baseUrl}/api/trips/others`
         const response = await fetch(url, {
-            method: 'PUT',
             credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ accept }),
         })
 
         if (response.ok) {
-            setRideRequests(
-                rideRequests.filter((request) => request.id !== requestId)
-            )
+            const data = await response.json()
+            setRideRequests(data)
+        } else {
+            console.error('Failed to fetch ride requests')
+        }
+    }
+
+    useEffect(() => {
+        fetchRideRequests()
+    }, [baseUrl])
+
+
+    const handleAcceptTrip = async (requestId) => {
+        const url = `${baseUrl}/api/trips/${requestId}`
+        const response = await fetch(url, {
+            method: 'PUT',
+            credentials: 'include'
+        })
+
+        if (response.ok) {
+            fetchRideRequests()
         } else {
             console.error('Failed to respond to ride request')
         }
@@ -61,16 +54,15 @@ const SeeRideRequests = () => {
                             <div className="btn-group float-end">
                                 <button
                                     onClick={() =>
-                                        handleResponseToRequest(
-                                            request.id,
-                                            true
+                                        handleAcceptTrip(
+                                            request.id
                                         )
                                     }
                                     className="btn btn-success"
                                 >
                                     Accept
                                 </button>
-                                <button
+                                {/* <button
                                     onClick={() =>
                                         handleResponseToRequest(
                                             request.id,
@@ -80,7 +72,7 @@ const SeeRideRequests = () => {
                                     className="btn btn-danger"
                                 >
                                     Decline
-                                </button>
+                                </button> */}
                             </div>
                         </li>
                     ))}

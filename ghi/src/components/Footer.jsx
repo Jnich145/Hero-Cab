@@ -1,6 +1,6 @@
-import React from 'react';
+import React from 'react'
 // import { ClickButton } from './components/ClickButton';
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 import '../App.css'
 
 function Footer() {
@@ -125,4 +125,4 @@ function Footer() {
     )
 }
 
-export default Footer;
+export default Footer
