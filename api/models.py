@@ -1,6 +1,15 @@
+from jwtdown_fastapi.authentication import Token
 from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
+
+class HttpError(BaseModel):
+    detail: str
+class DuplicateAccountError(ValueError):
+    pass
+
+class ValidationError(ValueError):
+    pass
 
 class Account(BaseModel):
     id: int
@@ -41,6 +50,14 @@ class AccountUpdatePassword(BaseModel):
 class AccountOutWithPassword(AccountOut):
     hashed_password: str
 
+class AccountForm(BaseModel):
+    username: str
+    password: str
+
+
+class AccountToken(Token):
+    account: AccountOut
+
 class DeleteStatus(BaseModel):
     status: bool
 
@@ -68,7 +85,6 @@ class Trip(BaseModel):
     drop_off_location: str
     map_url: str
     instructions: str
-    status: str
     rider_id: int
     driver_id: Optional[int]
 
@@ -78,7 +94,6 @@ class TripIn(BaseModel):
     drop_off_location: str
     map_url: str
     instructions: str
-    status: str
 
 class TripOut(BaseModel):
     id: int
@@ -87,7 +102,6 @@ class TripOut(BaseModel):
     drop_off_location: str
     map_url: str
     instructions: str
-    status: str
     rider_id: int
     driver_id: Optional[int]
 

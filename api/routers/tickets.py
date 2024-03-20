@@ -1,3 +1,7 @@
+from queries.tickets import TicketQueries
+from authenticator import authenticator
+from queries.accounts import AccountOut
+from typing import List
 from fastapi import (
     Depends,
     HTTPException,
@@ -6,25 +10,11 @@ from fastapi import (
     APIRouter,
     Request,
 )
-
-from jwtdown_fastapi.authentication import Token
-from authenticator import authenticator
-
-from pydantic import BaseModel
-from typing import List
-
-from queries.tickets import (
+from models import (
     TicketIn,
     TicketOut,
-    TicketQueries,
+    HttpError
 )
-
-from queries.accounts import(
-    AccountOut
-)
-
-class HttpError(BaseModel):
-    detail: str
 
 router = APIRouter()
 

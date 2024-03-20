@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
-import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 
 function Profile() {
     const [profile, setProfile] = useState({})

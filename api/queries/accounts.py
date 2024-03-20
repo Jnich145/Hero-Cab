@@ -1,14 +1,6 @@
-from pydantic import BaseModel
+from models import Account, AccountIn, AccountOut, AccountOutWithPassword, AccountUpdateDetails
 from queries.pool import pool
-from models import Account, AccountIn, AccountOut, AccountOutWithPassword, AccountUpdateDetails, AccountUpdatePassword
 from typing import List
-
-class DuplicateAccountError(ValueError):
-    pass
-
-class ValidationError(ValueError):
-    pass
-
 
 class AccountQueries:
     def get(self) -> List[AccountOut]:
@@ -61,7 +53,6 @@ class AccountQueries:
                 record = result.fetchone()
                 if record is None:
                     return None
-                print("address=", record[7])
                 return AccountOutWithPassword(
                     id=record[0],
                     email=record[1],
@@ -110,7 +101,6 @@ class AccountQueries:
     def update(self, account: AccountUpdateDetails, email) -> Account:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                print("----------------------------------------------------------------", account)
                 result = db.execute(
                     """
                     UPDATE accounts SET

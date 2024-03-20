@@ -10,7 +10,7 @@ import Error from './pages/Error'
 import ReviewDetails from './pages/ReviewDetails'
 import UpdateProfile from './pages/Account/UpdateProfile'
 import Profile from './pages/Account/Profile'
-import RiderHistory from './pages/Trips/History'
+import History from './pages/Trips/History'
 import SeeRideRequests from './pages/Trips/SeeRideRequests'
 import RequestTrip from './pages/Trips/RequestTrip'
 
@@ -38,7 +38,7 @@ const router = createBrowserRouter([
             },
             {
                 path: 'trips',
-                element: <RiderHistory />,
+                element: <History />,
             },
             {
                 path: 'trips/requests',

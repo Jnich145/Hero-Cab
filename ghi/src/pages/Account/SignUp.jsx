@@ -1,7 +1,7 @@
-import { useState } from "react";
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
-import { useNavigate } from "react-router-dom";
 import { login, register } from "../../components/auth";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const SignUp = () => {
     const [formData, setFormData] = useState({

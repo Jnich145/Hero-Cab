@@ -1,42 +1,27 @@
-from fastapi import (
-    Depends,
-    HTTPException,
-    status,
-    Response,
-    APIRouter,
-    Request,
-)
-from jwtdown_fastapi.authentication import Token
+from queries.accounts import AccountQueries
 from authenticator import authenticator
-
-from pydantic import BaseModel
-from typing import List, Optional
-
-from queries.accounts import (
+from typing import List
+from models import (
     Account,
     AccountIn,
     AccountOut,
-    AccountQueries,
     DuplicateAccountError,
     AccountOutWithPassword,
     AccountUpdateDetails,
     AccountUpdatePassword,
-    ValidationError
+    ValidationError,
+    AccountForm,
+    AccountToken,
+    HttpError
 )
-
-
-class AccountForm(BaseModel):
-    username: str
-    password: str
-
-
-class AccountToken(Token):
-    account: AccountOut
-
-
-class HttpError(BaseModel):
-    detail: str
-
+from fastapi import (
+    Depends,
+    HTTPException,
+    Response,
+    APIRouter,
+    Request,
+    status
+)
 
 router = APIRouter()
 
@@ -94,7 +79,6 @@ async def update_account(
     account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
     accounts: AccountQueries = Depends(),
 ):
-    print("Info type:", type(info), info.first_name == None)
     try:
         account = accounts.update(info, account_data.get("email"))
     except ValidationError:

@@ -29,8 +29,7 @@ def test_create_trip():
         "pick_up_location": "string",
         "drop_off_location": "string",
         "map_url": "string",
-        "instructions": "string",
-        "status": "string"
+        "instructions": "string"
     }
     res = client.post("/api/trips", json=trip_in)
 
@@ -43,6 +42,5 @@ def test_create_trip():
         "pick_up_location": "string",
         "drop_off_location": "string",
         "map_url": "string",
-        "instructions": "string",
-        "status": "string"
+        "instructions": "string"
     }

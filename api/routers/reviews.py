@@ -1,3 +1,7 @@
+from queries.reviews import ReviewQueries
+from queries.accounts import AccountOut
+from authenticator import authenticator
+from typing import List
 from fastapi import (
     Depends,
     HTTPException,
@@ -6,24 +10,11 @@ from fastapi import (
     APIRouter,
     Request,
 )
-from jwtdown_fastapi.authentication import Token
-from authenticator import authenticator
-
-from pydantic import BaseModel
-from typing import List
-
-from queries.reviews import (
+from models import (
     ReviewIn,
     ReviewOut,
-    ReviewQueries,
+    HttpError
 )
-
-from queries.accounts import(
-    AccountOut
-)
-
-class HttpError(BaseModel):
-    detail: str
 
 router = APIRouter()
 
@@ -35,14 +26,12 @@ def get_reviews(
     if account_data:
         return reviews.get()
 
-
 @router.post("/api/reviews", response_model=ReviewOut)
 async def create_review(
     review: ReviewIn,
     reviews: ReviewQueries = Depends(),
     account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
 ) -> ReviewOut:
-    print(account_data)
     if account_data:
         return reviews.create(review)
 
