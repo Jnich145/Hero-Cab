@@ -42,15 +42,8 @@ const router = createBrowserRouter([
                 element: <RiderHistory />,
             },
             {
-<<<<<<< HEAD
                 path: 'trips/requests',
                 element: <SeeRideRequests />,
-=======
-                path: 'update-profile', element: <UpdateProfile />,
-            },
-            {
-                path: 'profile', element: <Profile />,
->>>>>>> 6839c85073dbf0e14db44a89b5e01d865d27fc0e
             },
             {
                 path: 'settings',

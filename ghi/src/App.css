@@ -36,12 +36,30 @@ body, html {
 
 .container-wrapper {
     display: flex;
+    flex: 1;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: 65vh;
     width: 100%;
+    box-sizing: border-box;
 }
 
 main {
     flex: 1;
     width: 100%;
+}
+
+.page-footer {
+    flex-grow: 0;
+    flex-shrink: 0;
+}
+
+#root {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.footer {
+    /* padding-top: 0; */
+    margin-top: auto;
 }

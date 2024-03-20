@@ -1,12 +1,12 @@
 import React from 'react';
 // import { ClickButton } from './components/ClickButton';
 import { Link } from 'react-router-dom';
-import './CSS/Footer.css'
+import '../App.css'
 
 function Footer() {
     return (
         <div className="container-wrapper">
-            <footer className="bg-body-tertiary text-center text-lg-start">
+            <footer className="footer bg-body-tertiary text-center text-lg-start">
                 <div
                     className="text-center p-3"
                     style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}
@@ -18,10 +18,10 @@ function Footer() {
                         <p className="footer-subscription-text">
                             You can unsubscribe at any time.
                         </p>
-                        <div className="input-group mb-3">
+                        <div className="input-group mb-3 justify-content-center">
                             <input
                                 type="email"
-                                className="form-control"
+                                className="form-control-alternative col-4"
                                 placeholder="Your Email"
                                 aria-label="Recipient's email"
                                 aria-describedby="button-addon2"
@@ -38,7 +38,7 @@ function Footer() {
                     <div className="footer-links">
                         <div className="container p-4">
                             <div className="row">
-                                <div className="col-lg-3 col-md-6 mb-4 mb-md-0">
+                                <div className="col-lg-4 col-md-6 mb-4 mb-md-0">
                                     <h5 className="text-uppercase">About Us</h5>
                                     <ul className="list-unstyled">
                                         <li>
@@ -66,7 +66,7 @@ function Footer() {
                                         </li>
                                     </ul>
                                 </div>
-                                <div className="col-lg-3 col-md-6 mb-4 mb-md-0">
+                                <div className="col-lg-4 col-md-6 mb-4 mb-md-0">
                                     <h5 className="text-uppercase">
                                         Contact Us
                                     </h5>
@@ -83,7 +83,7 @@ function Footer() {
                                         </li>
                                     </ul>
                                 </div>
-                                <div className="col-lg-3 col-md-6 mb-4 mb-md-0">
+                                <div className="col-lg-4 col-md-6 mb-4 mb-md-0">
                                     <h5 className="text-uppercase">
                                         Social Media
                                     </h5>
@@ -125,4 +125,4 @@ function Footer() {
     )
 }
 
-export default Footer
+export default Footer;
