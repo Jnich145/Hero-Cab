@@ -73,7 +73,7 @@ def get_account(
 ) -> AccountOutWithPassword:
     return accounts.get_one(account_data.get("email"))
 
-@router.put("/api/accounts/{email}/update", response_model=Account | HttpError)
+@router.put("/api/accounts/update", response_model=Account | HttpError)
 async def update_account(
     info: AccountUpdateDetails,
     account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
