@@ -13,7 +13,6 @@ const App = () => {
 
                 <Outlet />
 
-                <ReviewCarousel />
 
                 <Footer />
             </div>
