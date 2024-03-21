@@ -1,15 +1,29 @@
+from jwtdown_fastapi.authentication import Authenticator
 from jwtdown_fastapi.authentication import Token
 from pydantic import BaseModel
 from datetime import datetime
 from typing import Optional
 
+
+class MyAuthenticator(Authenticator):
+    pass
+
+
 class HttpError(BaseModel):
     detail: str
+
+
 class DuplicateAccountError(ValueError):
     pass
 
+
 class ValidationError(ValueError):
     pass
+
+
+class UniqueViolation(ValueError):
+    pass
+
 
 class Account(BaseModel):
     id: int
@@ -21,12 +35,14 @@ class Account(BaseModel):
     phone_number: Optional[str]
     address: Optional[str]
 
+
 class AccountIn(BaseModel):
     password: str
     email: str
     first_name: str
     last_name: str
     special_needs: bool
+
 
 class AccountOut(BaseModel):
     id: int
@@ -37,6 +53,7 @@ class AccountOut(BaseModel):
     phone_number: Optional[str]
     address: Optional[str]
 
+
 class AccountUpdateDetails(BaseModel):
     first_name: Optional[str]
     last_name: Optional[str]
@@ -44,11 +61,14 @@ class AccountUpdateDetails(BaseModel):
     address: Optional[str]
     special_needs: bool
 
+
 class AccountUpdatePassword(BaseModel):
     password: str
 
+
 class AccountOutWithPassword(AccountOut):
     hashed_password: str
+
 
 class AccountForm(BaseModel):
     username: str
@@ -58,8 +78,10 @@ class AccountForm(BaseModel):
 class AccountToken(Token):
     account: AccountOut
 
+
 class DeleteStatus(BaseModel):
     status: bool
+
 
 class Review(BaseModel):
     id: int
@@ -69,11 +91,13 @@ class Review(BaseModel):
     trip_id: int
     rider_id: int
 
+
 class ReviewIn(BaseModel):
     date_time: datetime
     rating: int
     description: str
     trip_id: int
+
 
 class ReviewOut(BaseModel):
     id: int
@@ -85,6 +109,7 @@ class ReviewOut(BaseModel):
     pick_up_location: Optional[str]
     drop_off_location: Optional[str]
 
+
 class Trip(BaseModel):
     id: int
     date_time: datetime
@@ -95,12 +120,14 @@ class Trip(BaseModel):
     rider_id: int
     driver_id: Optional[int]
 
+
 class TripIn(BaseModel):
     date_time: datetime
     pick_up_location: str
     drop_off_location: str
     map_url: str
     instructions: str
+
 
 class TripOut(BaseModel):
     id: int
@@ -112,6 +139,7 @@ class TripOut(BaseModel):
     rider_id: int
     driver_id: Optional[int]
 
+
 class Ticket(BaseModel):
     id: int
     description: str
@@ -119,11 +147,13 @@ class Ticket(BaseModel):
     trip_id: int
     date_time: datetime
 
+
 class TicketIn(BaseModel):
     description: str
     user_id: int
     trip_id: int
     date_time: datetime
+
 
 class TicketOut(BaseModel):
     id: int

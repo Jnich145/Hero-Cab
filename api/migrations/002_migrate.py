@@ -1,6 +1,6 @@
 steps = [
     [
-    """
+        """
     CREATE TABLE trips (
         id SERIAL PRIMARY KEY NOT NULL,
         date_time TIMESTAMP NOT NULL,
@@ -14,9 +14,9 @@ steps = [
         FOREIGN KEY (driver_id) REFERENCES accounts(id)
     )
     """,
-    # "Down" SQL statement
-    """
+        # "Down" SQL statement
+        """
     DROP TABLE trips;
-    """
+    """,
     ]
 ]

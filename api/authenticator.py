@@ -1,11 +1,7 @@
-import os
 from fastapi import Depends
 from jwtdown_fastapi.authentication import Authenticator
 from queries.accounts import AccountQueries, AccountOut, AccountOutWithPassword
-
-
-class DuplicateAccountError(ValueError):
-    pass
+import os
 
 
 class MyAuthenticator(Authenticator):
@@ -35,4 +31,5 @@ class MyAuthenticator(Authenticator):
         # You must return TWO values from this method.
         return account.email, AccountOut(**account.dict())
 
-authenticator = MyAuthenticator('a619c6143d50b4c76756b81adc8d80fc5f3fad30c3573e03f32d8a523d1e87ad')
+
+authenticator = MyAuthenticator(os.environ.get("SIGNING_KEY"))

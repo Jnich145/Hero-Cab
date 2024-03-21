@@ -1,6 +1,6 @@
 steps = [
     [
-    """
+        """
     CREATE TABLE accounts (
         id SERIAL PRIMARY KEY NOT NULL,
         password VARCHAR(255) NOT NULL,
@@ -12,9 +12,9 @@ steps = [
         address VARCHAR(255) NULL
     );
     """,
-    # "Down" SQL statement
-    """
+        # "Down" SQL statement
+        """
         DROP TABLE accounts;
-    """
+    """,
     ]
 ]

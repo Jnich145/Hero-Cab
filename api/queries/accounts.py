@@ -1,12 +1,19 @@
-from models import Account, AccountIn, AccountOut, AccountOutWithPassword, AccountUpdateDetails
+from models import (
+    Account,
+    AccountIn,
+    AccountOut,
+    AccountOutWithPassword,
+    AccountUpdateDetails,
+)
 from queries.pool import pool
 from typing import List
+
 
 class AccountQueries:
     def get(self) -> List[AccountOut]:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                result = db.execute(
+                db.execute(
                     """
                     SELECT id
                         , email
@@ -27,7 +34,7 @@ class AccountQueries:
                         last_name=record[3],
                         special_needs=record[4],
                         phone_number=record[5],
-                        address=record[6]
+                        address=record[6],
                     )
                     data.append(account)
                 return data
@@ -61,7 +68,7 @@ class AccountQueries:
                     last_name=record[4],
                     special_needs=record[5],
                     phone_number=record[6],
-                    address=record[7]
+                    address=record[7],
                 )
 
     def create(self, account: AccountIn, hashed_password: str) -> Account:
@@ -122,7 +129,7 @@ class AccountQueries:
                         account.address,
                         account.address,
                         account.special_needs,
-                        email
+                        email,
                     ],
                 )
                 record = result.fetchone()
@@ -134,7 +141,7 @@ class AccountQueries:
                     last_name=account.last_name,
                     special_needs=account.special_needs,
                     phone_number=account.phone_number,
-                    address=account.address
+                    address=account.address,
                 )
 
     def update_password(self, hashed_password: str, email) -> Account:
@@ -147,10 +154,7 @@ class AccountQueries:
                     WHERE email = %s
                     RETURNING id, first_name, last_name, special_needs;
                     """,
-                    [
-                        hashed_password,
-                        email
-                    ],
+                    [hashed_password, email],
                 )
                 record = result.fetchone()
 

@@ -1,6 +1,6 @@
 steps = [
     [
-    """
+        """
     CREATE TABLE tickets (
         id SERIAL PRIMARY KEY NOT NULL,
         description TEXT NOT NULL,
@@ -9,9 +9,9 @@ steps = [
         date_time TIMESTAMP NOT NULL
     );
     """,
-    # "Down" SQL statement
-    """
+        # "Down" SQL statement
+        """
     DROP TABLE tickets;
-    """
+    """,
     ],
 ]

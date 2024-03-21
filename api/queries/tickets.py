@@ -1,13 +1,13 @@
-from pydantic import BaseModel
 from queries.pool import pool
 from models import Ticket, TicketIn, TicketOut
 from typing import List, Optional
+
 
 class TicketQueries:
     def get(self) -> List[TicketOut]:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                result = db.execute(
+                db.execute(
                     """
                     SELECT *
                     FROM tickets
@@ -20,7 +20,7 @@ class TicketQueries:
                         description=record[1],
                         user_id=record[2],
                         trip_id=record[3],
-                        date_time=record[4]
+                        date_time=record[4],
                     )
                     data.append(ticket)
                 return data
@@ -33,9 +33,9 @@ class TicketQueries:
                     SELECT *
                     FROM tickets
                     WHERE id = %s
-                    """
-                    #working on joins --------------------------------------------------
-                    [id],
+                    """[
+                        id
+                    ],
                 )
                 record = result.fetchone()
                 if record is None:
@@ -45,8 +45,8 @@ class TicketQueries:
                     description=record[1],
                     user_id=record[2],
                     trip_id=record[3],
-                    date_time=record[4]
-                    )
+                    date_time=record[4],
+                )
                 return Ticket
 
     def create(self, ticket: TicketIn) -> Ticket:
@@ -68,7 +68,7 @@ class TicketQueries:
                         ticket.user_id,
                         ticket.trip_id,
                         ticket.date_time,
-                    ]
+                    ],
                 )
                 id = result.fetchone()[0]
                 return Ticket(
@@ -76,5 +76,5 @@ class TicketQueries:
                     description=ticket.description,
                     user_id=ticket.user_id,
                     trip_id=ticket.trip_id,
-                    date_time=ticket.date_time
+                    date_time=ticket.date_time,
                 )

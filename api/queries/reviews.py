@@ -1,13 +1,13 @@
-from pydantic import BaseModel
 from queries.pool import pool
-from models import Review, ReviewIn, ReviewOut
-from typing import List, Optional
+from models import ReviewIn, ReviewOut
+from typing import List
+
 
 class ReviewQueries:
     def get(self) -> List[ReviewOut]:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                result = db.execute(
+                db.execute(
                     """
                     SELECT *
                     FROM reviews
@@ -21,7 +21,7 @@ class ReviewQueries:
                         rating=record[2],
                         description=record[3],
                         trip_id=record[4],
-                        rider_id=record[5]
+                        rider_id=record[5],
                     )
                     data.append(review)
                 return data
@@ -35,7 +35,7 @@ class ReviewQueries:
                     FROM trips
                     WHERE id = %s;
                     """,
-                    [review.trip_id]
+                    [review.trip_id],
                 )
                 record = result.fetchone()
                 trip_rider_id = record[0]
@@ -62,8 +62,8 @@ class ReviewQueries:
                         review.rating,
                         review.description,
                         review.trip_id,
-                        rider_id
-                    ]
+                        rider_id,
+                    ],
                 )
                 id = result.fetchone()[0]
                 return ReviewOut(
@@ -72,20 +72,20 @@ class ReviewQueries:
                     rating=review.rating,
                     description=review.description,
                     trip_id=review.trip_id,
-                    rider_id=rider_id
+                    rider_id=rider_id,
                 )
 
     def get_my_reviews_driver(self, account_id) -> List[ReviewOut]:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                result = db.execute(
+                db.execute(
                     """
                     SELECT r.*, t.pick_up_location, t.drop_off_location
                     FROM reviews r
                     JOIN trips t ON r.trip_id = t.id
                     WHERE t.driver_id = %s;
                     """,
-                    [account_id]
+                    [account_id],
                 )
                 data = []
                 if db.rowcount == 0:
@@ -99,7 +99,7 @@ class ReviewQueries:
                         trip_id=record[4],
                         rider_id=record[5],
                         pick_up_location=record[6],
-                        drop_off_location=record[6]
+                        drop_off_location=record[6],
                     )
                     data.append(review)
                 return data
