@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 
@@ -17,6 +17,35 @@ function UpdateProfile() {
         password: '',
         password_confirmation: '',
     })
+
+    const fetchSpecialNeeds = async () => {
+        const url = `${baseUrl}/api/accounts/mine`
+        try {
+            const response = await fetch(url, { credentials: "include" })
+            if (response.ok) {
+                const data = await response.json()
+                formData["special_needs"] = data.special_needs
+                if (data.special_needs) {
+                    const setChecked = {
+                        target: {
+                        name: 'special_needs',
+                        type: 'checkbox',
+                        checked: true
+                        }
+                    }
+                    handleFormChange(setChecked)
+                }
+            } else {
+                console.error('Error:', response.status, response.statusText)
+            }
+        } catch (error) {
+            console.error('Error', error.message)
+        }
+    }
+
+    useEffect(() => {
+        fetchSpecialNeeds()
+    }, [])
 
     const handleFormChange = (event) => {
         const inputName = event.target.name
