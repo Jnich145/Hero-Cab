@@ -27,19 +27,19 @@ def get_reviews(
         return reviews.get()
 
 @router.post("/api/reviews", response_model=ReviewOut)
-async def create_review(
+async def create_review_as_rider(
     review: ReviewIn,
     reviews: ReviewQueries = Depends(),
     account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
 ) -> ReviewOut:
     if account_data:
-        return reviews.create(review)
+        return reviews.create_review_as_rider(review, account_data.get("id"))
+    #error should handle UniqueViolation: duplicate key value violates unique constraint
 
-@router.get("/api/reviews/{id}", response_model=ReviewOut)
-def get_review(
-    id: int,
+@router.get("/api/reviews/mine", response_model=List[ReviewOut] | None)
+def get_my_reviews_driver(
     reviews: ReviewQueries = Depends(),
     account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
-) -> ReviewOut:
+) -> ReviewOut | None:
     if account_data:
-        return reviews.get(id)
+        return reviews.get_my_reviews_driver(account_data.get("id"))

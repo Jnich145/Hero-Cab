@@ -26,18 +26,18 @@ function RequestTripForm() {
 
     const handleSubmit = async (event) => {
         event.preventDefault()
-        const currentDateTimeUTC = new Date().toISOString()
 
+        const currentDateTimeUTC = new Date().toISOString()
         const selectedDateTime = new Date(`${formData.date}T${formData.time}:00.000Z`)
         const selectedDateTimeUTC = new Date(selectedDateTime.getTime() + selectedDateTime.getTimezoneOffset() * 60000).toISOString()
-
-        if (selectedDateTimeUTC < currentDateTimeUTC) {
-            setError('Please select a date and time in the future')
+        const diffInMilliseconds = new Date(selectedDateTimeUTC) - new Date(currentDateTimeUTC)
+        const diffInHours = diffInMilliseconds / (1000 * 60 * 60)
+        if (diffInHours < .9) {
+            setError('Requests must be made at least 1 hour in advance')
             return
         }
-
         const tripsUrl = `${baseUrl}/api/trips/`
-        formData["date_time"] = `${formData.date}T${formData.time}:00.000Z`
+        formData["date_time"] = selectedDateTimeUTC
         delete formData.date
         delete formData.time
 

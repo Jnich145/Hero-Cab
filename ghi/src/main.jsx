@@ -13,6 +13,8 @@ import Profile from './pages/Account/Profile'
 import History from './pages/Trips/History'
 import SeeRideRequests from './pages/Trips/SeeRideRequests'
 import RequestTrip from './pages/Trips/RequestTrip'
+import CreateReview from './pages/Trips/CreateReview'
+import DriverReviews from './pages/Trips/DriverReviews'
 
 const router = createBrowserRouter([
     {
@@ -55,6 +57,14 @@ const router = createBrowserRouter([
                 path: 'profile',
                 element: <Profile />,
             },
+            {
+                path: 'review/new/:tripId',
+                element: <CreateReview />,
+            },
+            {
+                path: 'reviews/driver/mine',
+                element: <DriverReviews />,
+            }
         ],
     },
 ])

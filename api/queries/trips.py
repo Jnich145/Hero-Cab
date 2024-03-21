@@ -35,6 +35,37 @@ class TripQueries:
                     data.append(trip)
                 return data
 
+    def get_one(self, trip_id) -> TripOut:
+        with pool.connection() as conn:
+            with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT date_time
+                        , pick_up_location
+                        , drop_off_location
+                        , map_url
+                        , instructions
+                        , rider_id
+                        , driver_id
+                    FROM trips
+                    WHERE id = %s;
+                    """,
+                    [trip_id]
+                )
+                record = result.fetchone()
+                if record is None:
+                    return None
+                return TripOut(
+                    id=trip_id,
+                    date_time=record[0],
+                    pick_up_location=record[1],
+                    drop_off_location=record[2],
+                    map_url=record[3],
+                    instructions=record[4],
+                    rider_id=record[5],
+                    driver_id=record[6]
+                )
+
     def get_other_trips(self, account_id) -> List[TripOut]:
         with pool.connection() as conn:
             with conn.cursor() as db:
@@ -173,6 +204,17 @@ class TripQueries:
     def update(self, account_id, trip_id) -> TripOut:
         with pool.connection() as conn:
             with conn.cursor() as db:
+                result = db.execute(
+                    """
+                    SELECT rider_id
+                    FROM trips
+                    WHERE id = %s;
+                    """,
+                    [trip_id]
+                )
+                trip_rider_id = result.fetchone()[0]
+                if trip_rider_id == account_id:
+                    raise ValueError("Rider cannot also be driver")
                 result = db.execute(
                     """
                     UPDATE trips SET

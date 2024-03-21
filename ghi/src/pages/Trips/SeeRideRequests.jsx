@@ -7,12 +7,7 @@ const SeeRideRequests = () => {
 
     const fetchRideRequests = async () => {
         const url = `${baseUrl}/api/trips/others`
-        const response = await fetch(url, {
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        })
+        const response = await fetch(url, {credentials: 'include'})
 
         if (response.ok) {
             const data = await response.json()
@@ -24,7 +19,7 @@ const SeeRideRequests = () => {
 
     useEffect(() => {
         fetchRideRequests()
-    }, [baseUrl])
+    }, [])
 
 
     const handleAcceptTrip = async (requestId) => {
@@ -46,11 +41,13 @@ const SeeRideRequests = () => {
             <h5 className="card-header">Pending Ride Requests</h5>
             <div className="card-body">
                 <ul className="list-group list-group-flush">
-                    {rideRequests.map((request) => (
+                    {rideRequests.map((request) => {
+                        const requestDateTime = request.date_time + '.000Z'
+                        return (
                         <li key={request.id} className="list-group-item">
-                            Pick-up: {request.pick_up_location}, Drop-off:{' '}
-                            {request.drop_off_location}, Date/Time:{' '}
-                            {new Date(request.date_time).toLocaleString()}
+                            {`From ${request.pick_up_location} to ${request.drop_off_location} on
+                            ${new Date(requestDateTime).toLocaleDateString()} at
+                            ${new Date(requestDateTime).toLocaleTimeString()}`}
                             <div className="btn-group float-end">
                                 <button
                                     onClick={() =>
@@ -62,20 +59,9 @@ const SeeRideRequests = () => {
                                 >
                                     Accept
                                 </button>
-                                {/* <button
-                                    onClick={() =>
-                                        handleResponseToRequest(
-                                            request.id,
-                                            false
-                                        )
-                                    }
-                                    className="btn btn-danger"
-                                >
-                                    Decline
-                                </button> */}
                             </div>
                         </li>
-                    ))}
+                    )})}
                 </ul>
             </div>
         </div>

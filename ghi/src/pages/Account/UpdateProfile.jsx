@@ -1,7 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
+import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 
 function UpdateProfile() {
+    const { baseUrl } = useAuthContext()
     const navigate = useNavigate()
     const [error, setError] = useState('')
     const [formData, setFormData] = useState({
@@ -15,6 +17,35 @@ function UpdateProfile() {
         password: '',
         password_confirmation: '',
     })
+
+    const fetchSpecialNeeds = async () => {
+        const url = `${baseUrl}/api/accounts/mine`
+        try {
+            const response = await fetch(url, { credentials: "include" })
+            if (response.ok) {
+                const data = await response.json()
+                formData["special_needs"] = data.special_needs
+                if (data.special_needs) {
+                    const setChecked = {
+                        target: {
+                        name: 'special_needs',
+                        type: 'checkbox',
+                        checked: true
+                        }
+                    }
+                    handleFormChange(setChecked)
+                }
+            } else {
+                console.error('Error:', response.status, response.statusText)
+            }
+        } catch (error) {
+            console.error('Error', error.message)
+        }
+    }
+
+    useEffect(() => {
+        fetchSpecialNeeds()
+    }, [])
 
     const handleFormChange = (event) => {
         const inputName = event.target.name
@@ -36,7 +67,7 @@ function UpdateProfile() {
 
     const handleDetailSubmit = async (event) => {
         event.preventDefault()
-        const url = `http://localhost:8000/api/accounts/update`
+        const url = `${baseUrl}/api/accounts/update`
         const fetchConfig = {
             method: "put",
             body: JSON.stringify(formData),
@@ -66,7 +97,7 @@ function UpdateProfile() {
 
     const handlePasswordSubmit = async (event) => {
         event.preventDefault()
-        const url = `http://localhost:8000/api/accounts/update-password`
+        const url = `${baseUrl}/api/accounts/update-password`
         const fetchConfig = {
             method: "put",
             body: JSON.stringify({password: passwordData.password}),
