@@ -12,7 +12,7 @@ from models import (
     ValidationError,
     AccountForm,
     AccountToken,
-    HttpError
+    HttpError,
 )
 from fastapi import (
     Depends,
@@ -20,7 +20,7 @@ from fastapi import (
     Response,
     APIRouter,
     Request,
-    status
+    status,
 )
 
 router = APIRouter()
@@ -58,48 +58,83 @@ async def create_account(
     token = await authenticator.login(response, request, form, accounts)
     return AccountToken(account=account, **token.dict())
 
+
 @router.get("/api/accounts", response_model=List[AccountOut])
 def get_accounts(
     accounts: AccountQueries = Depends(),
-    account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
+    account_data: AccountOut = Depends(
+        authenticator.try_get_current_account_data
+    ),
 ) -> AccountOut:
     if account_data:
         return accounts.get()
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Unauthorized",
+    )
+
 
 @router.get("/api/accounts/mine", response_model=AccountOutWithPassword | None)
 def get_account(
     accounts: AccountQueries = Depends(),
-    account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
+    account_data: AccountOut = Depends(
+        authenticator.try_get_current_account_data
+    ),
 ) -> AccountOutWithPassword | None:
-    return accounts.get_one(account_data.get("email"))
+    if account_data:
+        return accounts.get_one(account_data.get("email"))
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Unauthorized",
+    )
+
 
 @router.put("/api/accounts/update", response_model=Account | HttpError)
 async def update_account(
     info: AccountUpdateDetails,
-    account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
+    account_data: AccountOut = Depends(
+        authenticator.try_get_current_account_data
+    ),
     accounts: AccountQueries = Depends(),
 ):
-    try:
-        account = accounts.update(info, account_data.get("email"))
-    except ValidationError:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Some other issue",
-        )
-    return account
+    if account_data:
+        try:
+            account = accounts.update(info, account_data.get("email"))
+        except ValidationError:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Cannot update account with those values",
+            )
+        return account
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Unauthorized",
+    )
 
-@router.put("/api/accounts/update-password", response_model=Account | HttpError)
+
+@router.put(
+    "/api/accounts/update-password", response_model=Account | HttpError
+)
 async def update_password(
     info: AccountUpdatePassword,
-    account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
+    account_data: AccountOut = Depends(
+        authenticator.try_get_current_account_data
+    ),
     accounts: AccountQueries = Depends(),
 ):
-    try:
-        hashed_password = authenticator.hash_password(info.password)
-        account = accounts.update_password(hashed_password, account_data.get("email"))
-    except ValidationError:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="Some other issue",
-        )
-    return account
+    if account_data:
+        try:
+            hashed_password = authenticator.hash_password(info.password)
+            account = accounts.update_password(
+                hashed_password, account_data.get("email")
+            )
+        except ValidationError:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Validation error occurred while updating password",
+            )
+        return account
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Unauthorized",
+    )

@@ -4,7 +4,6 @@ import os
 from authenticator import authenticator
 from routers import accounts, reviews, trips, tickets
 
-
 app = FastAPI()
 app.include_router(authenticator.router)
 app.include_router(accounts.router)

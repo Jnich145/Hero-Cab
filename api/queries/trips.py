@@ -1,13 +1,13 @@
-from pydantic import BaseModel
 from queries.pool import pool
-from models import Trip, TripIn, TripOut
-from typing import List, Optional
+from models import TripIn, TripOut
+from typing import List
+
 
 class TripQueries:
     def get(self) -> List[TripOut]:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                result = db.execute(
+                db.execute(
                     """
                     SELECT id
                         , date_time
@@ -30,7 +30,7 @@ class TripQueries:
                         map_url=record[4],
                         instructions=record[5],
                         rider_id=record[6],
-                        driver_id=record[7]
+                        driver_id=record[7],
                     )
                     data.append(trip)
                 return data
@@ -50,7 +50,7 @@ class TripQueries:
                     FROM trips
                     WHERE id = %s;
                     """,
-                    [trip_id]
+                    [trip_id],
                 )
                 record = result.fetchone()
                 if record is None:
@@ -63,13 +63,13 @@ class TripQueries:
                     map_url=record[3],
                     instructions=record[4],
                     rider_id=record[5],
-                    driver_id=record[6]
+                    driver_id=record[6],
                 )
 
     def get_other_trips(self, account_id) -> List[TripOut]:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                result = db.execute(
+                db.execute(
                     """
                     SELECT id
                         , date_time
@@ -82,7 +82,7 @@ class TripQueries:
                     FROM trips
                     WHERE rider_id != %s AND driver_id IS NULL;
                     """,
-                    [account_id]
+                    [account_id],
                 )
                 data = []
                 for record in db:
@@ -94,7 +94,7 @@ class TripQueries:
                         map_url=record[4],
                         instructions=record[5],
                         rider_id=record[6],
-                        driver_id=record[7]
+                        driver_id=record[7],
                     )
                     data.append(trip)
                 return data
@@ -102,7 +102,7 @@ class TripQueries:
     def get_mine(self, account_id) -> List[TripOut]:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                result = db.execute(
+                db.execute(
                     """
                     SELECT id
                         , date_time
@@ -115,7 +115,7 @@ class TripQueries:
                     FROM trips
                     WHERE rider_id = %s
                     """,
-                    [account_id]
+                    [account_id],
                 )
                 data = []
                 for record in db:
@@ -127,7 +127,7 @@ class TripQueries:
                         map_url=record[4],
                         instructions=record[5],
                         rider_id=record[6],
-                        driver_id=record[7]
+                        driver_id=record[7],
                     )
                     data.append(trip)
                 return data
@@ -135,7 +135,7 @@ class TripQueries:
     def get_mine_driver(self, account_id) -> List[TripOut]:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                result = db.execute(
+                db.execute(
                     """
                     SELECT id
                         , date_time
@@ -148,7 +148,7 @@ class TripQueries:
                     FROM trips
                     WHERE driver_id = %s
                     """,
-                    [account_id]
+                    [account_id],
                 )
                 data = []
                 for record in db:
@@ -160,7 +160,7 @@ class TripQueries:
                         map_url=record[4],
                         instructions=record[5],
                         rider_id=record[6],
-                        driver_id=record[7]
+                        driver_id=record[7],
                     )
                     data.append(trip)
                 return data
@@ -187,8 +187,8 @@ class TripQueries:
                         trip.drop_off_location,
                         trip.map_url,
                         trip.instructions,
-                        rider
-                    ]
+                        rider,
+                    ],
                 )
                 id = result.fetchone()[0]
                 return TripOut(
@@ -198,7 +198,7 @@ class TripQueries:
                     drop_off_location=trip.drop_off_location,
                     map_url=trip.map_url,
                     instructions=trip.instructions,
-                    rider_id=rider
+                    rider_id=rider,
                 )
 
     def update(self, account_id, trip_id) -> TripOut:
@@ -210,7 +210,7 @@ class TripQueries:
                     FROM trips
                     WHERE id = %s;
                     """,
-                    [trip_id]
+                    [trip_id],
                 )
                 trip_rider_id = result.fetchone()[0]
                 if trip_rider_id == account_id:
@@ -229,10 +229,7 @@ class TripQueries:
                         , rider_id
                         , driver_id;
                     """,
-                    [
-                        account_id,
-                        trip_id
-                    ]
+                    [account_id, trip_id],
                 )
                 record = result.fetchone()
                 return TripOut(
@@ -243,5 +240,5 @@ class TripQueries:
                     map_url=record[4],
                     instructions=record[5],
                     rider_id=record[6],
-                    driver_id=record[7]
+                    driver_id=record[7],
                 )
