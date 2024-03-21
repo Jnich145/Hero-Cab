@@ -26,6 +26,15 @@ def get_trips(
     if account_data:
         return trips.get()
 
+@router.get("/api/trip/{trip_id}", response_model=TripOut)
+def get_trip(
+    trip_id: int,
+    trips: TripQueries = Depends(),
+    account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
+) -> TripOut:
+    if account_data:
+        return trips.get_one(trip_id)
+
 @router.get("/api/trips/others", response_model=List[TripOut])
 def get_other_trips(
     trips: TripQueries = Depends(),

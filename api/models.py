@@ -66,17 +66,24 @@ class Review(BaseModel):
     date_time: datetime
     rating: int
     description: str
+    trip_id: int
+    rider_id: int
 
 class ReviewIn(BaseModel):
     date_time: datetime
     rating: int
     description: str
+    trip_id: int
 
 class ReviewOut(BaseModel):
     id: int
     date_time: datetime
     rating: int
     description: str
+    trip_id: int
+    rider_id: int
+    pick_up_location: Optional[str]
+    drop_off_location: Optional[str]
 
 class Trip(BaseModel):
     id: int

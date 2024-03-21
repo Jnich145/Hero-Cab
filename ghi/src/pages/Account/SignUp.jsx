@@ -48,17 +48,6 @@ const SignUp = () => {
   return (
     <div className="card text-bg-light mb-3">
       <h5 className="card-header">Signup</h5>
-    <div className="mb-3">
-    <label className="form-label">email</label>
-    <input
-        name="email"
-        type="text"
-        className="form-control"
-        value={formData.email}
-        onChange={handleFormChange}
-        required
-    />
-    </div>
       <div className="card-body">
         {errorMessage && (
             <div className="alert alert-danger" role="alert">
@@ -66,6 +55,17 @@ const SignUp = () => {
           </div>
         )}
         <form onSubmit={handleRegistration}>
+          <div className="mb-3">
+            <label className="form-label">email</label>
+            <input
+                name="email"
+                type="text"
+                className="form-control"
+                value={formData.email}
+                onChange={handleFormChange}
+                required
+            />
+          </div>
           <div className="mb-3">
             <label className="form-label">password</label>
             <input

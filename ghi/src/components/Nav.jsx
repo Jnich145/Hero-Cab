@@ -1,4 +1,4 @@
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import LogoutButton from './LogoutButton';
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 import { useEffect, useState } from 'react';
@@ -81,15 +81,20 @@ const Nav = () => {
                                         Ride Requests
                                     </NavLink>
                                 </li>
+                                <li>
+                                    <NavLink
+                                        to="/reviews/driver/mine"
+                                        className="nav-link"
+                                    >
+                                        My Reviews
+                                    </NavLink>
+                                </li>
                                 <li className="nav-item">
                                     <NavLink to="/profile" className="nav-link">
                                         Profile
                                     </NavLink>
                                 </li>
                                 <LogoutButton />
-                                {/* <li className="nav-item">
-                                    <span className="nav-link">Welcome, {name}</span>
-                                </li> */}
                             </>
                         ) : (
                             <>

@@ -66,11 +66,11 @@ def get_accounts(
     if account_data:
         return accounts.get()
 
-@router.get("/api/accounts/mine", response_model=AccountOutWithPassword)
+@router.get("/api/accounts/mine", response_model=AccountOutWithPassword | None)
 def get_account(
     accounts: AccountQueries = Depends(),
     account_data: AccountOut = Depends(authenticator.try_get_current_account_data),
-) -> AccountOutWithPassword:
+) -> AccountOutWithPassword | None:
     return accounts.get_one(account_data.get("email"))
 
 @router.put("/api/accounts/update", response_model=Account | HttpError)
