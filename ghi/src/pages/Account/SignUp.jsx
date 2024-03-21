@@ -64,76 +64,81 @@ const SignUp = () => {
 
 
   return (
-    <div className="card text-bg-light mb-3">
-      <h5 className="card-header">Signup</h5>
-      <div className="card-body">
-        {errorMessage && (
-            <div className="alert alert-danger" role="alert">
-              {errorMessage}
+      <div className="card text-bg-light mb-3">
+          <h5 className="card-header">Signup</h5>
+          <div className="card-body">
+              {errorMessage && (
+                  <div className="alert alert-danger" role="alert">
+                      {errorMessage}
+                  </div>
+              )}
+              <form onSubmit={handleRegistration}>
+                  <div className="mb-3">
+                      <label className="form-label">email</label>
+                      <input
+                          name="email"
+                          type="text"
+                          className="form-control"
+                          value={formData.email}
+                          onChange={handleFormChange}
+                          required
+                      />
+                  </div>
+                  <div className="mb-3">
+                      <label className="form-label">password</label>
+                      <input
+                          name="password"
+                          type="password"
+                          className="form-control"
+                          value={formData.password}
+                          onChange={handleFormChange}
+                          required
+                      />
+                      <PasswordStrengthChecker password={formData.password} />
+                  </div>
+                  <div className="mb-3">
+                      <label className="form-label">first</label>
+                      <input
+                          name="first_name"
+                          type="text"
+                          className="form-control"
+                          value={formData.first_name}
+                          onChange={handleFormChange}
+                          required
+                      />
+                  </div>
+                  <div className="mb-3">
+                      <label className="form-label">last</label>
+                      <input
+                          name="last_name"
+                          type="text"
+                          className="form-control"
+                          value={formData.last_name}
+                          onChange={handleFormChange}
+                          required
+                      />
+                  </div>
+                  <div className="mb-3">
+                      <label className="form-label">special_needs</label>
+                      <input
+                          name="special_needs"
+                          type="checkbox"
+                          className="form-check-input"
+                          checked={formData.special_needs}
+                          onChange={handleFormChange}
+                      />
+                  </div>
+                  <div>
+                      <input
+                          className="btn btn-primary"
+                          type="submit"
+                          value="Register"
+                      />
+                  </div>
+              </form>
           </div>
-        )}
-        <form onSubmit={handleRegistration}>
-          <div className="mb-3">
-            <label className="form-label">email</label>
-            <input
-                name="email"
-                type="text"
-                className="form-control"
-                value={formData.email}
-                onChange={handleFormChange}
-                required
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">password</label>
-            <input
-              name="password"
-              type="password"
-              className="form-control"
-              value={formData.password}
-              onChange={handleFormChange}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">first</label>
-            <input
-              name="first_name"
-              type="text"
-              className="form-control"
-              value={formData.first_name}
-              onChange={handleFormChange}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">last</label>
-            <input
-              name="last_name"
-              type="text"
-              className="form-control"
-              value={formData.last_name}
-              onChange={handleFormChange}
-              required
-            />
-          </div>
-          <div className="mb-3">
-            <label className="form-label">special_needs</label>
-            <input
-              name="special_needs"
-              type="checkbox"
-              className="form-check-input"
-              checked={formData.special_needs}
-              onChange={handleFormChange}
-            />
-          </div>
-          <div>
-            <input className="btn btn-primary" type="submit" value="Register" />
-          </div>
-        </form>
       </div>
-    </div>
-  );
+  )
 };
 
 
