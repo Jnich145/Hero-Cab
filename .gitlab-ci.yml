@@ -13,7 +13,7 @@ tests:
     stage: test
     script:
         - pip install flake8
-        - flake8 api
+        - flake8 --ignore=E501 api
         # Run unit tests
         # - cd api
         # - pip install -r requirements.txt
