@@ -77,3 +77,23 @@ main {
     width: 10%;
     height: 10px;
 }
+
+.faq {
+    width: 100%;
+    background-color: white;
+    font-size: 1rem;
+    transition: 0.5s all ease-in-out;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border: 1px solid rgb(210, 207, 207);
+    overflow: hidden;
+}
+
+.dropDown{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: black;
+}
