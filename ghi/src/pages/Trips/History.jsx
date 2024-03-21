@@ -79,7 +79,7 @@ const History = () => {
                 </div>
             )}
             <div className="ride-list">
-                <h1>Rider History</h1>
+                <h2>Rider History</h2>
                 {rides.length > 0 ? (
                     rides.map((ride) => {
                         const driver = accounts.filter(account => account.id == ride.driver_id)[0]
@@ -115,7 +115,7 @@ const History = () => {
                 )}
             </div>
             <div className="driver-trip-list">
-                <h1>Driver History</h1>
+                <h2>Driver History</h2>
                 {driverTrips.length > 0 ? (
                     driverTrips.map((trip) => {
                         const rider = accounts.filter(account => account.id == trip.rider_id)[0]
