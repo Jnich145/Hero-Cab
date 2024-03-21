@@ -1,50 +1,69 @@
+import React from "react";
+import {useState, useEffect} from "react";
+
+const hasDigits = /\d/;
+const hasUpperCase = /[A-Z]/;
+const hasLowerCase = /[a-z]/;
+const hasSpecialChar = /[-._!"`'#%&,:;<>=@{}~\$\(\)\*\+\/\\\?\[\]\^\|]+/;
 
 
+const PasswordStrengthChecker = ({ password }) => {
+    const [strength, setStrength] = useState(0);
+    const [progressBarStyle, setProgressBarStyle] = useState({});
 
-
-
-
-const checkPasswordValidity = (value) => {
-    const isNonWhiteSpace = /^\S*$/;
-    if (!isNonWhiteSpace.test(value)) {
-        return "Password must not contain Whitespaces.";
+    const calculateStrength = (password) => {
+        let totalStrength = 0
+        if (password.length >= 3) {
+            let strengthByLength = Math.min(6, Math.floor(password.length / 3))
+            let strengthByChar = 0
+            if (hasDigits.test(password)) {
+                strengthByChar = strengthByChar + 1
+            }
+            if (hasUpperCase.test(password)) {
+                strengthByChar = strengthByChar + 1
+            }
+            if (hasLowerCase.test(password)) {
+                strengthByChar = strengthByChar + 1
+            }
+            if (hasSpecialChar.test(password)) {
+                strengthByChar = strengthByChar + 1
+            }
+            totalStrength = strengthByLength + strengthByChar
+        }
+        return totalStrength
     }
 
-const isContainsUppercase = /^(?=.*[A-Z]).*$/;
-    if (!isContainsUppercase.test(value)) {
-        return "Password must have at least one Uppercase Character.";
-    }
+    const getBarColor = (strengthValue) => {
+        if (strengthValue > 8) {
+            return "green";
+        } else if (strengthValue > 6) {
+            return "orange";
+        } else {
+            return "red";
+        }
+    };
 
-const isContainsLowercase = /^(?=.*[a-z]).*$/;
-    if (!isContainsLowercase.test(value)) {
-        return "Password must have at least one Lowercase Character.";
-    }
+    useEffect(() => {
+        const newStrength = calculateStrength(password);
+        setStrength(newStrength);
+        setProgressBarStyle({ backgroundColor: getBarColor(newStrength), width: `${newStrength * 10}%` })
+    }, [password]);
 
-const isContainsNumber = /^(?=.*[0-9]).*$/;
-    if (!isContainsNumber.test(value)) {
-        return "Password must contain at least one Digit.";
-    }
+    return (
+        <main>
+            <div>
+                <div className="progress-container">
+                    <div
+                        className="progress-bar"
+                        style={progressBarStyle}
+                    ></div>
+                </div>
+                <div className="text-strength">
+                    <p>The Strength of your password is {strength} out of 10.</p>
+                </div>
+            </div>
+        </main>
+    )
+}
 
-const isContainsSymbol =
-    /^(?=.*[~`!@#$%^&*()--+={}\[\]|\\:;"'<>,.?/_₹]).*$/;
-    if (!isContainsSymbol.test(value)) {
-        return "Password must contain at least one Special Symbol.";
-    }
-
-const isValidLength = /^.{10,16}$/;
-    if (!isValidLength.test(value)) {
-        return "Password must be 10-16 Characters Long.";
-    }
-
-//   return null;
-// }
-
-// //------------------
-// // Usage/Example:
-// let yourPassword = "yourPassword123";
-// const message = checkPasswordValidity(yourPassword);
-
-// if (!message) {
-//   console.log("Hurray! Your Password is Valid and Strong.");
-// } else {
-//   console.log(message);
+export default PasswordStrengthChecker;
