@@ -1,5 +1,3 @@
-import React from 'react'
-// import { ClickButton } from './components/ClickButton';
 import { Link } from 'react-router-dom'
 import '../App.css'
 

@@ -26,21 +26,17 @@ from fastapi import (
 router = APIRouter()
 
 
-@router.get("/token", response_model=AccountToken | None)
+@router.get("/token", response_model=AccountToken)
 async def get_token(
     request: Request,
     account: AccountOut = Depends(authenticator.try_get_current_account_data),
-) -> AccountToken | None:
+) -> AccountToken:
     if account and authenticator.cookie_name in request.cookies:
         return {
             "access_token": request.cookies[authenticator.cookie_name],
             "type": "Bearer",
             "account": account,
         }
-    raise HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Unauthorized",
-    )
 
 
 @router.post("/api/accounts", response_model=AccountToken | HttpError)
