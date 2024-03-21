@@ -31,7 +31,8 @@ const DriverReviews = () => {
                         <li key={review.id} className="list-group-item">
                             {`From ${review.pick_up_location} to ${review.drop_off_location} on
                             ${new Date(reviewDateTime).toLocaleDateString()} at
-                            ${new Date(reviewDateTime).toLocaleTimeString()}`}
+                            ${new Date(reviewDateTime).toLocaleTimeString()}
+                            with a rating of ${review.rating}/5`}
                         </li>
                     )})}
                 </ul>
