@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
+import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 
 function UpdateProfile() {
+    const { baseUrl } = useAuthContext()
     const navigate = useNavigate()
     const [error, setError] = useState('')
     const [formData, setFormData] = useState({
@@ -36,7 +38,7 @@ function UpdateProfile() {
 
     const handleDetailSubmit = async (event) => {
         event.preventDefault()
-        const url = `http://localhost:8000/api/accounts/update`
+        const url = `${baseUrl}/api/accounts/update`
         const fetchConfig = {
             method: "put",
             body: JSON.stringify(formData),
@@ -66,7 +68,7 @@ function UpdateProfile() {
 
     const handlePasswordSubmit = async (event) => {
         event.preventDefault()
-        const url = `http://localhost:8000/api/accounts/update-password`
+        const url = `${baseUrl}/api/accounts/update-password`
         const fetchConfig = {
             method: "put",
             body: JSON.stringify({password: passwordData.password}),

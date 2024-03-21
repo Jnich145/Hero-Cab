@@ -78,7 +78,6 @@ class ReviewQueries:
     def get_my_reviews_driver(self, account_id) -> List[ReviewOut]:
         with pool.connection() as conn:
             with conn.cursor() as db:
-                print("----------------------------------------------------------------",account_id)
                 result = db.execute(
                     """
                     SELECT r.*, t.pick_up_location, t.drop_off_location
@@ -88,7 +87,6 @@ class ReviewQueries:
                     """,
                     [account_id]
                 )
-                print(result)
                 data = []
                 if db.rowcount == 0:
                     return data

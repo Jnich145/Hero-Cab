@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
+import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
 
 function Profile() {
+    const { baseUrl } = useAuthContext()
     const [profile, setProfile] = useState({})
     const navigate = useNavigate()
 
     const fetchProfile = async () => {
-        const url = `http://localhost:8000/api/accounts/mine`
+        const url = `${baseUrl}/api/accounts/mine`
         try {
             const response = await fetch(url, { credentials: "include" })
             if (response.ok) {

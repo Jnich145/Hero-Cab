@@ -4,20 +4,20 @@ import { useNavigate } from 'react-router-dom'
 import {  useState } from "react";
 
 const Login = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const [error, setError] = useState('')
-  const { login } = useToken();
+  const { login } = useToken()
   const navigate = useNavigate()
 
   const handleSubmit = async (event) => {
     event.preventDefault()
-      const logged_in = await login(username, password);
+      const logged_in = await login(email, password)
       if (logged_in == true) {
         event.target.reset();
         navigate('/')
       } else {
-        setError('Incorrect username or password')
+        setError('Incorrect email or password')
       }
   }
 
@@ -34,10 +34,10 @@ const Login = () => {
           <div className="mb-3">
             <label className="form-label">Email:</label>
             <input
-              name="username"
+              name="email"
               type="text"
               className="form-control"
-              onChange={(event) => setUsername(event.target.value)}
+              onChange={(event) => setEmail(event.target.value)}
             />
           </div>
           <div className="mb-3">

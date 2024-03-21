@@ -4,7 +4,7 @@ import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 
 
-const API_URL = 'http://localhost:8000'
+const API_URL = import.meta.env.VITE_API_HOST
 const App = () => {
     return (
         <AuthProvider baseUrl={API_URL}>

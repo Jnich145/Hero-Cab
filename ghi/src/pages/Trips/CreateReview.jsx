@@ -16,7 +16,7 @@ function CreateReview() {
     })
 
     const fetchTrip = async () => {
-        let url = `${baseUrl}/api/trip/${tripId}`
+        const url = `${baseUrl}/api/trip/${tripId}`
         try {
             const response = await fetch(url, {
                 credentials: 'include',
@@ -35,7 +35,7 @@ function CreateReview() {
 
     useEffect(() => {
         fetchTrip()
-    }, [baseUrl])
+    }, [])
 
     const handleFormChange = (event) => {
         const inputName = event.target.name

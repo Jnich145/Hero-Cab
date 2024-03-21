@@ -68,7 +68,7 @@ const History = () => {
         fetchRiderHistory()
         fetchDriverHistory()
         fetchAccounts()
-    }, [baseUrl])
+    }, [])
     // used in potential time conditional for review button
     // const currentDateTimeUTC = new Date().toISOString()
     return (

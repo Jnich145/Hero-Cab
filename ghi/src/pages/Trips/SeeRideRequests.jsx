@@ -19,7 +19,7 @@ const SeeRideRequests = () => {
 
     useEffect(() => {
         fetchRideRequests()
-    }, [baseUrl])
+    }, [])
 
 
     const handleAcceptTrip = async (requestId) => {

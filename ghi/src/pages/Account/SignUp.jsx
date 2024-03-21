@@ -1,48 +1,65 @@
 import { useAuthContext } from "@galvanize-inc/jwtdown-for-react";
-import { login, register } from "../../components/auth";
+import useToken from "@galvanize-inc/jwtdown-for-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 const SignUp = () => {
-    const [formData, setFormData] = useState({
-        email: '',
-        password: '',
-        first_name: '',
-        last_name: '',
-        special_needs: false
-    })
+  const { login } = useToken()
+  const { baseUrl, setToken } = useAuthContext();
+  const [errorMessage, setErrorMessage] = useState("");
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+      email: '',
+      password: '',
+      first_name: '',
+      last_name: '',
+      special_needs: false
+  })
 
-    const { baseUrl, setToken } = useAuthContext();
-    const [errorMessage, setErrorMessage] = useState("");
-    const navigate = useNavigate();
+  const handleFormChange = (event) => {
+      const inputName = event.target.name
+      const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value
+      setFormData({
+          ...formData,
+          [inputName]: value
+      })
+  }
 
-    const handleFormChange = (event) => {
-        const inputName = event.target.name
-        const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value
-        setFormData({
-            ...formData,
-            [inputName]: value
-        })
-    }
-
-    const handleRegistration = async (e) => {
-        e.preventDefault();
-        try {
-          await register(formData);
-          const token = await login(
-              baseUrl,
-              formData.email,
-              formData.password
+  const handleRegistration = async (e) => {
+      e.preventDefault();
+      try {
+        const response = await fetch(
+          `${baseUrl}/api/accounts`,
+          {
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify(formData),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (!response.ok) {
+          throw Error(
+            "Couldn't create account, please try a different email address"
           );
-          setToken(token);
-          navigate("/");
-        } catch (e) {
-        if (e instanceof Error) {
-            setErrorMessage(e.message);
         }
-        console.error(e);
+        else {
+            console.log('account created')
         }
-    };
+        const token = await login(
+            formData.email,
+            formData.password
+        );
+        setToken(token);
+        navigate("/");
+      } catch (e) {
+      if (e instanceof Error) {
+          setErrorMessage(e.message);
+      }
+      console.error(e);
+      }
+  };
 
 
   return (
