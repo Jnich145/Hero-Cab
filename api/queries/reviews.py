@@ -9,8 +9,9 @@ class ReviewQueries:
             with conn.cursor() as db:
                 db.execute(
                     """
-                    SELECT *
-                    FROM reviews
+                    SELECT r.*, t.pick_up_location, t.drop_off_location
+                    FROM reviews r
+                    JOIN trips t ON r.trip_id = t.id
                     """
                 )
                 data = []
@@ -22,6 +23,8 @@ class ReviewQueries:
                         description=record[3],
                         trip_id=record[4],
                         rider_id=record[5],
+                        pick_up_location=record[6],
+                        drop_off_location=record[7]
                     )
                     data.append(review)
                 return data
@@ -99,7 +102,7 @@ class ReviewQueries:
                         trip_id=record[4],
                         rider_id=record[5],
                         pick_up_location=record[6],
-                        drop_off_location=record[6],
+                        drop_off_location=record[7],
                     )
                     data.append(review)
                 return data

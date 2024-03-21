@@ -13,7 +13,7 @@ def fake_try_get_current_account_data():
 class FakeTicketQueries:
     def create(self, ticket_in):
         ticket = ticket_in.dict()
-        ticket["id"] = 0
+        ticket["id"] = 1
         return ticket
 
 
@@ -24,17 +24,17 @@ def test_create_ticket():
     ] = fake_try_get_current_account_data
     ticket_in = {
         "description": "string",
-        "user_id": 0,
-        "trip_id": 0,
+        "user_id": 1,
+        "trip_id": 1,
         "date_time": "2024-03-18T21:36:21.152000+00:00",
     }
     res = client.post("/api/tickets", json=ticket_in)
 
     assert res.status_code == 200
     assert res.json() == {
-        "id": 0,
+        "id": 1,
         "description": "string",
-        "user_id": 0,
-        "trip_id": 0,
+        "user_id": 1,
+        "trip_id": 1,
         "date_time": "2024-03-18T21:36:21.152000+00:00",
     }

@@ -19,7 +19,7 @@ def fake_try_get_current_account_data():
 class FakeTripQueries:
     def create(self, trip_in, account_id):
         trip = trip_in.dict()
-        trip["id"] = 0
+        trip["id"] = 1
         trip["rider_id"] = account_id
         return trip
 
@@ -40,12 +40,12 @@ def test_create_trip():
 
     assert res.status_code == 200
     assert res.json() == {
-        "id": 0,
-        "rider_id": 12345,
-        "driver_id": None,
+        "id": 1,
         "date_time": "2024-03-18T21:36:21.152000+00:00",
         "pick_up_location": "string",
         "drop_off_location": "string",
         "map_url": "string",
         "instructions": "string",
+        "rider_id": 12345,
+        "driver_id": None
     }
