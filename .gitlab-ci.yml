@@ -14,7 +14,7 @@ lint-test-job:
     script:
         - pip install flake8
         - flake8 --ignore=E501 api
-tests:
+unit-tests:
     image: python:3-bullseye
     stage: test
     needs:

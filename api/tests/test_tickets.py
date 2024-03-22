@@ -25,7 +25,7 @@ def test_create_ticket():
     ticket_in = {
         "description": "string",
         "user_id": 1,
-        "trip_id": 1,
+        "ride_id": 1,
         "date_time": "2024-03-18T21:36:21.152000+00:00",
     }
     res = client.post("/api/tickets", json=ticket_in)
@@ -35,6 +35,6 @@ def test_create_ticket():
         "id": 1,
         "description": "string",
         "user_id": 1,
-        "trip_id": 1,
+        "ride_id": 1,
         "date_time": "2024-03-18T21:36:21.152000+00:00",
     }

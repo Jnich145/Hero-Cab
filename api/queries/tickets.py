@@ -19,7 +19,7 @@ class TicketQueries:
                         id=record[0],
                         description=record[1],
                         user_id=record[2],
-                        trip_id=record[3],
+                        ride_id=record[3],
                         date_time=record[4],
                     )
                     data.append(ticket)
@@ -44,7 +44,7 @@ class TicketQueries:
                     id=record[0],
                     description=record[1],
                     user_id=record[2],
-                    trip_id=record[3],
+                    ride_id=record[3],
                     date_time=record[4],
                 )
                 return Ticket
@@ -57,7 +57,7 @@ class TicketQueries:
                     INSERT INTO tickets (
                         description
                         , user_id
-                        , trip_id
+                        , ride_id
                         , date_time
                     )
                     VALUES (%s, %s, %s, %s)
@@ -66,7 +66,7 @@ class TicketQueries:
                     [
                         ticket.description,
                         ticket.user_id,
-                        ticket.trip_id,
+                        ticket.ride_id,
                         ticket.date_time,
                     ],
                 )
@@ -75,6 +75,6 @@ class TicketQueries:
                     id=id,
                     description=ticket.description,
                     user_id=ticket.user_id,
-                    trip_id=ticket.trip_id,
+                    ride_id=ticket.ride_id,
                     date_time=ticket.date_time,
                 )

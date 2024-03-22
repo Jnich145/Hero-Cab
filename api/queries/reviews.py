@@ -1,6 +1,7 @@
 from queries.pool import pool
 from models import ReviewIn, ReviewOut
 from typing import List
+from models import UniqueViolation
 
 
 class ReviewQueries:
@@ -11,7 +12,7 @@ class ReviewQueries:
                     """
                     SELECT r.*, t.pick_up_location, t.drop_off_location
                     FROM reviews r
-                    JOIN trips t ON r.trip_id = t.id
+                    JOIN rides t ON r.ride_id = t.id
                     """
                 )
                 data = []
@@ -21,7 +22,7 @@ class ReviewQueries:
                         date_time=record[1],
                         rating=record[2],
                         description=record[3],
-                        trip_id=record[4],
+                        ride_id=record[4],
                         rider_id=record[5],
                         pick_up_location=record[6],
                         drop_off_location=record[7]
@@ -35,18 +36,28 @@ class ReviewQueries:
                 result = db.execute(
                     """
                     SELECT rider_id, driver_id
-                    FROM trips
+                    FROM rides
                     WHERE id = %s;
                     """,
-                    [review.trip_id],
+                    [review.ride_id],
                 )
                 record = result.fetchone()
-                trip_rider_id = record[0]
-                trip_driver_id = record[1]
-                if trip_rider_id != rider_id:
-                    raise ValueError("Cannot review other user's trips")
-                if not trip_driver_id:
-                    raise ValueError("Trip has not yet been accepted")
+                ride_rider_id = record[0]
+                ride_driver_id = record[1]
+                if ride_rider_id != rider_id:
+                    raise ValueError("Cannot review other user's rides")
+                if not ride_driver_id:
+                    raise ValueError("Ride has not yet been accepted")
+
+                db.execute(
+                    """
+                    SELECT ride_id
+                    FROM reviews
+                    """,
+                )
+                data = [record[0] for record in db]
+                if data and review.ride_id in data[0]:
+                    raise UniqueViolation("Review for ride already exists")
 
                 result = db.execute(
                     """
@@ -54,7 +65,7 @@ class ReviewQueries:
                         date_time
                         , rating
                         , description
-                        , trip_id
+                        , ride_id
                         , rider_id
                     )
                     VALUES (%s, %s, %s, %s, %s)
@@ -64,7 +75,7 @@ class ReviewQueries:
                         review.date_time,
                         review.rating,
                         review.description,
-                        review.trip_id,
+                        review.ride_id,
                         rider_id,
                     ],
                 )
@@ -74,7 +85,7 @@ class ReviewQueries:
                     date_time=review.date_time,
                     rating=review.rating,
                     description=review.description,
-                    trip_id=review.trip_id,
+                    ride_id=review.ride_id,
                     rider_id=rider_id,
                 )
 
@@ -85,7 +96,7 @@ class ReviewQueries:
                     """
                     SELECT r.*, t.pick_up_location, t.drop_off_location
                     FROM reviews r
-                    JOIN trips t ON r.trip_id = t.id
+                    JOIN rides t ON r.ride_id = t.id
                     WHERE t.driver_id = %s;
                     """,
                     [account_id],
@@ -99,7 +110,7 @@ class ReviewQueries:
                         date_time=record[1],
                         rating=record[2],
                         description=record[3],
-                        trip_id=record[4],
+                        ride_id=record[4],
                         rider_id=record[5],
                         pick_up_location=record[6],
                         drop_off_location=record[7],

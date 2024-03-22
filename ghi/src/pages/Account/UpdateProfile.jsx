@@ -18,23 +18,19 @@ function UpdateProfile() {
         password_confirmation: '',
     })
 
-    const fetchSpecialNeeds = async () => {
+    const fetchProfile = async () => {
         const url = `${baseUrl}/api/accounts/mine`
         try {
             const response = await fetch(url, { credentials: "include" })
             if (response.ok) {
                 const data = await response.json()
-                formData["special_needs"] = data.special_needs
-                if (data.special_needs) {
-                    const setChecked = {
-                        target: {
-                        name: 'special_needs',
-                        type: 'checkbox',
-                        checked: true
-                        }
-                    }
-                    handleFormChange(setChecked)
-                }
+                setFormData({
+                    first_name: data.first_name,
+                    last_name: data.last_name,
+                    special_needs: data.special_needs,
+                    phone_number: data.phone_number ? data.phone_number : '',
+                    address: data.address ? data.address : ''
+                })
             } else {
                 console.error('Error:', response.status, response.statusText)
             }
@@ -44,7 +40,7 @@ function UpdateProfile() {
     }
 
     useEffect(() => {
-        fetchSpecialNeeds()
+        fetchProfile()
     }, [])
 
     const handleFormChange = (event) => {
@@ -150,22 +146,22 @@ function UpdateProfile() {
 
                                 <tr>
                                     <td>
-                                        <input value={formData.first_name} onChange={handleFormChange} placeholder="first" type="text" id="first_name" className="form-control"
+                                        <input value={formData.first_name} onChange={handleFormChange} type="text" id="first_name" className="form-control"
                                             name="first_name" />
                                         <label htmlFor="first_name"></label>
                                     </td>
                                     <td>
-                                        <input value={formData.last_name} onChange={handleFormChange} placeholder="last" type="text" id="last_name" className="form-control"
+                                        <input value={formData.last_name} onChange={handleFormChange} type="text" id="last_name" className="form-control"
                                             name="last_name" />
                                         <label htmlFor="last_name"></label>
                                     </td>
                                     <td>
-                                        <input value={formData.phone_number} onChange={handleFormChange} placeholder="phone_number" type="text" id="phone_number" className="form-control"
+                                        <input value={formData.phone_number} onChange={handleFormChange} type="text" id="phone_number" className="form-control"
                                             name="phone_number" />
                                         <label htmlFor="phone_number"></label>
                                     </td>
                                     <td>
-                                        <input value={formData.address} onChange={handleFormChange} placeholder="address" type="text" id="address" className="form-control"
+                                        <input value={formData.address} onChange={handleFormChange} type="text" id="address" className="form-control"
                                             name="address" />
                                         <label htmlFor="address"></label>
                                     </td>

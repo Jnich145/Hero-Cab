@@ -5,7 +5,7 @@ steps = [
         id SERIAL PRIMARY KEY NOT NULL,
         description TEXT NOT NULL,
         user_id INTEGER NOT NULL,
-        trip_id INTEGER NOT NULL,
+        ride_id INTEGER NOT NULL,
         date_time TIMESTAMP NOT NULL
     );
     """,

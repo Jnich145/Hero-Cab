@@ -1,11 +1,11 @@
-# This is for unit testing the create_trip endpoint in the api
+# This is for unit testing the create_ride endpoint in the api
 # The test cases are for the following:
-# 1. Test for creating a trip with valid data
-# 2. Test for creating a trip with invalid data
+# 1. Test for creating a ride with valid data
+# 2. Test for creating a ride with invalid data
 # jwt token validation already tested in test_jwt_token_validation.py
 
 from fastapi.testclient import TestClient
-from queries.trips import TripQueries
+from queries.rides import RideQueries
 from main import app
 from authenticator import authenticator
 
@@ -16,27 +16,27 @@ def fake_try_get_current_account_data():
     return {"id": 12345}
 
 
-class FakeTripQueries:
-    def create(self, trip_in, account_id):
-        trip = trip_in.dict()
-        trip["id"] = 1
-        trip["rider_id"] = account_id
-        return trip
+class FakeRideQueries:
+    def create(self, ride_in, account_id):
+        ride = ride_in.dict()
+        ride["id"] = 1
+        ride["rider_id"] = account_id
+        return ride
 
 
-def test_create_trip():
-    app.dependency_overrides[TripQueries] = FakeTripQueries
+def test_create_ride():
+    app.dependency_overrides[RideQueries] = FakeRideQueries
     app.dependency_overrides[
         authenticator.try_get_current_account_data
     ] = fake_try_get_current_account_data
-    trip_in = {
+    ride_in = {
         "date_time": "2024-03-18T21:36:21.152000+00:00",
         "pick_up_location": "string",
         "drop_off_location": "string",
         "map_url": "string",
         "instructions": "string",
     }
-    res = client.post("/api/trips", json=trip_in)
+    res = client.post("/api/rides", json=ride_in)
 
     assert res.status_code == 200
     assert res.json() == {

@@ -27,7 +27,7 @@ def test_create_review():
         "date_time": "2024-03-18T21:36:21.152000+00:00",
         "rating": 1,
         "description": "string",
-        "trip_id": 1
+        "ride_id": 1
     }
     res = client.post("/api/reviews", json=review_in)
 
@@ -37,7 +37,7 @@ def test_create_review():
         "date_time": "2024-03-18T21:36:21.152000+00:00",
         "rating": 1,
         "description": "string",
-        "trip_id": 1,
+        "ride_id": 1,
         "rider_id": 12345,
         "pick_up_location": None,
         "drop_off_location": None

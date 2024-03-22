@@ -65,20 +65,20 @@ const Nav = () => {
                             <>
                                 <li>
                                     <NavLink
-                                        to="/trips/new"
+                                        to="/rides/new"
                                         className="nav-link"
                                     >
                                         Request Ride
                                     </NavLink>
                                 </li>
                                 <li>
-                                    <NavLink to="/trips" className="nav-link">
-                                        Your History
+                                    <NavLink to="/rides" className="nav-link">
+                                        Ride History
                                     </NavLink>
                                 </li>
                                 <li>
                                     <NavLink
-                                        to="/trips/requests"
+                                        to="/rides/requests"
                                         className="nav-link"
                                     >
                                         Ride Requests
@@ -89,7 +89,7 @@ const Nav = () => {
                                         to="/reviews/driver/mine"
                                         className="nav-link"
                                     >
-                                        My Reviews
+                                        Reviews As Driver
                                     </NavLink>
                                 </li>
                                 <li className="nav-item">

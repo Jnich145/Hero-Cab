@@ -6,7 +6,7 @@ const SeeRideRequests = () => {
     const [rideRequests, setRideRequests] = useState([])
 
     const fetchRideRequests = async () => {
-        const url = `${baseUrl}/api/trips/others`
+        const url = `${baseUrl}/api/rides/others`
         const response = await fetch(url, {credentials: 'include'})
 
         if (response.ok) {
@@ -22,8 +22,8 @@ const SeeRideRequests = () => {
     }, [])
 
 
-    const handleAcceptTrip = async (requestId) => {
-        const url = `${baseUrl}/api/trips/${requestId}`
+    const handleAcceptRide = async (requestId) => {
+        const url = `${baseUrl}/api/rides/${requestId}`
         const response = await fetch(url, {
             method: 'PUT',
             credentials: 'include'
@@ -51,7 +51,7 @@ const SeeRideRequests = () => {
                             <div className="btn-group float-end">
                                 <button
                                     onClick={() =>
-                                        handleAcceptTrip(
+                                        handleAcceptRide(
                                             request.id
                                         )
                                     }
