@@ -112,7 +112,9 @@ async def update_account(
     )
 
 
-@router.put("/api/accounts/update-password", response_model=Account | HttpError)
+@router.put(
+    "/api/accounts/update-password", response_model=Account | HttpError
+)
 async def update_password(
     info: AccountUpdatePassword,
     account_data: AccountOut = Depends(

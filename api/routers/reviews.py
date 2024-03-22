@@ -33,11 +33,13 @@ async def create_review_as_rider(
 ) -> ReviewOut:
     if account_data:
         try:
-            return reviews.create_review_as_rider(review, account_data.get("id"))
+            return reviews.create_review_as_rider(
+                review, account_data.get("id")
+            )
         except UniqueViolation:
             raise HTTPException(
                 status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
-                detail="Review for ride already exists"
+                detail="Review for ride already exists",
             )
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,

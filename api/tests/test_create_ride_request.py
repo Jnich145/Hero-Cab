@@ -47,5 +47,5 @@ def test_create_ride():
         "map_url": "string",
         "instructions": "string",
         "rider_id": 12345,
-        "driver_id": None
+        "driver_id": None,
     }

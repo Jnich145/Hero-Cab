@@ -99,11 +99,14 @@ async def create_ride(
         detail="Unauthorized",
     )
 
+
 @router.delete("/api/rides/{ride_id}", response_model=bool)
 async def delete_ride(
     ride_id: int,
     rides: RideQueries = Depends(),
-    account_data: AccountOut = Depends(authenticator.try_get_current_account_data)
+    account_data: AccountOut = Depends(
+        authenticator.try_get_current_account_data
+    ),
 ) -> bool:
     if account_data:
         try:
@@ -117,6 +120,7 @@ async def delete_ride(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Unauthorized",
     )
+
 
 @router.put("/api/rides/{ride_id}", response_model=RideOut)
 async def accept_ride(

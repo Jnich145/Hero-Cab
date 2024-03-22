@@ -25,7 +25,7 @@ class ReviewQueries:
                         ride_id=record[4],
                         rider_id=record[5],
                         pick_up_location=record[6],
-                        drop_off_location=record[7]
+                        drop_off_location=record[7],
                     )
                     data.append(review)
                 return data

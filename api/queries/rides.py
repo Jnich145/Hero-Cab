@@ -306,7 +306,9 @@ class RideQueries:
                 )
                 ride_driver_id = result.fetchone()[0]
                 if ride_driver_id != account_id:
-                    raise ValueError("Cannot reject ride where you are not the driver")
+                    raise ValueError(
+                        "Cannot reject ride where you are not the driver"
+                    )
                 result = db.execute(
                     """
                     UPDATE rides SET
