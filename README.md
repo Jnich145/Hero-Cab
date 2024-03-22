@@ -170,3 +170,41 @@ in GitLab.
 Merge a change into main to kick off the initial deploy. Once the build pipeline
 finishes you should be able to see an "under construction" page on your GitLab
 pages site.
+
+# Hero Cab Project README
+
+Team:
+
+- [**Aaron Greenberg**] (https://gitlab.com/agreen.1c4) - Full Stack Engineer
+- [**Austin Hall**] - (https://gitlab.com/npcsloan) - Full Stack Engineer
+- [**Clement Lee**] (https://gitlab.com/clementlhc) - Full Stack Engineer
+- [**Justin Nichols**] (https://gitlab.com/Jnich145) - Full Stack Engineer
+
+## Overview
+The Hero Cab project is designed using a monolithic architecture. For this project, we have created a rideshare/ carpool service for America's disabled veteran . Each microservice is designed to meet the needs of a car dealership's daily operations using a REST API. This README outlines the models, views, URL's used on a Django backend to integrate with the central inventory service and the lists and forms created on a React frontend to render a Single Page Application used for 'GET', 'POST', 'DELETE', and 'PUT' requests. 
+
+## Instructions
+*Getting Started:*
+    **Make sure you have Docker, Git, and Node.js 18.2 or above**
+    1. Fork and clone the project repository from https://gitlab.com/agreen.1c4/project-beta
+    2. Create a new image, volumes, and containers with Docker with the following commands:
+    `docker volume create postgres-data`
+    `docker compose up -d`
+
+    - You'll be able to see the progress in either your CLI or the Docker Container Desktop App, but it can take some to complete depending on your system. 
+    - Once all the Docker containers are running (check the Docker app if you're unsure), you can view the empty React project in your browser @ http://localhost:3000/. Voila!
+  </br>
+  ## React Page
+  
+  ![Img](/images/CarCarImage.png)
+
+## Design
+Hero Cab uses :
+ - **Inventory: used as the central microservice for the model Automobile**
+ - **Service: uses the Automobile value object**
+ - **Sales: also uses the Automobile value object**
+
+## CarCar DDD Diagram
+
+![Img](/images/CarCarDiagram.png)
+

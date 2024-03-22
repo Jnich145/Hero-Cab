@@ -1,8 +1,6 @@
 ===========
 Feb 27, 2024
 
-1. completed postgres database and pg-admin setup as team
-2. merged database setup branch to main
 
 ============
 Feb 28, 2024
