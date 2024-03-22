@@ -1,0 +1,9 @@
+glv-cloud-cli deploy \
+    -a db \
+    -i postgres:14.5-bullseye \
+    -e POSTGRES_DB=hero_db \
+    -e POSTGRES_USER=hero_user \
+    -e POSTGRES_PASSWORD=secretsquirrel \
+    -m /var/lib/postgresql \
+    -p 5432 \
+    -x=false

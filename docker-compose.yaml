@@ -28,7 +28,7 @@ services:
         environment:
             DATABASE_URL: postgresql://example_user:secret@postgres/example_db
             CORS_HOST: http://localhost:5173
-            SECRET_KEY: ${SECRET_KEY}
+            SECRET_KEY: 9ad72ae68b9ecd1976025330576eea6a302351d5a2535f235ffe40114d9401a3
             SIGNING_KEY: a619c6143d50b4c76756b81adc8d80fc5f3fad30c3573e03f32d8a523d1e87ad
         build:
             context: api
