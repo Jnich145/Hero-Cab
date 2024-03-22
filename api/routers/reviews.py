@@ -3,7 +3,7 @@ from queries.accounts import AccountOut
 from authenticator import authenticator
 from typing import List
 from fastapi import Depends, HTTPException, status, APIRouter
-from models import ReviewIn, ReviewOut
+from models import ReviewIn, ReviewOut, UniqueViolation
 
 router = APIRouter()
 
@@ -32,9 +32,15 @@ async def create_review_as_rider(
     ),
 ) -> ReviewOut:
     if account_data:
-        return reviews.create_review_as_rider(review, account_data.get("id"))
-    # error should handle UniqueViolation: duplicate key
-    # value violates unique constraint
+        try:
+            return reviews.create_review_as_rider(
+                review, account_data.get("id")
+            )
+        except UniqueViolation:
+            raise HTTPException(
+                status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+                detail="Review for ride already exists",
+            )
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Unauthorized",

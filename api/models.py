@@ -88,7 +88,7 @@ class Review(BaseModel):
     date_time: datetime
     rating: int
     description: str
-    trip_id: int
+    ride_id: int
     rider_id: int
 
 
@@ -96,7 +96,7 @@ class ReviewIn(BaseModel):
     date_time: datetime
     rating: int
     description: str
-    trip_id: int
+    ride_id: int
 
 
 class ReviewOut(BaseModel):
@@ -104,13 +104,13 @@ class ReviewOut(BaseModel):
     date_time: datetime
     rating: int
     description: str
-    trip_id: int
+    ride_id: int
     rider_id: int
     pick_up_location: Optional[str]
     drop_off_location: Optional[str]
 
 
-class Trip(BaseModel):
+class Ride(BaseModel):
     id: int
     date_time: datetime
     pick_up_location: str
@@ -121,7 +121,7 @@ class Trip(BaseModel):
     driver_id: Optional[int]
 
 
-class TripIn(BaseModel):
+class RideIn(BaseModel):
     date_time: datetime
     pick_up_location: str
     drop_off_location: str
@@ -129,7 +129,7 @@ class TripIn(BaseModel):
     instructions: str
 
 
-class TripOut(BaseModel):
+class RideOut(BaseModel):
     id: int
     date_time: datetime
     pick_up_location: str
@@ -144,14 +144,14 @@ class Ticket(BaseModel):
     id: int
     description: str
     user_id: int
-    trip_id: int
+    ride_id: int
     date_time: datetime
 
 
 class TicketIn(BaseModel):
     description: str
     user_id: int
-    trip_id: int
+    ride_id: int
     date_time: datetime
 
 
@@ -159,5 +159,5 @@ class TicketOut(BaseModel):
     id: int
     description: str
     user_id: int
-    trip_id: int
+    ride_id: int
     date_time: datetime

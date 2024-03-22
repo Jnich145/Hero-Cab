@@ -4,37 +4,37 @@ import { useNavigate } from 'react-router-dom'
 import { useParams } from "react-router-dom"
 
 function CreateReview() {
-    const { tripId } = useParams( )
+    const { rideId } = useParams( )
     const { baseUrl } = useAuthContext()
-    const [error, setError] = useState('')
     const navigate = useNavigate()
-    const [trip, setTrip] = useState({})
+    const [error, setError] = useState('')
+    const [ride, setRide] = useState({})
     const [formData, setFormData] = useState({
         rating: 0,
         description: '',
-        trip_id: tripId
+        ride_id: rideId
     })
 
-    const fetchTrip = async () => {
-        const url = `${baseUrl}/api/trip/${tripId}`
+    const fetchRide = async () => {
+        const url = `${baseUrl}/api/ride/${rideId}`
         try {
             const response = await fetch(url, {
                 credentials: 'include',
             })
 
         if (!response.ok) {
-            throw new Error('Failed to find trip')
+            throw new Error('Failed to find ride')
         }
             const data = await response.json()
-            setTrip(data)
+            setRide(data)
         } catch (error) {
-            console.error('Error fetching trip:', error)
-            setError('Failed to find trip')
+            console.error('Error fetching ride:', error)
+            setError('Failed to find ride')
         }
     }
 
     useEffect(() => {
-        fetchTrip()
+        fetchRide()
     }, [])
 
     const handleFormChange = (event) => {
@@ -51,8 +51,8 @@ function CreateReview() {
         const url = `${baseUrl}/api/reviews/`
         const currentDateTimeUTC = new Date().toISOString()
         // potential time conditional for review
-        // const tripDateTime = trip.date_time+'.000Z'
-        // const diffInMilliseconds = new Date(tripDateTime) - new Date(currentDateTimeUTC)
+        // const rideDateTime = ride.date_time+'.000Z'
+        // const diffInMilliseconds = new Date(rideDateTime) - new Date(currentDateTimeUTC)
         // if (diffInHours < 1) {
         //     setError('Requests must be made at least 12 hours in advance')
         //     return
@@ -71,15 +71,15 @@ function CreateReview() {
         }
         const response = await fetch(url, fetchConfig)
         if (response.ok) {
-            navigate("/trips")
+            navigate("/rides")
         } else {
-            setError('Failed to create review')
+            setError('Failed to create review. Review for ride may already exists.')
         }
     }
 
     return (
         <div className="card text-bg-light mb-3">
-            <h5 className="card-header">Create review for trip from {trip.pick_up_location} to {trip.drop_off_location}</h5>
+            <h5 className="card-header">Create review for ride from {ride.pick_up_location} to {ride.drop_off_location}</h5>
             {error && (
                 <div className="alert alert-danger" role="alert">
                 {error}

@@ -1,8 +1,8 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuthContext } from '@galvanize-inc/jwtdown-for-react'
 import { useNavigate } from 'react-router-dom'
 
-function RequestTripForm() {
+function RequestRideForm() {
     const { baseUrl } = useAuthContext()
     const [error, setError] = useState('')
     const navigate = useNavigate()
@@ -14,6 +14,35 @@ function RequestTripForm() {
         date: '',
         time: ''
     })
+
+    const fetchAddress = async () => {
+        const url = `${baseUrl}/api/accounts/mine`
+        try {
+            const response = await fetch(url, { credentials: "include" })
+            if (response.ok) {
+                const data = await response.json()
+                formData["pick_up_location"] = data.address
+                if (data.address) {
+                    const setPickUpLocation = {
+                        target: {
+                        name: 'pick_up_location',
+                        type: 'text',
+                        value: data.address
+                        }
+                    }
+                    handleFormChange(setPickUpLocation)
+                }
+            } else {
+                console.error('Error:', response.status, response.statusText)
+            }
+        } catch (error) {
+            console.error('Error', error.message)
+        }
+    }
+
+    useEffect(() => {
+        fetchAddress()
+    }, [])
 
     const handleFormChange = (event) => {
         const inputName = event.target.name
@@ -27,16 +56,18 @@ function RequestTripForm() {
     const handleSubmit = async (event) => {
         event.preventDefault()
 
-        const currentDateTimeUTC = new Date().toISOString()
         const selectedDateTime = new Date(`${formData.date}T${formData.time}:00.000Z`)
         const selectedDateTimeUTC = new Date(selectedDateTime.getTime() + selectedDateTime.getTimezoneOffset() * 60000).toISOString()
-        const diffInMilliseconds = new Date(selectedDateTimeUTC) - new Date(currentDateTimeUTC)
-        const diffInHours = diffInMilliseconds / (1000 * 60 * 60)
-        if (diffInHours < .9) {
-            setError('Requests must be made at least 1 hour in advance')
-            return
-        }
-        const tripsUrl = `${baseUrl}/api/trips/`
+
+        // This is used to set a time constraint on when you can create a ride request
+        // const currentDateTimeUTC = new Date().toISOString()
+        // const diffInMilliseconds = new Date(selectedDateTimeUTC) - new Date(currentDateTimeUTC)
+        // const diffInHours = diffInMilliseconds / (1000 * 60 * 60)
+        // if (diffInHours < .9833) {
+        //     setError('Requests must be made at least 1 hour in advance')
+        //     return
+        // }
+        const ridesUrl = `${baseUrl}/api/rides/`
         formData["date_time"] = selectedDateTimeUTC
         delete formData.date
         delete formData.time
@@ -49,9 +80,9 @@ function RequestTripForm() {
                 'Content-Type': 'application/json',
             },
         }
-        const response = await fetch(tripsUrl, fetchConfig)
+        const response = await fetch(ridesUrl, fetchConfig)
         if (response.ok) {
-            navigate("/trips")
+            navigate("/rides")
         } else {
             setError('Failed to request ride')
         }
@@ -131,11 +162,11 @@ function RequestTripForm() {
                     />
                 </div>
                 <div>
-                    <input className="btn btn-primary" type="submit" value="Request Trip" />
+                    <input className="btn btn-primary" type="submit" value="Request Ride" />
                 </div>
             </form>
         </div>
     )
 }
 
-export default RequestTripForm
+export default RequestRideForm

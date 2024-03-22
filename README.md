@@ -1,172 +1,84 @@
-# Module3 Project Gamma
+# Hero Cab Project README
 
-## Getting started
+Team:
 
-You have a project repository, now what? The next section
-lists all of the deliverables that are due at the end of the
-week. Below is some guidance for getting started on the
-tasks for this week.
+- [**Aaron Greenberg**](https://gitlab.com/agreen.1c4) - Full Stack Engineer
+- [**Austin Hall**](https://gitlab.com/npcsloan) - Full Stack Engineer
+- [**Clement Lee**](https://gitlab.com/clementlhc) - Full Stack Engineer
+- [**Justin Nichols**](https://gitlab.com/Jnich145) - Full Stack Engineer
 
-## Install Extensions
+## Intended Market
 
--   Prettier: <https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode>
--   Black Formatter: <https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter>
+The Hero Cab project aims to address the transportation needs of America's disabled veteran population. Disabled veterans often face challenges in accessing reliable transportation to their VA appointments. This project provides a ride-share/carpool service specifically tailored to meet their needs.
 
-## Deliverables
+Additionally, the project also caters to volunteers who are willing to help disabled veterans by providing transportation services. Volunteers can sign up as drivers and accept ride requests from disabled veterans, ensuring that they can attend their appointments without any transportation barriers.
 
--   [x] Wire-frame diagrams
--   [ ] API documentation
--   [ ] Project is deployed to Caprover (BE, DB) & GitLab-pages (FE)
--   [ ] GitLab issue board is setup and in use (or project management tool of choice)
--   [ ] Journals
+By connecting disabled veterans with volunteers, the Hero Cab project not only improves the quality of life for disabled veterans but also fosters a sense of community and support among those who are willing to lend a helping hand.
 
-## Project layout
+The project's user-friendly interface, powered by React frontend and FastAPI backend, ensures a seamless experience for both disabled veterans and volunteers. With the integration of PostgreSQL for CRUD operations, the project offers a reliable and efficient platform for coordinating rides and facilitating communication between users.
 
-The layout of the project is just like all of the projects
-you did with `docker-compose` in module #2. You will create
-a directory in the root of the repository for each service
-that you add to your project just like those previous
-projects were setup.
+Join us in making a difference in the lives of disabled veterans and creating a supportive community of volunteers through the Hero Cab project.
 
-### Directories
+## Authorization and Safety
+The Hero Cab project prioritizes the safety and security of its users through robust authorization measures. User authentication is implemented using industry-standard protocols, ensuring that only authorized individuals can access the platform. In the future, we will incorporate stringent safety features, such as driver background checks and vehicle inspections, to guarantee a secure and reliable transportation experience for disabled veterans. With a focus on user privacy and data protection, Hero Cab adheres to best practices in data encryption and storage. Rest assured, Hero Cab is committed to providing a trustworthy and secure platform for both disabled veterans and volunteers.
 
-Several directories have been added to your project. The
-directories `docs` and `journals` are places for you and
-your team-mates to, respectively, put any documentation
-about your project that you create and to put your
-project-journal entries. See the _README.md_ file in each
-directory for more info.
+## Instructions
+*Getting Started:*
+    **Make sure you have Docker, Git, Visual Studio Code and Node.js 18.2 or above**    
+    1. Fork and clone the project repository from the ***Hero Cab*** [GitLab Repository](https://gitlab.com/hero-cab/hero-cab/).
 
-The other directories, `ghi` and `api`, are services, that
-you can start building off of.
+    2. Create a new image, volumes, and containers in the Docker Desktop App or CLI with the following commands:
 
-Inside of `ghi` is a minimal React app that has an "under construction" page.
-This app is written using the [Vite](https://vitejs.dev/) bundler. The example
-code is also using [jsdoc](https://jsdoc.app/) to provide type hints for
-JavaScript. You are not required to use JSDoc yourself, and you will be removing
-these examples and providing your own code for `App.jsx`
+   ``` 
+    docker volume create postgres-data
+    docker compose up -d
+   ```
+    
+    - You'll be able to see the progress in either your CLI or the Docker Container Desktop App, but it can take some to complete depending on your system.
 
-Inside of `api` is a minimal FastAPI application.
-"Where are all the files?" you might ask? Well, the
-`main.py` file is the whole thing, and go take look inside
-of it... There's not even much in there..., hmm? That is
-FastAPI, we'll learn more about it in the coming days. Can
-you figure out what this little web-application does even
-though you haven't learned about FastAPI yet?
+    - Once all the Docker containers are running (check the Docker app if you're unsure), you can view the empty React project in your browser @ http://localhost:5173/. Voila!
+  </br>
 
-Also in `api` is a directory for your migrations.
-If you choose to use PostgreSQL, then you'll want to use
-migrations to control your database. Unlike Django, where
-migrations were automatically created for you, you'll write
-yours by hand using DDL. Don't worry about not knowing what
-DDL means; we have you covered. There's a sample migration
-in there that creates two tables so you can see what they
-look like.
+## Design
+Hero Cab uses :
+ - **React Frontend: Allows dynamic Single Page Applications**
+ - **FastAPI Backend: Allows fast design and setup for backend API operations**
+ - **PostreSQL: The most popular Database Manager for easy implementation into FastAPI**
 
-The Dockerfile and Dockerfile.dev run your migrations
-for you automatically.
+- [API Design](docs/api_documentation.md)
+- [MVP Wireframe](docs/images/DDD_Wireframe.png)
+- [Database Design](docs/images/Database_Design.png)
 
-### Installing python dependencies locally
+## Unit Testing
 
-In order for VSCode's built in code completion and intelligence to
-work correctly, it needs the dependencies from the requirements.txt file
-installed. We do this inside docker, but not in the workspace.
+Unit testing is an essential part of the Hero Cab project to ensure the reliability and correctness of the codebase. We use the following tools and frameworks for unit testing:
 
-So we need to create a virtual environment and pip install the requirements.
+- **Pytest**: A popular testing framework for Python that allows us to write simple and scalable tests.
 
-From inside the `api` folder:
 
-```bash
-python -m venv .venv
-```
+Our unit tests cover various aspects of the application, including API endpoints, database operations, and React component rendering. By writing comprehensive unit tests, we can catch bugs early in the development process and maintain the stability of the application.
 
-Then activate the virtual environment
+The Hero Cab project includes unit tests to ensure the reliability and correctness of the codebase. These tests cover various aspects of the application, including creating rides, getting rides, creating users, getting users, creating reviews, and getting reviews.
 
-```bash
-source .venv/bin/activate
-```
+For creating rides, former USAF TACP [**Aaron Greenberg**](https://gitlab.com/agreen.1c4) ensured the unit tests would verify that the ride creation endpoint correctly handles the input data and stores the ride information in the database. It would also check that the appropriate response is returned to the user.
 
-And finally install the dependencies
+Similarly, for getting rides, former US Army SOT-A Linguist [**Justin Nichols**](https://gitlab.com/Jnich145) ensured unit tests would validate that the endpoint retrieves the correct ride information from the database and returns it to the user.
 
-```bash
-pip install -r requirements.txt
-```
+Former USAF Linguist [**Austin Hall**](https://gitlab.com/npcsloan)'s unit tests for creating users would ensure that the user creation endpoint properly handles the user data and stores it in the database. It would also verify that the necessary validations and error handling are in place.
 
-Then make sure the venv is selected in VSCode by checking the lower right of the
-VSCode status bar
+When it comes to getting users, Senior Manager [**Clement Lee**](https://gitlab.com/clementlhc), SHRM-SCP, ensured the unit tests would validate that the endpoint retrieves the correct user information from the database and returns it to the user.
 
-### Other files
+For creating reviews, Senior Manager [**Clement Lee**](https://gitlab.com/clementlhc), SHRM-SCP,former US Army SOT-A Linguist [**Justin Nichols**](https://gitlab.com/Jnich145), and Former USAF Linguist [**Austin Hall**](https://gitlab.com/npcsloan) ensured  the unit tests would verify that the review creation endpoint correctly handles the input data and stores the review information in the database. It would also check that the appropriate response is returned to the user.
 
-The following project files have been created as a minimal
-starting point. Please follow the guidance for each one for
-a most successful project.
+Lastly, for getting reviews, the unit tests would ensure that the endpoint retrieves the correct review information from the database and returns it to the user, by **Team Hero Cab**.
 
--   `docker-compose.yaml`: there isn't much in here, just a
-    **really** simple UI and FastAPI service. Add services
-    (like a database) to this file as you did with previous
-    projects in module #2.
--   `.gitlab-ci.yml`: This is your "ci/cd" file where you will
-    configure automated unit tests, code quality checks, and
-    the building and deployment of your production system.
-    Currently, all it does is deploy an "under construction"
-    page to your production UI on GitLab and a sample backend
-    to CapRover. We will learn much more about this file.
--   `.gitignore`: This is a file that prevents unwanted files
-    from getting added to your repository, files like
-    `pyc` files, `__pycache__`, etc. We've set it up so that
-    it has a good default configuration for Python projects.
--   `.env.sample`: This file is a template to copy when
-    creating environment variables for your team. Create a
-    copy called `.env` and put your own passwords in here
-    without fear of it being committed to git (see `.env`
-    listed in `.gitignore`). You can also put team related
-    environment variables in here, things like api and signing
-    keys that shouldn't be committed; these should be
-    duplicated in your deployed environments.
+By writing comprehensive unit tests for these functionalities, the Hero Cab project can maintain the stability of the application and catch any potential bugs early in the development process.
 
-## How to complete the initial deploy
 
-There will be further guidance on completing the initial
-deployment, but it just consists of these steps:
 
-### Setup GitLab repo/project
+To run the unit tests, follow these steps:
 
--   make sure this project is in a group. If it isn't, stop
-    now and move it to a GitLab group
--   remove the fork relationship: In GitLab go to:
-
-    Settings -> General -> Advanced -> Remove fork relationship
-
--   add these GitLab CI/CD variables:
-    -   PUBLIC_URL : this is your gitlab pages URL
-    -   VITE_APP_API_HOST: enter "blank" for now
-
-#### Your GitLab pages URL
-
-You can't find this in GitLab until after you've done a deploy
-but you can figure it out yourself from your GitLab project URL.
-
-If this is your project URL
-
-https://gitlab.com/GROUP_NAME/PROJECT_NAME
-
-then your GitLab pages URL will be
-
-https://GROUP_NAME.gitlab.io/PROJECT_NAME
-
-### Initialize CapRover
-
-1. Attain IP address and domain from an instructor
-1. Follow the steps in the CD Cookbook in Learn.
-
-### Update GitLab CI/CD variables
-
-Copy the service URL for your CapRover service and then paste
-that into the value for the REACT_APP_API_HOST CI/CD variable
-in GitLab.
-
-### Deploy it
-
-Merge a change into main to kick off the initial deploy. Once the build pipeline
-finishes you should be able to see an "under construction" page on your GitLab
-pages site.
+1. Make sure you have all the project dependencies installed.
+2. Open the API exec terminal in Docker.
+3. Run the following command to execute the tests:
+    ``` python -m pytest ```

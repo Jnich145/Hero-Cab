@@ -7,14 +7,13 @@ import Home from './pages/Account/Home'
 import Login from './pages/Account/Login'
 import SignUp from './pages/Account/SignUp'
 import Error from './pages/Error'
-import ReviewDetails from './pages/ReviewDetails'
 import UpdateProfile from './pages/Account/UpdateProfile'
 import Profile from './pages/Account/Profile'
-import History from './pages/Trips/History'
-import SeeRideRequests from './pages/Trips/SeeRideRequests'
-import RequestTrip from './pages/Trips/RequestTrip'
-import CreateReview from './pages/Trips/CreateReview'
-import DriverReviews from './pages/Trips/DriverReviews'
+import History from './pages/Rides/History'
+import SeeRideRequests from './pages/Rides/SeeRideRequests'
+import RequestRide from './pages/Rides/RequestRide'
+import CreateReview from './pages/Rides/CreateReview'
+import DriverReviews from './pages/Rides/DriverReviews'
 
 const router = createBrowserRouter([
     {
@@ -35,30 +34,26 @@ const router = createBrowserRouter([
                 element: <SignUp />,
             },
             {
-                path: 'trips/new',
-                element: <RequestTrip />,
+                path: 'rides/new',
+                element: <RequestRide />,
             },
             {
-                path: 'trips',
+                path: 'rides',
                 element: <History />,
             },
             {
-                path: 'trips/requests',
+                path: 'rides/requests',
                 element: <SeeRideRequests />,
             },
             {
                 path: 'update-profile', element: <UpdateProfile />,
             },
             {
-                path: 'review/:reviewID',
-                element: <ReviewDetails />,
-            },
-            {
                 path: 'profile',
                 element: <Profile />,
             },
             {
-                path: 'review/new/:tripId',
+                path: 'review/new/:rideId',
                 element: <CreateReview />,
             },
             {
