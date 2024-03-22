@@ -134,10 +134,10 @@ function UpdateProfile() {
                     <table className="table table-striped">
                         <thead>
                             <tr>
-                                <th>first_name (optional)</th>
-                                <th>last_name (optional)</th>
-                                <th>phone_number (optional)</th>
-                                <th>address (optional)</th>
+                                <th>first_name</th>
+                                <th>last_name</th>
+                                <th>phone_number</th>
+                                <th>address</th>
                                 <th>special_needs</th>
                                 <th>update</th>
                             </tr>
