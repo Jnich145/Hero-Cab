@@ -125,373 +125,96 @@ Example output:
   "drop_off_location": "string"
 }
 ```
-
-</br>
-</br>
-
-***Automobile RESTful API endpoints***
-
-| Request Method  | Url                     | What it does                              |
-| ----------------|:-----------------------:| :----------------------------------------:|
-| GET             | /api/automobiles/       | Obtains a list of automobiles.            |
-| POST            | /api/automobiles/       | Creates an automobile                     |
-| GET             | /api/automobiles/vin#/  | Obtains automobile details                |
-| PUT             | /api/automobiles/vin#/  | Updates an automobile                     |
-| DELETE          | /api/automobiles/vin#/  | Deletes an automobile                     |
-
-example JSON
+Example Output of Getting Reviews for Drivers (reviews/mine) in JSON:
 ```json
-{
-  "color": "silver",
-  "year": 2024,
-  "vin": "1HGBH41JXMN109",
-  "model_id": 1
-}
-```
-
-example output
-```json
-{
-"href": "/api/automobiles/1HGBH41JXMN1091/",
-"id": 1,
-"color": "Black",
-"year": 2024,
-"vin": "1HGBH41JXMN1091",
-"model": {
-	"href": "/api/models/1/",
-	"id": 1,
-	"name": "Silverado",
-	"picture_url": "https://s3-prod.autonews.com/s3fs-public/silverado-HD.jpg",
-	"manufacturer": {
-		"href": "/api/manufacturers/1/",
-		"id": 1,
-		"name": "Chevrolet"
-	}
-},
-"sold": false
-}
+[
+  {
+    "id": 0,
+    "date_time": "2024-03-22T12:56:45.286Z",
+    "rating": 0,
+    "description": "string",
+    "ride_id": 0,
+    "rider_id": 0,
+    "pick_up_location": "string",
+    "drop_off_location": "string"
+  }
+]
 ```
 
 </br>
 </br>
 
+***Rides RESTful API endpoints***
 
+| Request Method  | Url                            | What it does                                                 |
+| ----------------|:------------------------------:| :-----------------------------------------------------------:|
+| GET             | /api/rides/                    | Obtains a list of all ride requests                          |
+| POST            | /api/rides/                    | Creates a new ride request                                   | 
+| GET             | /api/rides/{ride_id}           | Obtains a specific ride request                              |
+| GET             | /api/rides/others              | Obtains a list of ride requests when logged in               |
+| GET             | /api/rides/mine                | Obtains a list of logged in rider's requests                 |
+| GET             | /api/rides/driver              | Obtains a list of logged in driver's completed rides history |
+| PUT             | /api/rides/{ride_id}           | Allows drivers to accept ride requests                       |
+| DELETE          | /api/rides/{ride_id}           | Deletes a ride request                                       |
+| PUT             | /api/rides/{ride_id}/reject    | Allows driver's to decline a request                         |
 
-## Service microservice
-The service microservice uses a value object and a **poller** function to keep the Automobile Value object updated with real-time information from inventory.     
-1. AutomobileVO
-
-    - Requires a vin and sold status
-
-2. Technician Model
-
-    - Requires a first name, last name, and employee id
-    - 
-3. Appointment
-
-    - Requires a vin, customer name, technician (foreign key is used here), date/time, reason, and status (pending by default, can be changed to 'cancelled' or 'finished')
-
-Service Port: http://localhost:8080/
-
-***Technician RESTful API endpoints***
-
-| Request Method  | Url                     | What it does                              |
-| ----------------|:-----------------------:| :----------------------------------------:|
-| GET             | /api/technicians/       | Gets a list of technicians                |
-| POST            | /api/technicians/       | Creates a new technician                  |
-| GET             | /api/technicians/id#    | Obtain technician details                 |
-| PUT             | /api/technicians/id#    | Updates a technician                      |
-| DELETE          | /api/technicians/id#    | Deletes a technician                      |
-
-Example of List Technician in JSON (Manufacturer names must be unique!)
+Example of creating a ride request in JSON:
 ```json
 {
-	"technicians": [
-		{
-			"first_name": "Aaron",
-			"last_name": "Greenberg",
-			"employee_id": 1
-		},
-		{
-			"first_name": "Nick",
-			"last_name": "Cline",
-			"employee_id": 2
-		}
-  ]
+  "date_time": "2024-03-22T13:56:40.005Z",
+  "pick_up_location": "string",
+  "drop_off_location": "string",
+  "map_url": "string",
+  "instructions": "string"
 }
 ```
 
-Example Technician Detail output
+example output:
 ```json
 {
-	"first_name": "Aaron",
-	"last_name": "Greenberg",
-	"employee_id": 1
-}
-```
-
-
-Example of Create Technician in JSON (Can also be used to update technician!)
-```json
-{
-	"first_name": "Thome",
-	"last_name": "Yorke",
-	"employee_id": 8
-}
-```
-
-Example output
-```json
-{
-	"first_name": "Thome",
-	"last_name": "Yorke",
-	"employee_id": 8
+  "id": 0,
+  "date_time": "2024-03-22T13:56:40.005Z",
+  "pick_up_location": "string",
+  "drop_off_location": "string",
+  "map_url": "string",
+  "instructions": "string",
+  "rider_id": 0,
+  "driver_id": 0
 }
 ```
 
 </br>
 </br>
 
-***Vehicle Model RESTful API endpoints***
+***Rides RESTful API endpoints***
 
-| Request Method  | Url                     | What it does                              |
-| ----------------|:-----------------------:| :----------------------------------------:|
-| GET             | /api/appointments/      | Obtains a list of appointment             |
-| POST            | /api/appointments/      | Creates a new appointment                 |
-| GET             | /api/appointments/id#   | Obtains appointment details               |
-| PUT             | /api/appointments/id#   | Updates an appointment                    |
-| DELETE          | /api/appointments/id#   | Deletes an appointment                    |
+| Request Method  | Url                            | What it does                                                 |
+| ----------------|:------------------------------:| :-----------------------------------------------------------:|
+| GET             | /api/tickets/                  | Obtains a list of all help tickets                           |
+| POST            | /api/tickets/                  | Creates a help ticket                                        | 
 
-Example of List Appointment in JSON
+
+Example of creating a help ticket in JSON:
 ```json
 {
-"href": "/api/appointments/2/",
-"vin": "1HGBH41JXMN1091",
-"customer": "Jason Statham",
-"date_time": "2024-02-08T19:26:06+00:00",
-"reason": "needs more boost 'guvnor",
-"status": "finished",
-"vip": true,
-"technician": {
-"first_name": "Aaron",
-"last_name": "Greenberg",
-"employee_id": 1
+  "description": "string",
+  "user_id": 0,
+  "ride_id": 0,
+  "date_time": "2024-03-22T14:11:44.651Z"
 }
 ```
 
-Example of appointment detail output
+example output:
 ```json
 {
-"href": "/api/appointments/2/",
-"vin": "1HGBH41JXMN1091",
-"customer": "Jason Statham",
-"date_time": "2024-02-08T19:26:06+00:00",
-"reason": "needs more boost 'guvnor",
-"status": "finished",
-"vip": true,
-"technician": {
-"first_name": "Aaron",
-"last_name": "Greenberg",
-"employee_id": 1
-}
-}
-```
-
-Example of Create Appointment in JSON
-```json
-{			
-	
-	"vin": "1HGBH41JXMN1091",
-	"customer": "Jason Statham",
-	"date_time": "2024-02-08T19:26:06+00:00",
-	"reason": "needs more boost 'guvnor",
-	"technician": 1
-	
-	
-}
-```
-
-Example output
-```json
-{
-"href": "/api/appointments/2/",
-"vin": "1HGBH41JXMN1091",
-"customer": "Jason Statham",
-"date_time": "2024-02-08T19:26:06+00:00",
-"reason": "needs more boost 'guvnor",
-"status": "finished",
-"vip": true,
-"technician": {
-"first_name": "Aaron",
-"last_name": "Greenberg",
-"employee_id": 1
-}
+  "id": 0,
+  "description": "string",
+  "user_id": 0,
+  "ride_id": 0,
+  "date_time": "2024-03-22T14:11:44.651Z"
 }
 ```
 
 </br>
 </br>
 
-## Sales microservice
-
-The sales Mircoservice has 4 models: AutomobileVO, Customer, Salesperson, and Sale. Sale is the model that interacts with the other three models. This model polls data from Salesperson, Customer, and AutomobileVO. There is some issues with it still. I had errors populated on the front end revealing the hidden truth.
-
-## Endpoints to send and view data - Access through Insomnia:
-
-### Customers:
-| Action | Method | URL
-| ----------- | ----------- | ----------- |
-| List customers | GET | http://localhost:8090/api/customers/
-| Create a customer | POST | http://localhost:8090/api/customers/
-| Show a specific customer | GET | http://localhost:8090/api/customers/id/
-
-To create a Customer (SEND THIS JSON BODY):
-```
-{
-	"name": "Jay wilson",
-	"address": "1738 Pimp Street",
-	"phone_number": 3056798765
-}
-```
-
-Return Value of Creating a Customer:
-```
-{
-	"id: "1",
-	"name": "John wayne",
-	"address": "1212 Oceans twelve",
-	"phone_number": 9112345676
-}
-```
-Return value of Listing all Customers:
-```
-	"customers": 
-```
-{
-	"name": "Jay wilson",
-	"address": "1738 Pimp Street",
-	"phone_number": 3056798765
-},{
-			"id: "1",
-	"name": "John wayne",
-	"address": "1212 Oceans twelve",
-	"phone_number": 9112345676}
-```
-### Salespeople:
-| Action | Method | URL
-| ----------- | ----------- | ----------- |
-| List salespeople | GET | http://localhost:8090/api/salespeople/
-| Create a salesperson | POST | http://localhost:8090/api/salespeople/
-| Delete a salesperson | DELETE | http://localhost:8090/api/salesperson/id/
-
-
-To create a salesperson (SEND THIS JSON BODY):
-```
-{
-	"name": "Warren Longmire",
-	"employee_number": 1
-}
-```
-Return Value of creating a salesperson:
-```
-{
-	"id": 1,
-	"name": "Warren Longmire",
-	"employee_number": 1
-}
-```
-List all salespeople Return Value:
-```
-{
-	"salespeople": [
-		{
-			"id": 1,
-			"name": "Warren Longmire",
-			"employee_number": 1
-		}
-	]
-}
-```
-### Salesrecords:
-- the id value to show a salesperson's salesrecord is the **"id" value tied to a salesperson.**
-
-| Action | Method | URL
-| ----------- | ----------- | ----------- |
-| List all sales | GET | http://localhost:8090/api/sales/
-| Create a new sale | POST | http://localhost:8090/api/sales/
-| Show salesperson's sales | GET | http://localhost:8090/api/sales/id/
-List all Sales Return Value:
-```
-{
-	"sales": [
-		{
-			"id": 1,
-			"price": 111000,
-			"vin": {
-				"vin": "111"
-			},
-			"salesperson": {
-				"id": 1,
-				"name": "Liz",
-				"employee_number": 1
-			},
-			"customer": {
-				"name": "John Wayne",
-				"address": "1212 Oceans Twelve Street",
-				"phone_number": "980720890"
-			}
-		}
-	]
-}
-```
-Create a New Sale (SEND THIS JSON BODY):
-```
-{
-	"salesperson": "Warren",
-	"customer": "John wayne",
-	"vin": "767",
-	"price": .50
-}
-```
-Return Value of Creating a New Sale:
-```
-{
-	"id": 4,
-	"price": .50,
-	"vin": {
-		"vin": "767"
-	},
-	"salesperson": {
-		"id": 1,
-		"name": "Warren",
-		"employee_number": 1
-	},
-	"customer": {
-		"id",
-		"name": "John Wayne",
-		"address": "1212 Oceans Twelve Street",
-		"phone_number": "9804357878"
-	}
-}
-```
-Show a Salesperson's Sales Return Value:
-```
-{
-	"id": 1,
-	"price": .50,
-	"vin": {
-		"vin": "767"
-	},
-	"salesperson": {
-		"id": 1,
-		"name": "Warren",
-		"employee_number": 1
-	},
-	"customer": {
-		"id",
-		"name": "John Wayne",
-		"address": "1212 Oceans Twelve Street",
-		"phone_number": "980720890"
-	}
-}
-```
