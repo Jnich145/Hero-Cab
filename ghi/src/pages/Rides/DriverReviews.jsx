@@ -28,12 +28,19 @@ const DriverReviews = () => {
                     {rideReviews.map((review) => {
                         const reviewDateTime = review.date_time.slice(0, -3) + 'Z'
                         return (
-                        <li key={review.id} className="list-group-item">
-                            {`From ${review.pick_up_location} to ${review.drop_off_location} on
-                            ${new Date(reviewDateTime).toLocaleDateString()} at
-                            ${new Date(reviewDateTime).toLocaleTimeString()}
-                            with a rating of ${review.rating}/5`}
-                        </li>
+                            <div key={review.id} className="card mb-3">
+                                <div className='card-body'>
+                                    <h5 className="card-title">
+                                        {`From ${review.pick_up_location} to ${review.drop_off_location} on
+                                        ${new Date(reviewDateTime).toLocaleDateString()} at
+                                        ${new Date(reviewDateTime).toLocaleTimeString()}
+                                        with a rating of ${review.rating}/5`}
+                                    </h5>
+                                    <h5 className='text-info'>
+                                        {`Description: ${review.description}`}
+                                    </h5>
+                                </div>
+                        </div>
                     )})}
                 </ul>
             </div>
