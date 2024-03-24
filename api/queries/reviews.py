@@ -56,7 +56,7 @@ class ReviewQueries:
                     """,
                 )
                 data = [record[0] for record in db]
-                if data and review.ride_id in data[0]:
+                if data and review.ride_id in data:
                     raise UniqueViolation("Review for ride already exists")
 
                 result = db.execute(

@@ -166,10 +166,9 @@ const History = () => {
                                     ${new Date(rideDateTime).toLocaleTimeString()}`}
                                 </h5>
                                 <h6 className={status == 'Complete' ? 'text-success' : 'text-danger'}>Status: {status}</h6>
-                                <h6>Rider Phone Number: {rider && rider.phone_number ? rider.phone_number : 'n/a'}</h6>
                                 <h6 className="card-text">Special Instructions: {ride.instructions}</h6>
                                 {rider ? <h6>Rider: {rider.first_name} {rider.last_name}</h6> : null}
-                                {rider && rider.phone_number ? <h6>Rider Phone Number: {rider.phone_number}</h6> : null}
+                                <h6>Rider Phone Number: {rider && rider.phone_number ? rider.phone_number : 'n/a'}</h6>
                                 <div>
                                     <a href={ride.map_url} className='btn btn-primary'>Ride Map</a>
                                 </div>
